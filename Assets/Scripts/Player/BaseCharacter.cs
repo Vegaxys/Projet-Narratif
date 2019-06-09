@@ -2,13 +2,16 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon;
+using Photon.Pun;
 
-public class BaseCharacter : MonoBehaviour, IEntity{
+public class BaseCharacter : MonoBehaviourPun, IEntity{
     public Transform cam;
     //[HideInInspector]
     public float maxSpeed, acceleration;
     public float camSpeed = 5;
     public string playerName;
+    public GameObject entityBar;
 
     [SerializeField] private float maxLife, currentLife;
     [SerializeField] private float maxEnergy, currentEnergy;
@@ -25,14 +28,23 @@ public class BaseCharacter : MonoBehaviour, IEntity{
         navigation.speed = maxSpeed;
         navigation.acceleration = acceleration;
 
-        camOffset = cam.position + transform.position;
+        if (photonView.IsMine) {
+            camOffset = cam.position + transform.position;
+        } else {
+            cam.gameObject.SetActive(false);
+        }
+        GameObject bar = Instantiate(entityBar, GameObject.Find("HUD").transform);
+        bar.GetComponent<EntityBar>().target = this.transform;
     }
 
     void Update (){
-        cam.position = Vector3.Lerp(cam.position, transform.position + camOffset, camSpeed * Time.deltaTime);
-        Movements();
+        if (photonView.IsMine) {
+            cam.position = Vector3.Lerp(cam.position, transform.position + camOffset, camSpeed * Time.deltaTime);
+            Movements();
+        }
     }
-    #region Entity
+
+    #region Entity Interface
     public virtual void RemoveLife (float amount) {
         currentLife -= amount;
         if(currentLife <= 0) {

@@ -16,9 +16,7 @@ public class Login : MonoBehaviour{
         request.Password = password.text;
 
         PlayFabClientAPI.LoginWithPlayFab(request, result => {
-            Alerts alert = new Alerts();
-            StartCoroutine(alert.CreateNewAlert(request.Username));
-            Client.client.GetDisplayName(result.PlayFabId, nextLevel);
+            Client.client.GetUserData(result.PlayFabId, nextLevel);
         }, error => {
             Alerts alert = new Alerts();
             StartCoroutine(alert.CreateNewAlert(error.ErrorMessage));

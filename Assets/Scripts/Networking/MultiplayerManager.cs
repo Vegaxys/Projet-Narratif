@@ -28,19 +28,21 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks{
             item.SetActive(false);
         }
     }
-    public void JoinBR_Solo() {
+    public void JoinDungeon() {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinRandomRoom();
     }
     public override void OnJoinRandomFailed(short returnCode, string message) {
-        CreateBR_Solo();
-    }
-    public void CreateBR_Solo() {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        RoomOptions room = new RoomOptions { MaxPlayers = 10, IsOpen = true, IsVisible = true};
-        PhotonNetwork.CreateRoom("BR_Solo", room, TypedLobby.Default);
+        CreateDungeon();
     }
     public override void OnJoinedRoom() {
-        SceneManager.LoadScene("BR_Solo");
+        SceneManager.LoadScene("RandomDungeon");
+    }
+    public void CreateDungeon() {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        RoomOptions room = new RoomOptions { MaxPlayers = 5, IsOpen = true, IsVisible = true};
+        PhotonNetwork.CreateRoom("RandomDungeon", room, TypedLobby.Default);
+
     }
 }
