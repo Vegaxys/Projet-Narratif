@@ -275,23 +275,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c91131ee3fa184a93e6ca3565f63d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 3649329390480058285}
-  model: {fileID: 8748033866762595514}
-  maxSpeed: 5
-  acceleration: 20
   camSpeed: 5
-  avatarName: 
+  canShoot: 1
+  isStun: 0
   entityBar: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
     type: 3}
-  damageFire: 0
-  fireRate: 0
-  prefabBullet: {fileID: 0}
-  canon: {fileID: 0}
-  maxLife: 500
-  currentLife: 500
-  maxEnergy: 200
-  currentEnergy: 200
-  isStun: 0
+  cam: {fileID: 3649329390480058285}
+  model: {fileID: 8748033866762595514}
+  canon: {fileID: 8748033866762595514}
+  _char: {fileID: 11400000, guid: af8d065d35eabb3408d134fa8580593b, type: 2}
+  ring_AA: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
 --- !u!1 &3649329390415274874
 GameObject:
   m_ObjectHideFlags: 0

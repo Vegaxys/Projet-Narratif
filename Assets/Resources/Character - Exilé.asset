@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869729a4000cd2147a83f5e83c1f596b, type: 3}
+  m_Name: "Character - Exil\xE9"
+  m_EditorClassIdentifier: 
+  avatarName: "Exil\xE9"
+  maxSpeed: 5
+  acceleration: 20
+  aggroValue: 5
+  damageFire: 15
+  maxBulletInWeapon: 20
+  maxBullet: 100
+  currentBullet: 19
+  fireRate: 0.5
+  AA_range: 7
+  bulletName: "Exil\xE9_bullet"
+  maxLife: 700
+  currentLife: 700
+  maxShield: 500
+  currentShield: 500
+  tir_Name: Tir Basique
+  tir_Description: 
+  capa_01_Name: 
+  capa_01_Description: 
+  capa_01_Cooldown: 0

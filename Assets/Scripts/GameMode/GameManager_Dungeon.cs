@@ -35,9 +35,9 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
     public Transform bulletContainer;
     public Dictionary<string, Queue<GameObject>> BulletPool;
 
-    public List<Ennemy> ennemies;
+   /* public List<Ennemy> ennemies;
     public Transform ennemiesContainer;
-    public Dictionary<string, Queue<GameObject>> EnnemyPool;
+    public Dictionary<string, Queue<GameObject>> EnnemyPool;*/
 
 
     private void Awake() {
@@ -54,7 +54,7 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
             BulletPool.Add(item.tag, queue);
         }
         //* Create Ennemi pool
-        EnnemyPool = new Dictionary<string, Queue<GameObject>>();
+   /*     EnnemyPool = new Dictionary<string, Queue<GameObject>>();
         foreach (Ennemy item in ennemies) {
             Queue<GameObject> queue = new Queue<GameObject>();
             for (int i = 0; i < item.size; i++) {
@@ -63,24 +63,24 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
                 queue.Enqueue(ennemi);
             }
             EnnemyPool.Add(item.tag, queue);
-        }
+        }*/
         StartCoroutine(SpawnTime());
     }
 
     public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
         if (!BulletPool.ContainsKey(tag)) {
+            Debug.LogWarning("The bullet named " + tag + " doesn't exist");
             return null;
         }
         GameObject bullet = BulletPool[tag].Dequeue();
         bullet.SetActive(true);
         bullet.transform.position = position;
         bullet.transform.rotation = rotation;
-        //bullet.GetComponent<Projectile>().target = null;
         BulletPool[tag].Enqueue(bullet);
         return bullet;
     }
 
-    public GameObject GetEnnemi(string tag, Vector3 position, Quaternion rotation) {
+   /* public GameObject GetEnnemi(string tag, Vector3 position, Quaternion rotation) {
         if (!EnnemyPool.ContainsKey(tag)) {
             return null;
         }
@@ -89,7 +89,7 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
         ennemi.transform.rotation = rotation;
         EnnemyPool[tag].Enqueue(ennemi);
         return ennemi;
-    }
+    }*/
 
 
     private IEnumerator SpawnTime() {

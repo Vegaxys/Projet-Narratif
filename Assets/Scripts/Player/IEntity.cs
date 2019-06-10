@@ -1,20 +1,22 @@
-﻿
+﻿using UnityEngine;
+
 public interface IEntity {
 
-    void AddLife(float amount);
+    void AddLife(int amount);
 
-    void RemoveLife(float amount);
+    void RemoveLife(int amount);
 
-    void AddShield(float amount);
+    void AddShield(int amount);
 
-    void RemoveShield(float amount);
+    void RemoveShield(int amount);
 
-    float GetShield();
+    int GetShield();
 
-    float GetLife();
+    int GetLife();
 
-    float GetMaxLife();
+    int GetMaxLife();
 
-    float GetMaxShield();
+    int GetMaxShield();
 
+    Transform GetTransform();
 }
