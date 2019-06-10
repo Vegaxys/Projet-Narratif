@@ -14,11 +14,11 @@ public class EntityBar : MonoBehaviour{
 
     private TextMeshProUGUI pseudo;
     private Image lifeBar;
-    private Image energyBar;
+    private Image shield;
 
     private void Start() {
         lifeBar = transform.GetChild(1).GetComponent<Image>();
-        energyBar = transform.GetChild(2).GetComponent<Image>();
+        shield = transform.GetChild(2).GetComponent<Image>();
         pseudo = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         entity = target.GetComponent<IEntity>();
         StartCoroutine(UpdateInfo());
@@ -30,8 +30,7 @@ public class EntityBar : MonoBehaviour{
 
     private IEnumerator UpdateInfo() {
         lifeBar.fillAmount = entity.GetLife() / entity.GetMaxLife();
-        energyBar.fillAmount = entity.GetEnergy() / entity.GetMaxEnergy();
-        pseudo.text = entity.GetPlayerName();
+        shield.fillAmount = entity.GetShield() / entity.GetMaxShield();
         yield return new WaitForSeconds(refreshrate);
         StartCoroutine(UpdateInfo());
     }

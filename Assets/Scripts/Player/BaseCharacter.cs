@@ -6,12 +6,18 @@ using Photon;
 using Photon.Pun;
 
 public class BaseCharacter : MonoBehaviourPun, IEntity{
-    public Transform cam;
+    public Transform cam, model;
     //[HideInInspector]
     public float maxSpeed, acceleration;
     public float camSpeed = 5;
-    public string playerName;
+    public string avatarName;
     public GameObject entityBar;
+
+    [Header("Variables Personnage")]
+    public int damageFire;
+    public float fireRate;
+    public GameObject prefabBullet;
+    public Transform canon;
 
     [SerializeField] private float maxLife, currentLife;
     [SerializeField] private float maxEnergy, currentEnergy;
@@ -19,11 +25,13 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     [HideInInspector] public bool isStun;
 
     private NavMeshAgent navigation;
+    private Camera _cam;
     private Vector3 camOffset;
 
     // unity internal methods
     public virtual void Awake() {
         navigation = GetComponent<NavMeshAgent>();
+        _cam = cam.GetComponent<Camera>();
 
         navigation.speed = maxSpeed;
         navigation.acceleration = acceleration;
@@ -41,6 +49,17 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
         if (photonView.IsMine) {
             cam.position = Vector3.Lerp(cam.position, transform.position + camOffset, camSpeed * Time.deltaTime);
             Movements();
+            PlayerRotation();
+
+            if (Input.GetButtonDown("Capa01")) {
+                Capa_01();
+            }
+            if (Input.GetButtonDown("Capa02")) {
+                Capa_02();
+            }
+            if (Input.GetButtonDown("Fire")) {
+                Fire();
+            }
         }
     }
 
@@ -58,21 +77,21 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
             currentLife = maxLife;
         }
     }
-    public void RemoveEnergy(float amount) {
+    public void RemoveShield(float amount) {
         currentEnergy -= amount;
         if(currentEnergy == 0) {
             currentEnergy = 0;
         }
     }
 
-    public void AddEnergy(float amount) {
+    public void AddShield(float amount) {
         currentEnergy += amount;
         if (currentEnergy > maxEnergy) {
             currentEnergy = maxEnergy;
         }
     }
 
-    public float GetEnergy() {
+    public float GetShield() {
         return currentEnergy;
     }
 
@@ -84,11 +103,8 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
         return maxLife;
     }
 
-    public float GetMaxEnergy() {
+    public float GetMaxShield() {
         return maxEnergy;
-    }
-    public string GetPlayerName() {
-        return playerName;
     }
     #endregion
 
@@ -102,10 +118,29 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
         navigation.SetDestination(transform.position+direction);
     }
 
+    private void PlayerRotation() {
+        model.LookAt(GameManager_Dungeon.dungeon.MousePosition());
+        Quaternion rotation = model.rotation;
+        rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+        model.rotation = rotation;
+    }
+
     public virtual void Death() {
 
     }
-    // private methods for internal use
+    public virtual IEnumerator Fire() {
+        print("fire");
+        GameObject bullet = GameManager_Dungeon.dungeon.GetBullet(avatarName + "_bullet", canon.position, canon.rotation);
+
+        yield return new WaitForSeconds(fireRate);
+    }
+    public virtual void Capa_01() {
+        print("capa01");
+    }
+    public virtual void Capa_02() {
+        print("capa02");
+    }
+
     private IEnumerator Stun (float duration){
         isStun = true;
         yield return new WaitForSeconds(duration);

@@ -5,17 +5,16 @@ public interface IEntity {
 
     void RemoveLife(float amount);
 
-    void RemoveEnergy(float amount);
+    void AddShield(float amount);
 
-    void AddEnergy(float amount);
+    void RemoveShield(float amount);
 
-    float GetEnergy();
+    float GetShield();
 
     float GetLife();
 
     float GetMaxLife();
 
-    float GetMaxEnergy();
+    float GetMaxShield();
 
-    string GetPlayerName();
 }

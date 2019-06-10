@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character_Character01 :BaseCharacter{
+public class Character_Exile :BaseCharacter{
 
 
 }
