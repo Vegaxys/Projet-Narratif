@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
-public class Projectile : MonoBehaviour{
+public class Projectile :MonoBehaviourPun{
 
     public float speed;
     public float range;
@@ -16,9 +17,11 @@ public class Projectile : MonoBehaviour{
     }
 
     public virtual void Update() {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        if(Vector3.Distance(origin, transform.position) > range) {
-            gameObject.SetActive(false);
+        if (photonView.IsMine) {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            if (Vector3.Distance(origin, transform.position) > range) {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

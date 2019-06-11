@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Character_Exile :BaseCharacter{
 
@@ -21,6 +22,13 @@ public class Character_Exile :BaseCharacter{
         SNIPER
     }
     public WeaponType weaponType;
+
+    private void Start() {
+        _char.bulletName = bulletNameSniper;
+        _char.AA_range = rangeSniper;
+        _char.fireRate = fireRateSniper;
+        _char.damageFire = damageSniper;
+    }
     public override void Update() {
         if (!capa02Activated) {
             base.Update();
@@ -50,12 +58,17 @@ public class Character_Exile :BaseCharacter{
     }
     public override IEnumerator Capa_02() {
         //loading capa
-        capa02Activated = true;
-        yield return new WaitForSeconds(_char.capa_02_Loading);
-        Transform target = SelectionManager.selection.selectionTransform;
-        GameObject bullet = GameManager_Dungeon.dungeon.GetBullet("Exile_capa02", transform.position, Quaternion.identity);
-        bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.position, 10000, damageCapa02);
-        capa02Activated = false;
-        yield return base.Capa_02();
+        if (SelectionManager.selection.selectionTransform != null) {
+            capa02Activated = true;
+            yield return new WaitForSeconds(_char.capa_02_Loading);
+            Transform target = SelectionManager.selection.selectionTransform;
+            GameObject bullet = PhotonNetwork.Instantiate("Capa02_Exile", Vector3.zero, Quaternion.identity, 0);
+            bullet.transform.position = canon.position;
+            bullet.transform.rotation = canon.rotation;
+            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.position, 10000, damageCapa02);
+            capa02Activated = false;
+            yield return base.Capa_02();
+        }
+        yield return null;
     }
 }

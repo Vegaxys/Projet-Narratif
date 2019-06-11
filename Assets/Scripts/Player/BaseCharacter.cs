@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon;
 using Photon.Pun;
 
 public class BaseCharacter : MonoBehaviourPun, IEntity{
@@ -25,6 +24,8 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     private Camera _cam;
     private Vector3 camOffset;
 
+    private int maxBullet, currentBullet, maxBulletInWeapon;
+
     #region Testing Methods
     void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
@@ -39,6 +40,10 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
 
         navigation.speed = _char.maxSpeed;
         navigation.acceleration = _char.acceleration;
+
+        maxBullet = _char.maxBullet;
+        currentBullet = _char.currentBullet;
+        maxBulletInWeapon = _char.maxBulletInWeapon;
 
         if (photonView.IsMine) {
             camOffset = cam.position + transform.position;
@@ -66,7 +71,7 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
             if (Input.GetButtonDown("Fire") && canShoot) {
                 StartCoroutine(Fire());
             }
-            if (Input.GetButtonUp("Fire") && _char.currentBullet > 0) {
+            if (Input.GetButtonUp("Fire") && currentBullet > 0) {
                 StopCoroutine(Fire());
             }
             if (Input.GetButtonUp("Reload")) {
@@ -148,14 +153,12 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     public virtual IEnumerator Fire() {
         print("fire");
         canShoot = false;
-        GameManager_Dungeon.dungeon
-            .GetBullet(_char.bulletName, canon.position, canon.rotation)
-            .GetComponent<Projectile>()
-            .Setup(transform.position, _char.AA_range, _char.damageFire);
-        _char.currentBullet--;
-        HUD_Manager.manager.RefreshMunitionDisplay(_char.currentBullet, _char.maxBullet);
+        GameObject bullet = PhotonNetwork.Instantiate(_char.bulletName, canon.position, canon.rotation, 0);
+        bullet.GetComponent<Projectile>().Setup(transform.position, _char.AA_range, _char.damageFire);
+        currentBullet--;
+        HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
         yield return new WaitForSeconds(_char.fireRate);
-        if (_char.currentBullet > 0) {
+        if (currentBullet > 0) {
             canShoot = true;
         }
     }
@@ -176,11 +179,11 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     #endregion
 
     public void Reload() {
-        if (_char.maxBullet - _char.maxBulletInWeapon >= 0) {
-            _char.currentBullet = _char.maxBulletInWeapon;
-            _char.maxBullet -= _char.maxBulletInWeapon;
+        if (maxBullet - maxBulletInWeapon >= 0) {
+            currentBullet = maxBulletInWeapon;
+            maxBullet -= maxBulletInWeapon;
             canShoot = true;
-            HUD_Manager.manager.RefreshMunitionDisplay(_char.currentBullet, _char.maxBullet);
+            HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
         }
     }
 

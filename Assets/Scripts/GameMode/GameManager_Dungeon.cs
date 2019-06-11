@@ -23,29 +23,30 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
     public static GameManager_Dungeon dungeon;
 
     [Header("Object Pool")]
-
+    
     public List<Bullet> bullets;
     public Transform bulletContainer;
     public Dictionary<string, Queue<GameObject>> BulletPool;
-
+    
 
     private void Awake() {
         dungeon = this;
         //* Create Bullet pool
-        BulletPool = new Dictionary<string, Queue<GameObject>>();
+     /*   BulletPool = new Dictionary<string, Queue<GameObject>>();
         foreach (Bullet item in bullets) {
             Queue<GameObject> queue = new Queue<GameObject>();
             for (int i = 0; i < item.size; i++) {
-                GameObject bullet = Instantiate(item.prefab, bulletContainer);
+                GameObject bullet = PhotonNetwork.Instantiate(item.prefab.name, Vector3.zero, Quaternion.identity, 0);
+                bullet.transform.parent = bulletContainer;
                 bullet.SetActive(false);
                 queue.Enqueue(bullet);
             }
             BulletPool.Add(item.tag, queue);
-        }
+        }*/
         StartCoroutine(SpawnTime());
     }
 
-    public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
+  /*  public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
         if (!BulletPool.ContainsKey(tag)) {
             Debug.LogWarning("The bullet named " + tag + " doesn't exist");
             return null;
@@ -56,7 +57,7 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
         bullet.transform.rotation = rotation;
         BulletPool[tag].Enqueue(bullet);
         return bullet;
-    }
+    }*/
 
     private IEnumerator SpawnTime() {
         lobbyCamera.SetActive(true);
