@@ -285,6 +285,17 @@ MonoBehaviour:
   canon: {fileID: 8748033866762595514}
   _char: {fileID: 11400000, guid: af8d065d35eabb3408d134fa8580593b, type: 2}
   ring_AA: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
+  bulletNameArc: Exile_Arc
+  bulletNameSniper: Exile_Sniper
+  rangeArc: 7
+  rangeSniper: 11
+  fireRateArc: 0.5
+  fireRateSniper: 0
+  damageArc: 0
+  damageSniper: 0
+  damageCapa02: 50
+  capa02Activated: 0
+  weaponType: 1
 --- !u!1 &3649329390415274874
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +471,9 @@ MonoBehaviour:
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: Knife.PostProcessing.Outline, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &7866510728421087764
 GameObject:
   m_ObjectHideFlags: 0

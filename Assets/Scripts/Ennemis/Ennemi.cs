@@ -94,4 +94,10 @@ public class Ennemi :MonoBehaviourPun, IEntity{
         return transform;
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Projectile") {
+            other.gameObject.SetActive(false);
+        }
+    }
 }
