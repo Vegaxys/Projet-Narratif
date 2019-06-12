@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1086580753744112421}
   - component: {fileID: 2785969583408002846}
   - component: {fileID: 5069066130348157223}
-  - component: {fileID: 1662295613247552821}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1662295613247552821
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277184214400922273}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5743233148122693971
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,11 +87,11 @@ GameObject:
   m_Component:
   - component: {fileID: 320968552990040806}
   - component: {fileID: 877919537008099475}
-  - component: {fileID: 7133216118485310000}
-  - component: {fileID: 2181634848476769592}
+  - component: {fileID: 4850410338063419631}
+  - component: {fileID: 1800457099648644882}
   m_Layer: 0
   m_Name: Capa02_Exile
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,40 +127,32 @@ MonoBehaviour:
   range: 0
   damage: 300
   origin: {x: 0, y: 0, z: 0}
---- !u!114 &7133216118485310000
-MonoBehaviour:
+--- !u!65 &4850410338063419631
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743233148122693971}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 2181634848476769592}
-  viewIdField: 0
-  InstantiationId: 3
-  isRuntimeInstantiated: 0
---- !u!114 &2181634848476769592
-MonoBehaviour:
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.1, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1800457099648644882
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743233148122693971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

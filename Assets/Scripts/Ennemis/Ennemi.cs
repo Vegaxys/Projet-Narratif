@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Photon;
 using Photon.Pun;
 
-public class Ennemi :MonoBehaviourPun, IEntity{
+public class Ennemi :MonoBehaviourPun, IEntity, IPunObservable{
 
     public Transform model;
     //[HideInInspector]
@@ -17,9 +17,10 @@ public class Ennemi :MonoBehaviourPun, IEntity{
     public int damageFire;
     public float fireRate;
     public float aggroRange;
-    public int aggroValue;
     public Transform canon;
     private bool canShoot = true;
+    [Header("Gizmos & Tests")]
+    public Mesh ringAggro;
 
     [SerializeField] private int maxLife, currentLife;
     [SerializeField] private int maxShield, currentShield;
@@ -30,7 +31,13 @@ public class Ennemi :MonoBehaviourPun, IEntity{
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, aggroRange);
+        Gizmos.DrawMesh(ringAggro, 0, transform.position, Quaternion.identity, Vector3.one * aggroRange);
+    }
+
+    public virtual void Awake() {
+        navigation = GetComponent<NavMeshAgent>();
+        GameObject bar = Instantiate(entityBar, GameObject.Find("HUD").transform);
+       // bar.GetComponent<EntityBar>().target = this.transform;
     }
 
     public virtual void Update() {
@@ -39,7 +46,7 @@ public class Ennemi :MonoBehaviourPun, IEntity{
         }
     }
     public virtual void GoTo(IEntity entity) {
-        navigation.destination = entity.GetTransform().position;
+     //   navigation.destination = entity.GetTransform().position;
     }
     public virtual IEnumerator Fire() {
         canShoot = false;
@@ -49,32 +56,71 @@ public class Ennemi :MonoBehaviourPun, IEntity{
     }
 
     #region Entity Interface
-    public void AddLife(int amount) {
+    //*********************
+    public virtual void RemoveLife(int amount) {
+        if (photonView.IsMine) {
+            photonView.RPC("TakeDamage", RpcTarget.All, amount);
+        }
+    }
+    [PunRPC]
+    private void TakeDamage(int amount) {
+        currentLife -= amount;
+        if (currentLife <= 0) {
+         //   Death();
+        }
+    }
+    //*********************
+
+    //*********************
+    public virtual void AddLife(int amount) {
+        if (photonView.IsMine) {
+            photonView.RPC("GetHeal", RpcTarget.All, amount);
+        }
+    }
+    [PunRPC]
+    private void GetHeal(int amount) {
         currentLife += amount;
         if (currentLife > maxLife) {
             currentLife = maxLife;
         }
     }
+    //*********************
 
-    public void AddShield(int amount) {
-        currentShield += amount;
-        if (currentShield > maxShield) {
-            currentShield = maxShield;
-        }
-    }
-    public void RemoveLife(int amount) {
-        currentLife -= amount;
-        if (currentLife <= 0) {
-            // Death();
-        }
-    }
-
+    //*********************
     public void RemoveShield(int amount) {
+        if (photonView.IsMine) {
+            photonView.RPC("GetDamageOnShield", RpcTarget.All, amount);
+        }
+    }
+    [PunRPC]
+    private void GetDamageOnShield(int amount) {
         currentShield -= amount;
         if (currentShield == 0) {
             currentShield = 0;
         }
     }
+    //*********************
+
+    //*********************
+    public void AddShield(int amount) {
+        if (photonView.IsMine) {
+            photonView.RPC("GetHealOnShield", RpcTarget.All, amount);
+
+        }
+    }
+    [PunRPC]
+    private void GetHealOnShield(int amount) {
+        currentShield += amount;
+        if (currentShield > maxShield) {
+            currentShield = maxShield;
+        }
+    }
+    //*********************
+
+    public int GetShield() {
+        return currentShield;
+    }
+
     public int GetLife() {
         return currentLife;
     }
@@ -86,17 +132,23 @@ public class Ennemi :MonoBehaviourPun, IEntity{
     public int GetMaxShield() {
         return maxShield;
     }
-
-    public int GetShield() {
-        return currentShield;
-    }
     public Transform GetTransform() {
         return transform;
+    }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if (stream.IsWriting) {
+            stream.SendNext(currentLife);
+            stream.SendNext(currentShield);
+        } else if (stream.IsReading) {
+            currentLife = (int)stream.ReceiveNext();
+            currentShield = (int)stream.ReceiveNext();
+        }
     }
     #endregion
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Projectile") {
+        if (other.tag == "PlayerBullet") {
+            RemoveLife(other.GetComponent<Projectile>().damage);
             other.gameObject.SetActive(false);
         }
     }

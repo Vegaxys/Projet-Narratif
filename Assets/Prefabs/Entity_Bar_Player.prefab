@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 486215296805648722}
   - component: {fileID: 486215296805648723}
   m_Layer: 5
-  m_Name: Entity_Bar
+  m_Name: Entity_Bar_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,8 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12cf2556e3ee0e48adcfa626c0a9b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  refreshrate: 0.2
 --- !u!1 &486215296834571536
 GameObject:
   m_ObjectHideFlags: 0

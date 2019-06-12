@@ -9,12 +9,10 @@ public class Projectile_Capa02_Exile :Projectile{
     public override void Update() {
         
     }
-    public override void Setup(Vector3 _origin, float _range, int _damage) {
+    public override void Setup(Transform _origin, float _range, int _damage) {
         target = SelectionManager.selection.selectionTransform;
         base.Setup(_origin, _range, _damage);
-        if (photonView.IsMine) {
-            StartCoroutine(GoToTarget());
-        }
+        StartCoroutine(GoToTarget());
     }
     private IEnumerator GoToTarget() {
         Vector3 initPos = transform.position;
@@ -26,5 +24,6 @@ public class Projectile_Capa02_Exile :Projectile{
             t += Time.deltaTime;
             yield return null;
         }
+        Destroy(gameObject);
     }
 }
