@@ -11,6 +11,7 @@ namespace Vegaxys {
         public static PlayerInfos instance;
         public GameObject[] characters;
         public int characterID;
+        public string playerName;
 
         #endregion
 
@@ -29,7 +30,7 @@ namespace Vegaxys {
             DontDestroyOnLoad(this.gameObject);
         }
 
-        private void Start() {
+        private void Awake() {
             if (PlayerPrefs.HasKey("CharacterID")) {
                 characterID = PlayerPrefs.GetInt("CharacterID");
             } else {

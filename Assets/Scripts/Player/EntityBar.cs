@@ -3,20 +3,15 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Vegaxys
 {
     public class EntityBar :MonoBehaviour
     {
-        #region Private Serializable Fields
-
-        [SerializeField] private BaseCharacter target;
-
-        #endregion
-
-
         #region Private Fields
 
+        private Transform target;
         private IEntity entity;
         public Vector3 offset = new Vector3(0, 35, 0);
         private TextMeshProUGUI pseudo;
@@ -31,17 +26,13 @@ namespace Vegaxys
         private void Start() {
             lifeBar = transform.GetChild(1).GetComponent<Image>();
             shield = transform.GetChild(2).GetComponent<Image>();
-            pseudo = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+            pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
+            pseudo.text = entity.GetDisplayedName();
         }
 
         private void Update() {
-            if (target != null) {
-                FollowTarget();
-                UpdateInfo();
-            } else {
-                Destroy(this.gameObject);
-                return;
-            }
+            FollowTarget();
+            UpdateInfo();
         }
 
         #endregion
@@ -49,10 +40,10 @@ namespace Vegaxys
 
         #region Public Methods
 
-        public void SetTarget(BaseCharacter _target) {
+        public void SetTarget(IEntity _target) {
             // Cache references for efficiency
-            target = _target;
-            entity = target.GetComponent<IEntity>();
+            entity = _target;
+            target = entity.GetAnchor();
         }
 
         #endregion
@@ -62,11 +53,16 @@ namespace Vegaxys
 
         private void UpdateInfo() {
             lifeBar.fillAmount = (float)entity.GetLife() / (float)entity.GetMaxLife();
-            shield.fillAmount = (float)entity.GetShield() / (float)entity.GetMaxShield();
+            if (shield != null) {
+                shield.fillAmount = (float)entity.GetShield() / (float)entity.GetMaxShield();
+            }
         }
 
         private void FollowTarget() {
-            transform.position = Camera.main.WorldToScreenPoint(target.anchor.position) + offset;
+            if(target == null) {
+                Destroy(gameObject);
+            }
+            transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
         }
 
         #endregion

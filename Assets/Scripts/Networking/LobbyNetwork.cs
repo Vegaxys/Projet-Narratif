@@ -2,46 +2,39 @@
 using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 namespace Vegaxys
 {
-    public class LobbyNetwork :MonoBehaviourPunCallbacks
+    public class LobbyNetwork :MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         #region Public Fields
 
-        public string sceneName;
         public static LobbyNetwork instance;
+        public string sceneName;
+
+        public string roomName;
+        public byte maxPlayers = 4;
 
         #endregion
 
 
         #region Private Serializable Fields
 
-        [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-        [SerializeField] private byte maxPlayersPerRoom = 4;
         [SerializeField] private Button createRoomButton;
         [SerializeField] private Button cancelButton;
+        [SerializeField] private GameObject roomPrefab;
+        [SerializeField] private Transform roomParent;
 
         #endregion
 
 
         #region Private Fields
 
-
-        /// <summary>
-        /// This client's version number. Users are separated from each other by gameVersion (which allows you to make breaking changes).
-        /// </summary>
         private string gameVersion = "1";
-        /// <summary>
-        /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
-        /// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
-        /// Typically this is used for the OnConnectedToMaster() callback.
-        /// </summary>
         private bool isConnecting;
 
         #endregion
-
-
-        #region MonoBehaviour CallBacks
 
         void Awake() {
             instance = this;
@@ -54,62 +47,35 @@ namespace Vegaxys
             cancelButton.interactable = false;
         }
 
-        #endregion
-
-
-        #region Public Methods
-
-        public void JoinRoom() {
-            createRoomButton.interactable = false;
-            cancelButton.interactable = true;
-            PhotonNetwork.JoinRandomRoom();
+        public void CreateRoom() {
+            RoomOptions roomOpt = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)maxPlayers };
+            if (PhotonNetwork.JoinOrCreateRoom(roomName, roomOpt, null)) {
+                print("Room '" + roomName + "' will be created");
+            } else {
+                print("Room failed created");
+            }
         }
 
-        public void OnCancelButtonClick() {
-            createRoomButton.interactable = true;
-            cancelButton.interactable = false;
-            PhotonNetwork.LeaveRoom();
-            print("Room leaved");
+        public void SetRoomName(string _name) {
+            roomName = _name;
         }
-
-        #endregion
-
-
-        #region MonoBehaviourPunCallbacks Callbacks
 
         public override void OnConnectedToMaster() {
             Debug.Log("Player is connected to Photon");
             PhotonNetwork.AutomaticallySyncScene = true;
             createRoomButton.interactable = true;
-
+            PhotonNetwork.JoinLobby();
+        }
+        public override void OnJoinedLobby() {
+            Debug.Log("Player has joined to the lobby");
         }
 
         public override void OnDisconnected(DisconnectCause cause) {
             Debug.LogWarningFormat("Vegaxys/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
         }
 
-        public override void OnJoinRandomFailed(short returnCode, string message) {
-            Debug.Log("No random room available, so we create one.");
-            CreateRoom();
+        public override void OnCreatedRoom() {
+            Debug.Log("Room successfuly created");
         }
-
-        public override void OnCreateRoomFailed(short returnCode, string message) {
-            Debug.Log("This room already exist.");
-            CreateRoom();
-        }
-
-        #endregion
-
-
-        #region Private Methods
-
-        private void CreateRoom() {
-            int randomRoomName = Random.Range(0, 10000);
-            RoomOptions roomOpt = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 2 };
-            // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-            PhotonNetwork.CreateRoom("Room#" + randomRoomName, roomOpt);
-        }
-
-        #endregion
     }
 }

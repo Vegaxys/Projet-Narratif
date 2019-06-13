@@ -4,152 +4,143 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon;
 using Photon.Pun;
+namespace Vegaxys {
 
-public class Ennemi :MonoBehaviourPun, IEntity, IPunObservable{
+    public class Ennemi :MonoBehaviourPunCallbacks, IPunObservable, IEntity
+    {
 
-    public Transform model;
-    //[HideInInspector]
-    public float maxSpeed, acceleration;
-    public string avatarName;
-    public GameObject entityBar;
+        #region Public Fields
 
-    [Header("Variables Ennemi")]
-    public int damageFire;
-    public float fireRate;
-    public float aggroRange;
-    public Transform canon;
-    private bool canShoot = true;
-    [Header("Gizmos & Tests")]
-    public Mesh ringAggro;
+        public GameObject fireBullet;
+        public GameObject lifeUI;
+        public Mesh ring_AA;
+        public Mesh ring_Aggro;
+        public Transform canon;
+        public Transform anchor;
 
-    [SerializeField] private int maxLife, currentLife;
-    [SerializeField] private int maxShield, currentShield;
+        [Tooltip("General Values")]
+        public string avatarName;
+        public float maxSpeed;
+        public float acceleration;
+        [Range(0, 100)] public int aggro_Range;
+        [Range(0, 100)] public int AA_Range;
 
-    [HideInInspector] public bool isStun;
+        [Header("Auto Attack")]
+        public float fireRate;
+        public int damageFire;
+        public int currentBulletInWeapon;
+        public int maxBulletInWeapon;
+        public int maxBulletInEntity;
 
-    private NavMeshAgent navigation;
+        [Header("Health & Shield")]
+        public int currentLife;
+        public int maxLife;
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawMesh(ringAggro, 0, transform.position, Quaternion.identity, Vector3.one * aggroRange);
-    }
+        #endregion
 
-    public virtual void Awake() {
-        navigation = GetComponent<NavMeshAgent>();
-        GameObject bar = Instantiate(entityBar, GameObject.Find("HUD").transform);
-       // bar.GetComponent<EntityBar>().target = this.transform;
-    }
 
-    public virtual void Update() {
-        if (navigation.isStopped && canShoot) {
-            StartCoroutine(Fire());
+        #region Private Fields
+
+        private NavMeshAgent navigation;
+        private PhotonView view;
+        private float timmingFire;
+        private float timmingCapa01;
+        private float timmingCapa02;
+        private bool isShooting, fireReady = true;
+
+        #endregion
+
+
+        #region Testing Methods
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawMesh(ring_AA, 0, transform.position, Quaternion.identity, Vector3.one * AA_Range);
+            Gizmos.color = Color.red;
+            Gizmos.DrawMesh(ring_Aggro, 0, transform.position, Quaternion.identity, Vector3.one * aggro_Range);
         }
-    }
-    public virtual void GoTo(IEntity entity) {
-     //   navigation.destination = entity.GetTransform().position;
-    }
-    public virtual IEnumerator Fire() {
-        canShoot = false;
-        //GameObject bullet = GameManager_Dungeon.dungeon.GetBullet(avatarName + "_bullet", canon.position, canon.rotation);
-        yield return new WaitForSeconds(fireRate);
-        canShoot = true;
-    }
 
-    #region Entity Interface
-    //*********************
-    public virtual void RemoveLife(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("TakeDamage", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void TakeDamage(int amount) {
-        currentLife -= amount;
-        if (currentLife <= 0) {
-         //   Death();
-        }
-    }
-    //*********************
+        #endregion
 
-    //*********************
-    public virtual void AddLife(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("GetHeal", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void GetHeal(int amount) {
-        currentLife += amount;
-        if (currentLife > maxLife) {
-            currentLife = maxLife;
-        }
-    }
-    //*********************
 
-    //*********************
-    public void RemoveShield(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("GetDamageOnShield", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void GetDamageOnShield(int amount) {
-        currentShield -= amount;
-        if (currentShield == 0) {
-            currentShield = 0;
-        }
-    }
-    //*********************
+        #region MonoBehaviour CallBacks
 
-    //*********************
-    public void AddShield(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("GetHealOnShield", RpcTarget.All, amount);
+        public virtual void Awake() {
+            navigation = GetComponent<NavMeshAgent>();
+            view = GetComponent<PhotonView>();
+
+            GameObject _ui = Instantiate(lifeUI, GameObject.Find("HUD").transform);
+            _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+        }
+
+        public virtual void Update() {
 
         }
-    }
-    [PunRPC]
-    private void GetHealOnShield(int amount) {
-        currentShield += amount;
-        if (currentShield > maxShield) {
-            currentShield = maxShield;
+
+        #endregion
+
+
+        #region Virtuals Methods
+
+
+
+        #endregion
+
+        //*********************
+        public virtual void AddLife(int amount) {
+            /*  if (photonView.IsMine) {
+                  photonView.RPC("GetHeal", RpcTarget.All, amount);
+              }*/
         }
-    }
-    //*********************
-
-    public int GetShield() {
-        return currentShield;
-    }
-
-    public int GetLife() {
-        return currentLife;
-    }
-
-    public int GetMaxLife() {
-        return maxLife;
-    }
-
-    public int GetMaxShield() {
-        return maxShield;
-    }
-    public Transform GetTransform() {
-        return transform;
-    }
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.IsWriting) {
-            stream.SendNext(currentLife);
-            stream.SendNext(currentShield);
-        } else if (stream.IsReading) {
-            currentLife = (int)stream.ReceiveNext();
-            currentShield = (int)stream.ReceiveNext();
+        [PunRPC]
+        private void GetHeal(int amount) {
+            currentLife += amount;
+            if (currentLife > maxLife) {
+                currentLife = maxLife;
+            }
         }
-    }
-    #endregion
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "PlayerBullet") {
-            RemoveLife(other.GetComponent<Projectile>().damage);
-            other.gameObject.SetActive(false);
+        public int GetShield() {
+            return 0;
+        }
+
+        public int GetLife() {
+            return currentLife;
+        }
+
+        public int GetMaxLife() {
+            return maxLife;
+        }
+
+        public int GetMaxShield() {
+            return 0;
+        }
+        public Transform GetTransform() {
+            return transform;
+        }
+
+        public Transform GetAnchor() {
+            return anchor;
+        }
+
+        public string GetDisplayedName() {
+            return avatarName;
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            /*  if (stream.IsWriting) {
+                  stream.SendNext(currentLife);
+                  stream.SendNext(currentShield);
+              } else {
+                  currentLife = (int)stream.ReceiveNext();
+                  currentShield = (int)stream.ReceiveNext();
+              }*/
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            if (other.tag == "PlayerBullet") {
+                other.gameObject.SetActive(false);
+            }
         }
     }
 }

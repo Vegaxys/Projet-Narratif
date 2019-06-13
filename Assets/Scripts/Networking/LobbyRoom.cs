@@ -70,7 +70,7 @@ namespace Vegaxys
             print("Player is now in a room");
             photonPlayers = PhotonNetwork.PlayerList;
             playersInRoom = photonPlayers.Length;
-            PhotonNetwork.NickName = myIndexInRoom.ToString();
+            PhotonNetwork.NickName = PlayerPrefs.GetString("PlayerName");
             if (!PhotonNetwork.IsMasterClient) {
                 return;
             }
@@ -80,12 +80,18 @@ namespace Vegaxys
         #endregion
 
 
-        #region Private Methods
+        #region Public Methods
 
         private void StartGame() {
             print("Loading Level");
+ 
             PhotonNetwork.LoadLevel(gameSceneIndex);
         }
+
+        #endregion
+
+
+        #region Private Methods
 
         private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
             currentScene = scene.buildIndex;

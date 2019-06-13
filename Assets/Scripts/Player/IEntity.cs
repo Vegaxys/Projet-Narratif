@@ -9,4 +9,10 @@ public interface IEntity {
     int GetMaxLife();
 
     int GetMaxShield();
+
+    string GetDisplayedName();
+
+    Transform GetTransform();
+
+    Transform GetAnchor();
 }

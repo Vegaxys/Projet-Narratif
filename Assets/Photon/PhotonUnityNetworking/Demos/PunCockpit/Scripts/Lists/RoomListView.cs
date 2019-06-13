@@ -122,7 +122,7 @@ namespace Photon.Pun.Demo.Cockpit
 
 			Debug.Log ("Cockpit: GetCustomRoomList() matchmaking against '"+LobbyNameInputField.text+"' SqlLobby using query :  "+SqlQueryInputField.text);
 
-			PhotonNetwork.GetCustomRoomList(sqlLobby, SqlQueryInputField.text ); //"C0 = 'Hello'"
+			//PhotonNetwork.GetCustomRoomList(sqlLobby, SqlQueryInputField.text ); //"C0 = 'Hello'"
 
 			ContentFeedback.text = "looking for Rooms in Lobby '"+LobbyNameInputField.text+"' Matching: '"+SqlQueryInputField.text;
         }

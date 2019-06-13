@@ -14,11 +14,13 @@ namespace Vegaxys
         public GameObject fireBullet;
         public GameObject playerUI;
         public Mesh ring_AA;
+        public Mesh ring_Aggro;
         public Transform canon;
         public Transform anchor;
         [HideInInspector] public Camera _cam;
-        [Tooltip("The speed of the camera")]
+        [Tooltip("General Values")]
         public float camSpeed = 5;
+        [Range(0, 100)] public int aggroValue;
 
         [Header("Auto Attack")]
         public float fireRate;
@@ -60,7 +62,7 @@ namespace Vegaxys
         private float timmingFire;
         private float timmingCapa01;
         private float timmingCapa02;
-        private bool isShooting, fireReady = true;
+        private bool fireReady = true;
         private bool capa_01_Ready = true;
         private bool capa_02_Ready = true;
 
@@ -109,10 +111,7 @@ namespace Vegaxys
                 StartCoroutine(RecoverCapa02());
             }
             if (Input.GetButton("Fire")) {
-                isShooting = true;
                 Fire();
-            } else {
-                isShooting = false;
             }
         }
 
@@ -246,6 +245,18 @@ namespace Vegaxys
 
         public int GetMaxShield() {
             return maxShield;
+        }
+
+        public Transform GetTransform() {
+            return transform;
+        }
+
+        public Transform GetAnchor() {
+            return anchor;
+        }
+
+        public string GetDisplayedName() {
+            return PhotonNetwork.NickName;
         }
 
         #endregion
