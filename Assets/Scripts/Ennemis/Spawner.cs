@@ -12,15 +12,18 @@ namespace Vegaxys {
 
         private void Awake() {
             view = GetComponent<PhotonView>();
-            if (!view.IsMine) {
+            if (!PhotonNetwork.IsMasterClient) {
                 return;
             }
-            view.RPC("ChooseSpawnPosition", RpcTarget.AllBuffered);
+            print("I am the masterClient");
+            view.RPC("ChooseSpawnPosition", RpcTarget.All);
         }
 
         [PunRPC]
         private void ChooseSpawnPosition() {
-            Instantiate(prefab, transform.position, Quaternion.identity);
+            string prefabName = prefab.name;
+            PhotonNetwork.Instantiate(Path.Combine("EnnemiPhotonPrefab", prefabName),
+                transform.position, Quaternion.identity, 0);
         }
     }
 }

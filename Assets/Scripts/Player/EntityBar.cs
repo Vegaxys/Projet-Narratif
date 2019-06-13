@@ -11,7 +11,7 @@ namespace Vegaxys
     {
         #region Private Fields
 
-        private Transform target;
+        public Transform target;
         private IEntity entity;
         public Vector3 offset = new Vector3(0, 35, 0);
         private TextMeshProUGUI pseudo;
@@ -31,6 +31,9 @@ namespace Vegaxys
         }
 
         private void Update() {
+            if (target == null) {
+                Destroy(gameObject);
+            }
             FollowTarget();
             UpdateInfo();
         }
@@ -59,9 +62,6 @@ namespace Vegaxys
         }
 
         private void FollowTarget() {
-            if(target == null) {
-                Destroy(gameObject);
-            }
             transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
         }
 

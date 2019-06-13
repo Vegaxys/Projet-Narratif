@@ -102,12 +102,12 @@ namespace Vegaxys
             PlayerRotation();
             if (Input.GetButtonDown("Capa01") && capa_01_Ready) {
                 capa_02_Ready = false;
-                view.RPC("RPC_Capa01", RpcTarget.AllBuffered);
+                view.RPC("RPC_Character_Capa01", RpcTarget.AllBuffered);
                 StartCoroutine(RecoverCapa01());
             }
             if (Input.GetButtonDown("Capa02") && capa_02_Ready) {
                 capa_02_Ready = false;
-                view.RPC("RPC_Capa02", RpcTarget.AllBuffered);
+                view.RPC("RPC_Character_Capa02", RpcTarget.AllBuffered);
                 StartCoroutine(RecoverCapa02());
             }
             if (Input.GetButton("Fire")) {
@@ -150,7 +150,7 @@ namespace Vegaxys
             timmingFire -= Time.deltaTime;
             if(timmingFire <= 0) {
                 timmingFire = fireRate;
-                view.RPC("RPC_Shoot", RpcTarget.AllBuffered);
+                view.RPC("RPC_Character_Shoot", RpcTarget.AllBuffered);
                 
             }
         }
@@ -196,18 +196,18 @@ namespace Vegaxys
         #region RPC Methods
 
         [PunRPC]
-        public virtual void RPC_Shoot() {
+        public virtual void RPC_Character_Shoot() {
             GameObject bullet = Instantiate(fireBullet, canon.position, canon.rotation);
             bullet.GetComponent<Projectile>().Setup(transform, AA_range, damageFire);
         }
 
         [PunRPC]
-        public virtual void RPC_Capa01() {
+        public virtual void RPC_Character_Capa01() {
             print("capa01 Launched from " + PhotonNetwork.NickName);
         }
 
         [PunRPC]
-        public virtual void RPC_Capa02() {
+        public virtual void RPC_Character_Capa02() {
             print("capa02 Launched");
         }
 
@@ -217,13 +217,13 @@ namespace Vegaxys
         #region IPunObservable implementation
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-            if (stream.IsWriting) {
+          /*  if (stream.IsWriting) {
                 stream.SendNext(currentLife);
                 stream.SendNext(currentShield);
             } else {
                 currentLife = (int)stream.ReceiveNext();
                 currentShield = (int)stream.ReceiveNext();
-            }
+            }*/
         }
 
         #endregion

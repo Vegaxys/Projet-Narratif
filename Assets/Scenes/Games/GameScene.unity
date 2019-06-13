@@ -1830,16 +1830,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 942022994}
     m_Modifications:
-    - target: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
-        type: 3}
-      propertyPath: m_Name
-      value: Entity_Bar_Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 486215296805648724, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1945,6 +1935,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
+        type: 3}
+      propertyPath: m_Name
+      value: Entity_Bar_Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 455e53ef45d924c4aaf8b71ee9106bd6, type: 3}
 --- !u!1001 &5017612998886540348
@@ -1954,16 +1954,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 942022994}
     m_Modifications:
-    - target: {fileID: 2172740565731656135, guid: 97343e04a40d5424f93bc5e4b0a88288,
-        type: 3}
-      propertyPath: m_Name
-      value: Entity_Bar_Ennemi
-      objectReference: {fileID: 0}
-    - target: {fileID: 2172740565731656135, guid: 97343e04a40d5424f93bc5e4b0a88288,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2172740565731656134, guid: 97343e04a40d5424f93bc5e4b0a88288,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2069,6 +2059,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2172740565731656135, guid: 97343e04a40d5424f93bc5e4b0a88288,
+        type: 3}
+      propertyPath: m_Name
+      value: Entity_Bar_Ennemi
+      objectReference: {fileID: 0}
+    - target: {fileID: 2172740565731656135, guid: 97343e04a40d5424f93bc5e4b0a88288,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97343e04a40d5424f93bc5e4b0a88288, type: 3}
 --- !u!1001 &5597193622738411409
@@ -2078,11 +2078,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 942022994}
     m_Modifications:
-    - target: {fileID: 8079980740990174058, guid: 1d15e0a3b2ff87443986c47cb3451e66,
+    - target: {fileID: 4684494560474936657, guid: 1d15e0a3b2ff87443986c47cb3451e66,
         type: 3}
-      propertyPath: m_Name
-      value: Button_LeaveRoom
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1614505471}
     - target: {fileID: 7024265042154233182, guid: 1d15e0a3b2ff87443986c47cb3451e66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2188,11 +2188,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 4684494560474936657, guid: 1d15e0a3b2ff87443986c47cb3451e66,
+    - target: {fileID: 8079980740990174058, guid: 1d15e0a3b2ff87443986c47cb3451e66,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1614505471}
+      propertyPath: m_Name
+      value: Button_LeaveRoom
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d15e0a3b2ff87443986c47cb3451e66, type: 3}
 --- !u!224 &7024265042154233182 stripped
@@ -2208,11 +2208,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1304025217}
     m_Modifications:
-    - target: {fileID: 8340370726043280759, guid: f2f308b2667b0a141a203ce0714fb987,
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
         type: 3}
-      propertyPath: m_Name
-      value: GameManager
+      propertyPath: spawnPoints.Array.size
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: loobyCamera
+      value: 
+      objectReference: {fileID: 1169927720}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: spawnPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 458404975}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: spawnPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 467525933}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: spawnPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1510856070}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: spawnPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1828412865}
     - target: {fileID: 8340370726043280758, guid: f2f308b2667b0a141a203ce0714fb987,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2268,35 +2293,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+    - target: {fileID: 8340370726043280759, guid: f2f308b2667b0a141a203ce0714fb987,
         type: 3}
-      propertyPath: spawnPoints.Array.size
-      value: 4
+      propertyPath: m_Name
+      value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
-        type: 3}
-      propertyPath: loobyCamera
-      value: 
-      objectReference: {fileID: 1169927720}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
-        type: 3}
-      propertyPath: spawnPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 458404975}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
-        type: 3}
-      propertyPath: spawnPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 467525933}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
-        type: 3}
-      propertyPath: spawnPoints.Array.data[2]
-      value: 
-      objectReference: {fileID: 1510856070}
-    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
-        type: 3}
-      propertyPath: spawnPoints.Array.data[3]
-      value: 
-      objectReference: {fileID: 1828412865}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2f308b2667b0a141a203ce0714fb987, type: 3}

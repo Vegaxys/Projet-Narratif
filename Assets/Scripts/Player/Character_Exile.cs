@@ -36,8 +36,8 @@ namespace Vegaxys
             Capa01_SwitchValue();
         }
         [PunRPC]
-        public override void RPC_Capa01() {
-            base.RPC_Capa01();
+        public override void RPC_Character_Capa01() {
+            base.RPC_Character_Capa01();
             Capa01_SwitchWeapon();
         }
 
