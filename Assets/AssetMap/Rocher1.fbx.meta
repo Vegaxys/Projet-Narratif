@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Rocher
-    second: {fileID: 2100000, guid: 06f4845aa3388da44bd27933d26580eb, type: 2}
+    second: {fileID: 2100000, guid: 8c11dc91cff34ba46ba232c6b3982908, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
