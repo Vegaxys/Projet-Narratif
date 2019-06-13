@@ -22,7 +22,6 @@ MonoBehaviour:
   currentBullet: 20
   fireRate: 0.3
   AA_range: 7
-  bulletName: Bullet_Arc_Exile
   maxLife: 700
   currentLife: 700
   maxShield: 500

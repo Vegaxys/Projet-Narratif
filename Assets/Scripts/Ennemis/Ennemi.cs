@@ -4,100 +4,143 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon;
 using Photon.Pun;
+namespace Vegaxys {
 
-public class Ennemi :MonoBehaviourPun, IEntity{
+    public class Ennemi :MonoBehaviourPunCallbacks, IPunObservable, IEntity
+    {
 
-    public Transform model;
-    //[HideInInspector]
-    public float maxSpeed, acceleration;
-    public string avatarName;
-    public GameObject entityBar;
+        #region Public Fields
 
-    [Header("Variables Ennemi")]
-    public int damageFire;
-    public float fireRate;
-    public float aggroRange;
-    public int aggroValue;
-    public Transform canon;
-    private bool canShoot = true;
+        public GameObject fireBullet;
+        public GameObject lifeUI;
+        public Mesh ring_AA;
+        public Mesh ring_Aggro;
+        public Transform canon;
+        public Transform anchor;
 
-    [SerializeField] private int maxLife, currentLife;
-    [SerializeField] private int maxShield, currentShield;
+        [Tooltip("General Values")]
+        public string avatarName;
+        public float maxSpeed;
+        public float acceleration;
+        [Range(0, 100)] public int aggro_Range;
+        [Range(0, 100)] public int AA_Range;
 
-    [HideInInspector] public bool isStun;
+        [Header("Auto Attack")]
+        public float fireRate;
+        public int damageFire;
+        public int currentBulletInWeapon;
+        public int maxBulletInWeapon;
+        public int maxBulletInEntity;
 
-    private NavMeshAgent navigation;
+        [Header("Health & Shield")]
+        public int currentLife;
+        public int maxLife;
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, aggroRange);
-    }
+        #endregion
 
-    public virtual void Update() {
-        if (navigation.isStopped && canShoot) {
-            StartCoroutine(Fire());
+
+        #region Private Fields
+
+        private NavMeshAgent navigation;
+        private PhotonView view;
+        private float timmingFire;
+        private float timmingCapa01;
+        private float timmingCapa02;
+        private bool isShooting, fireReady = true;
+
+        #endregion
+
+
+        #region Testing Methods
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawMesh(ring_AA, 0, transform.position, Quaternion.identity, Vector3.one * AA_Range);
+            Gizmos.color = Color.red;
+            Gizmos.DrawMesh(ring_Aggro, 0, transform.position, Quaternion.identity, Vector3.one * aggro_Range);
         }
-    }
-    public virtual void GoTo(IEntity entity) {
-        navigation.destination = entity.GetTransform().position;
-    }
-    public virtual IEnumerator Fire() {
-        canShoot = false;
-        //GameObject bullet = GameManager_Dungeon.dungeon.GetBullet(avatarName + "_bullet", canon.position, canon.rotation);
-        yield return new WaitForSeconds(fireRate);
-        canShoot = true;
-    }
 
-    #region Entity Interface
-    public void AddLife(int amount) {
-        currentLife += amount;
-        if (currentLife > maxLife) {
-            currentLife = maxLife;
+        #endregion
+
+
+        #region MonoBehaviour CallBacks
+
+        public virtual void Awake() {
+            navigation = GetComponent<NavMeshAgent>();
+            view = GetComponent<PhotonView>();
+
+            GameObject _ui = Instantiate(lifeUI, GameObject.Find("HUD").transform);
+            _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
         }
-    }
 
-    public void AddShield(int amount) {
-        currentShield += amount;
-        if (currentShield > maxShield) {
-            currentShield = maxShield;
+        public virtual void Update() {
+
         }
-    }
-    public void RemoveLife(int amount) {
-        currentLife -= amount;
-        if (currentLife <= 0) {
-            // Death();
+
+        #endregion
+
+
+        #region Virtuals Methods
+
+
+
+        #endregion
+
+        //*********************
+        public virtual void AddLife(int amount) {
+            /*  if (photonView.IsMine) {
+                  photonView.RPC("GetHeal", RpcTarget.All, amount);
+              }*/
         }
-    }
-
-    public void RemoveShield(int amount) {
-        currentShield -= amount;
-        if (currentShield == 0) {
-            currentShield = 0;
+        [PunRPC]
+        private void GetHeal(int amount) {
+            currentLife += amount;
+            if (currentLife > maxLife) {
+                currentLife = maxLife;
+            }
         }
-    }
-    public int GetLife() {
-        return currentLife;
-    }
 
-    public int GetMaxLife() {
-        return maxLife;
-    }
+        public int GetShield() {
+            return 0;
+        }
 
-    public int GetMaxShield() {
-        return maxShield;
-    }
+        public int GetLife() {
+            return currentLife;
+        }
 
-    public int GetShield() {
-        return currentShield;
-    }
-    public Transform GetTransform() {
-        return transform;
-    }
-    #endregion
+        public int GetMaxLife() {
+            return maxLife;
+        }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Projectile") {
-            other.gameObject.SetActive(false);
+        public int GetMaxShield() {
+            return 0;
+        }
+        public Transform GetTransform() {
+            return transform;
+        }
+
+        public Transform GetAnchor() {
+            return anchor;
+        }
+
+        public string GetDisplayedName() {
+            return avatarName;
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            /*  if (stream.IsWriting) {
+                  stream.SendNext(currentLife);
+                  stream.SendNext(currentShield);
+              } else {
+                  currentLife = (int)stream.ReceiveNext();
+                  currentShield = (int)stream.ReceiveNext();
+              }*/
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            if (other.tag == "PlayerBullet") {
+                other.gameObject.SetActive(false);
+            }
         }
     }
 }

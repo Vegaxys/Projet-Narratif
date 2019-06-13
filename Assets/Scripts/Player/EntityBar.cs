@@ -3,39 +3,68 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class EntityBar : MonoBehaviour{
+namespace Vegaxys
+{
+    public class EntityBar :MonoBehaviour
+    {
+        #region Private Fields
 
-    public Transform target;
-    public float refreshrate;
+        private Transform target;
+        private IEntity entity;
+        public Vector3 offset = new Vector3(0, 35, 0);
+        private TextMeshProUGUI pseudo;
+        private Image lifeBar;
+        private Image shield;
 
-    private IEntity entity;
-    private Vector3 offset = new Vector3(0, 35, 0);
+        #endregion
 
-    private TextMeshProUGUI pseudo;
-    private Image lifeBar;
-    private Image shield;
 
-    private void Start() {
-        lifeBar = transform.GetChild(1).GetComponent<Image>();
-        shield = transform.GetChild(2).GetComponent<Image>();
-        pseudo = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
-        entity = target.GetComponent<IEntity>();
-        StartCoroutine(UpdateInfo());
-    }
+        #region MonoBehaviour Callbacks
 
-    private void Update() {
-        FollowTarget();
-    }
+        private void Start() {
+            lifeBar = transform.GetChild(1).GetComponent<Image>();
+            shield = transform.GetChild(2).GetComponent<Image>();
+            pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
+            pseudo.text = entity.GetDisplayedName();
+        }
 
-    private IEnumerator UpdateInfo() {
-        lifeBar.fillAmount = entity.GetLife() / entity.GetMaxLife();
-        shield.fillAmount = entity.GetShield() / entity.GetMaxShield();
-        yield return new WaitForSeconds(refreshrate);
-        StartCoroutine(UpdateInfo());
-    }
+        private void Update() {
+            FollowTarget();
+            UpdateInfo();
+        }
 
-    void FollowTarget() {
-        transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
+        #endregion
+
+
+        #region Public Methods
+
+        public void SetTarget(IEntity _target) {
+            // Cache references for efficiency
+            entity = _target;
+            target = entity.GetAnchor();
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        private void UpdateInfo() {
+            lifeBar.fillAmount = (float)entity.GetLife() / (float)entity.GetMaxLife();
+            if (shield != null) {
+                shield.fillAmount = (float)entity.GetShield() / (float)entity.GetMaxShield();
+            }
+        }
+
+        private void FollowTarget() {
+            if(target == null) {
+                Destroy(gameObject);
+            }
+            transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
+        }
+
+        #endregion
     }
 }

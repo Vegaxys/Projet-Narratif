@@ -2,14 +2,6 @@
 
 public interface IEntity {
 
-    void AddLife(int amount);
-
-    void RemoveLife(int amount);
-
-    void AddShield(int amount);
-
-    void RemoveShield(int amount);
-
     int GetShield();
 
     int GetLife();
@@ -18,5 +10,9 @@ public interface IEntity {
 
     int GetMaxShield();
 
+    string GetDisplayedName();
+
     Transform GetTransform();
+
+    Transform GetAnchor();
 }

@@ -2046,7 +2046,7 @@ namespace Photon.Pun
         /// <param name="typedLobby">The lobby to query. Has to be of type SqlLobby.</param>
         /// <param name="sqlLobbyFilter">The sql query statement.</param>
         /// <returns>If the operation could be sent (has to be connected).</returns>
-        public static bool GetCustomRoomList(TypedLobby typedLobby, string sqlLobbyFilter)
+        public static bool GetCustomRoomList(TypedLobby typedLobby, string sqlLobbyFilter, object TypedLobby)
         {
             return NetworkingClient.OpGetGameList(typedLobby, sqlLobbyFilter);
         }

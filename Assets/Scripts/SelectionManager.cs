@@ -27,7 +27,7 @@ public class SelectionManager : MonoBehaviour{
     }
     private void SelectMousePosition() {
         Transform select = null;
-        GameManager_Dungeon.dungeon.MousePosition(out select);
+ //       GameManager.gm.MousePosition(out select);
 
         if(select.tag != "Untagged") {
             if (selectionTransform != null && selectionTransform.GetComponent<OutlineRegister>() != null) {

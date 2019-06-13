@@ -15,7 +15,6 @@ public class Character :ScriptableObject{
     public int currentBullet;
     public float fireRate;
     public float AA_range;
-    public string bulletName;
 
     [Header("Life")]
     public int maxLife;
