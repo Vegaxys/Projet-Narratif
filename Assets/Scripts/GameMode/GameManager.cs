@@ -1,36 +1,93 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using Photon;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
-using TMPro;
+using Photon.Realtime;
 
-[System.Serializable]
-public class Bullet
+namespace Vegaxys
 {
-    public string tag;
-    public GameObject prefab;
-    public int size;
+    public class GameManager :MonoBehaviourPunCallbacks
+    {
+        #region Public Fields
+
+        public static GameManager instance;
+        public Transform[] spawnPoints;
+
+        #endregion
+
+
+        #region Private Serializable Fields
+
+        [SerializeField] private GameObject loobyCamera;
+
+        #endregion
+
+
+        #region MonoBehaviour Callbacks
+
+        public override void OnEnable() {
+            base.OnEnable();
+            if (instance == null) {
+                instance = this;
+            } else {
+                if (instance != null) {
+                    Destroy(instance.gameObject);
+                    instance = this;
+                }
+            }
+            DontDestroyOnLoad(this.gameObject);
+            loobyCamera.SetActive(false);
+        }
+
+        #endregion
+
+
+        #region Photon Callbacks
+
+        public override void OnLeftRoom() {
+            SceneManager.LoadScene(0);
+        }
+
+        #endregion
+
+
+        #region Public Methods
+
+        public void LeaveRoom() {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        #endregion
+
+    }
 }
 
-public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
 
-    public TextMeshProUGUI countdownText;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*public TextMeshProUGUI countdownText;
     public GameObject lobbyCamera;
 
     private float spawnTimer = 3;
 
-    public static GameManager_Dungeon dungeon;
-
-    [Header("Object Pool")]
-    
-    public List<Bullet> bullets;
-    public Transform bulletContainer;
-    public Dictionary<string, Queue<GameObject>> BulletPool;
+    public static GameManager gm;
     
 
     private void Awake() {
-        dungeon = this;
+        gm = this;
         //* Create Bullet pool
      /*   BulletPool = new Dictionary<string, Queue<GameObject>>();
         foreach (Bullet item in bullets) {
@@ -42,11 +99,11 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
                 queue.Enqueue(bullet);
             }
             BulletPool.Add(item.tag, queue);
-        }*/
+        }
         StartCoroutine(SpawnTime());
     }
 
-  /*  public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
+    public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
         if (!BulletPool.ContainsKey(tag)) {
             Debug.LogWarning("The bullet named " + tag + " doesn't exist");
             return null;
@@ -57,7 +114,7 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
         bullet.transform.rotation = rotation;
         BulletPool[tag].Enqueue(bullet);
         return bullet;
-    }*/
+    }
 
     private IEnumerator SpawnTime() {
         lobbyCamera.SetActive(true);
@@ -92,16 +149,16 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
             result = Vector3.zero;
         }
     }
-    public void MousePosition(out Transform result) {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        public void MousePosition(out Transform result) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit)) {
-            result = hit.transform;
-        } else {
-            result = null;
+            if (Physics.Raycast(ray, out hit)) {
+                result = hit.transform;
+            } else {
+                result = null;
+            }
         }
+}*/
 
-    }
-}
 
