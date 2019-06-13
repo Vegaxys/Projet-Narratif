@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon;
 using Photon.Pun;
 
 public class BaseCharacter : MonoBehaviourPun, IEntity{
@@ -25,6 +24,8 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     private Camera _cam;
     private Vector3 camOffset;
 
+    private int maxBullet, currentBullet, maxBulletInWeapon;
+
     #region Testing Methods
     void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
@@ -40,6 +41,10 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
         navigation.speed = _char.maxSpeed;
         navigation.acceleration = _char.acceleration;
 
+        maxBullet = _char.maxBullet;
+        currentBullet = _char.currentBullet;
+        maxBulletInWeapon = _char.maxBulletInWeapon;
+
         if (photonView.IsMine) {
             camOffset = cam.position + transform.position;
         } else {
@@ -49,22 +54,24 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
         bar.GetComponent<EntityBar>().target = this.transform;
     }
 
-    void Update (){
+    public virtual void Update (){
         if (photonView.IsMine) {
             cam.position = Vector3.Lerp(cam.position, transform.position + camOffset, camSpeed * Time.deltaTime);
             Movements();
             PlayerRotation();
 
-            if (Input.GetButtonDown("Capa01")) {
-                Capa_01();
+            if (Input.GetButtonDown("Capa01") && _char.capa_01_Loaded) {
+                _char.capa_01_Loaded = false;
+                StartCoroutine(Capa_01());
             }
-            if (Input.GetButtonDown("Capa02")) {
-                Capa_02();
+            if (Input.GetButtonDown("Capa02") && _char.capa_02_Loaded) {
+                _char.capa_02_Loaded = false;
+                StartCoroutine(Capa_02());
             }
             if (Input.GetButtonDown("Fire") && canShoot) {
                 StartCoroutine(Fire());
             }
-            if (Input.GetButtonUp("Fire") && _char.currentBullet > 0) {
+            if (Input.GetButtonUp("Fire") && currentBullet > 0) {
                 StopCoroutine(Fire());
             }
             if (Input.GetButtonUp("Reload")) {
@@ -128,11 +135,13 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     public virtual void Movements (){
         Vector3 direction=Vector3.zero;
         direction+= new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        navigation.SetDestination(transform.position+direction);
+        navigation.SetDestination(transform.position + direction);
     }
 
     private void PlayerRotation() {
-        model.LookAt(GameManager_Dungeon.dungeon.MousePosition());
+        Vector3 lookingAt = Vector3.zero;
+        GameManager_Dungeon.dungeon.MousePosition(out lookingAt);
+        model.LookAt(lookingAt);
         Quaternion rotation = model.rotation;
         rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
         model.rotation = rotation;
@@ -144,28 +153,37 @@ public class BaseCharacter : MonoBehaviourPun, IEntity{
     public virtual IEnumerator Fire() {
         print("fire");
         canShoot = false;
-        GameManager_Dungeon.dungeon
-            .GetBullet(_char.bulletName, canon.position, canon.rotation)
-            .GetComponent<Projectile>()
-            .Setup(transform.position, _char.AA_range);
-        _char.currentBullet--;
-        HUD_Manager.manager.RefreshMunitionDisplay(_char.currentBullet, _char.maxBullet);
+        GameObject bullet = PhotonNetwork.Instantiate(_char.bulletName, canon.position, canon.rotation, 0);
+        bullet.GetComponent<Projectile>().Setup(transform.position, _char.AA_range, _char.damageFire);
+        currentBullet--;
+        HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
         yield return new WaitForSeconds(_char.fireRate);
-        if (_char.currentBullet > 0) {
+        if (currentBullet > 0) {
             canShoot = true;
         }
     }
-    public virtual void Capa_01() {
-        print("capa01");
+
+    #region Capacités
+    public virtual IEnumerator Capa_01() {
+        print("capa01 launched !");
+        yield return new WaitForSeconds(_char.capa_01_Cooldown);
+        _char.capa_01_Loaded = true;
+        print("capa01 loaded !");
     }
-    public virtual void Capa_02() {
-        print("capa02");
+    public virtual IEnumerator Capa_02() {
+        print("capa02 launched !");
+        yield return new WaitForSeconds(_char.capa_02_Cooldown);
+        _char.capa_02_Loaded = true;
+        print("capa02 loaded !");
     }
+    #endregion
+
     public void Reload() {
-        if (_char.maxBullet - _char.maxBulletInWeapon > 0) {
-            _char.currentBullet = _char.maxBulletInWeapon;
-            HUD_Manager.manager.RefreshMunitionDisplay(_char.currentBullet, _char.maxBullet);
-            _char.maxBullet -= _char.maxBulletInWeapon;
+        if (maxBullet - maxBulletInWeapon >= 0) {
+            currentBullet = maxBulletInWeapon;
+            maxBullet -= maxBulletInWeapon;
+            canShoot = true;
+            HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
         }
     }
 

@@ -12,13 +12,6 @@ public class Bullet
     public GameObject prefab;
     public int size;
 }
-[System.Serializable]
-public class Ennemy
-{
-    public string tag;
-    public GameObject prefab;
-    public int size;
-}
 
 public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
 
@@ -30,44 +23,30 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
     public static GameManager_Dungeon dungeon;
 
     [Header("Object Pool")]
-
+    
     public List<Bullet> bullets;
     public Transform bulletContainer;
     public Dictionary<string, Queue<GameObject>> BulletPool;
-
-   /* public List<Ennemy> ennemies;
-    public Transform ennemiesContainer;
-    public Dictionary<string, Queue<GameObject>> EnnemyPool;*/
-
+    
 
     private void Awake() {
         dungeon = this;
         //* Create Bullet pool
-        BulletPool = new Dictionary<string, Queue<GameObject>>();
+     /*   BulletPool = new Dictionary<string, Queue<GameObject>>();
         foreach (Bullet item in bullets) {
             Queue<GameObject> queue = new Queue<GameObject>();
             for (int i = 0; i < item.size; i++) {
-                GameObject bullet = Instantiate(item.prefab, bulletContainer);
+                GameObject bullet = PhotonNetwork.Instantiate(item.prefab.name, Vector3.zero, Quaternion.identity, 0);
+                bullet.transform.parent = bulletContainer;
                 bullet.SetActive(false);
                 queue.Enqueue(bullet);
             }
             BulletPool.Add(item.tag, queue);
-        }
-        //* Create Ennemi pool
-   /*     EnnemyPool = new Dictionary<string, Queue<GameObject>>();
-        foreach (Ennemy item in ennemies) {
-            Queue<GameObject> queue = new Queue<GameObject>();
-            for (int i = 0; i < item.size; i++) {
-                GameObject ennemi = Instantiate(item.prefab, ennemiesContainer);
-                ennemi.SetActive(false);
-                queue.Enqueue(ennemi);
-            }
-            EnnemyPool.Add(item.tag, queue);
         }*/
         StartCoroutine(SpawnTime());
     }
 
-    public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
+  /*  public GameObject GetBullet(string tag, Vector3 position, Quaternion rotation) {
         if (!BulletPool.ContainsKey(tag)) {
             Debug.LogWarning("The bullet named " + tag + " doesn't exist");
             return null;
@@ -78,19 +57,7 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
         bullet.transform.rotation = rotation;
         BulletPool[tag].Enqueue(bullet);
         return bullet;
-    }
-
-   /* public GameObject GetEnnemi(string tag, Vector3 position, Quaternion rotation) {
-        if (!EnnemyPool.ContainsKey(tag)) {
-            return null;
-        }
-        GameObject ennemi = EnnemyPool[tag].Dequeue();
-        ennemi.transform.position = position;
-        ennemi.transform.rotation = rotation;
-        EnnemyPool[tag].Enqueue(ennemi);
-        return ennemi;
     }*/
-
 
     private IEnumerator SpawnTime() {
         lobbyCamera.SetActive(true);
@@ -114,15 +81,27 @@ public class GameManager_Dungeon : MonoBehaviourPun, IPunObservable{
 
         }
     }
-    public Vector3 MousePosition() {
-        Vector3 result = Vector3.zero;
+    public void MousePosition(out Vector3 result) {
         Plane plane = new Plane(Vector3.up, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float point = 0f;
 
         if (plane.Raycast(ray, out point)) {
             result = ray.GetPoint(point);
+        } else {
+            result = Vector3.zero;
         }
-        return result;
+    }
+    public void MousePosition(out Transform result) {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit)) {
+            result = hit.transform;
+        } else {
+            result = null;
+        }
+
     }
 }
+
