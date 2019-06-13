@@ -16,19 +16,26 @@ MonoBehaviour:
   maxSpeed: 5
   acceleration: 20
   aggroValue: 5
-  damageFire: 15
+  damageFire: 20
   maxBulletInWeapon: 20
   maxBullet: 100
-  currentBullet: 19
-  fireRate: 0.5
+  currentBullet: 20
+  fireRate: 0.3
   AA_range: 7
-  bulletName: "Exil\xE9_bullet"
+  bulletName: Bullet_Arc_Exile
   maxLife: 700
   currentLife: 700
   maxShield: 500
   currentShield: 500
   tir_Name: Tir Basique
   tir_Description: 
-  capa_01_Name: 
+  capa_01_Name: Switch Arme
   capa_01_Description: 
-  capa_01_Cooldown: 0
+  capa_01_Cooldown: 2
+  capa_01_Loading: 0
+  capa_01_Loaded: 1
+  capa_02_Name: 'Tir '
+  capa_02_Description: 
+  capa_02_Cooldown: 3
+  capa_02_Loading: 1
+  capa_02_Loaded: 1

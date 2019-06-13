@@ -43,7 +43,7 @@ public class Ennemi :MonoBehaviourPun, IEntity{
     }
     public virtual IEnumerator Fire() {
         canShoot = false;
-        GameObject bullet = GameManager_Dungeon.dungeon.GetBullet(avatarName + "_bullet", canon.position, canon.rotation);
+        //GameObject bullet = GameManager_Dungeon.dungeon.GetBullet(avatarName + "_bullet", canon.position, canon.rotation);
         yield return new WaitForSeconds(fireRate);
         canShoot = true;
     }
@@ -94,4 +94,10 @@ public class Ennemi :MonoBehaviourPun, IEntity{
         return transform;
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Projectile") {
+            other.gameObject.SetActive(false);
+        }
+    }
 }

@@ -33,4 +33,14 @@ public class Character :ScriptableObject{
     public string capa_01_Name;
     public string capa_01_Description;
     public int capa_01_Cooldown;
+    public float capa_01_Loading;
+    public bool capa_01_Loaded;
+
+    [Header("Capacité 2")]
+    public string capa_02_Name;
+    public string capa_02_Description;
+    public int capa_02_Cooldown;
+    public float capa_02_Loading;
+    public bool capa_02_Loaded;
 }
+

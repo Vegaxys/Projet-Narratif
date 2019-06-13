@@ -31,6 +31,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks{
     public void JoinDungeon() {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinRandomRoom();
+        print("room join");
     }
     public override void OnJoinRandomFailed(short returnCode, string message) {
         CreateDungeon();
@@ -39,10 +40,10 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks{
         SceneManager.LoadScene("RandomDungeon");
     }
     public void CreateDungeon() {
+        print("room crée");
         PhotonNetwork.AutomaticallySyncScene = true;
 
         RoomOptions room = new RoomOptions { MaxPlayers = 5, IsOpen = true, IsVisible = true};
         PhotonNetwork.CreateRoom("RandomDungeon", room, TypedLobby.Default);
-
     }
 }
