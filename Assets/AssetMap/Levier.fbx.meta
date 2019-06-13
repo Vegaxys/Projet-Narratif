@@ -3,7 +3,22 @@ guid: a9011e3bdbad17546808699d8649ff89
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fer
+    second: {fileID: 2100000, guid: 3284c27de54b8374ca896eeec418027a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fer Noir
+    second: {fileID: 2100000, guid: f3307caf1e3572446b7ffc5a69ad27cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jaune Fer
+    second: {fileID: 2100000, guid: 97c08d7300fd2614abd192931be60c0a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -80,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.29999998
+    globalScale: 30
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

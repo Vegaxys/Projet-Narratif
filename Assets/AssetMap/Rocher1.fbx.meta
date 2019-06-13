@@ -3,7 +3,12 @@ guid: 441fc069667cc5241ad7b5eac9dd4b8e
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rocher
+    second: {fileID: 2100000, guid: 06f4845aa3388da44bd27933d26580eb, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -80,7 +85,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.29999998
+    globalScale: 30
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
