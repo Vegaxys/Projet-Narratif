@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.AI;
+using Knife.PostProcessing;
 
 namespace Vegaxys
 {
@@ -21,6 +22,7 @@ namespace Vegaxys
         [Tooltip("General Values")]
         public float camSpeed = 5;
         [Range(0, 100)] public int aggroValue;
+        public List<Transform> targets_Capa = new List<Transform>();
 
         [Header("Auto Attack")]
         public float fireRate;
@@ -31,25 +33,28 @@ namespace Vegaxys
         public int maxBulletInPlayer;
 
         [Header("Capa 01")]
-        public float cooldown_capa01;
-        public float loadingcapa_01;
+        public GameObject gizmos_Capa01;
+        public float cooldown_Capa01;
+        public float loading_Capa_01;
+        public float range_Capa01;
+        public bool hasGizmos_Capa_01;
+        public bool needTarget_Capa01;
+        public int targetNeeded_Capa01;
 
         [Header("Capa 02")]
-        public float cooldown_capa02;
-        public float loadingcapa_02;
+        public GameObject gizmos_Capa02;
+        public float cooldown_Capa02;
+        public float loading_Capa_02;
+        public float range_Capa02;
+        public bool hasGizmos_Capa_02;
+        public bool needTarget_Capa02;
+        public int targetNeeded_Capa02;
 
         [Header("Health & Shield")]
         public int currentLife;
         public int currentShield;
         public int maxLife;
         public int maxShield;
-
-        #endregion
-
-
-        #region Private Serializable Fields
-
-
 
         #endregion
 
@@ -100,16 +105,38 @@ namespace Vegaxys
             _cam.transform.parent.position = Vector3.Lerp(_cam.transform.parent.position, transform.position, camSpeed * Time.deltaTime);
             Movements();
             PlayerRotation();
+            #region Capa01
             if (Input.GetButtonDown("Capa01") && capa_01_Ready) {
-                capa_02_Ready = false;
-                view.RPC("RPC_Character_Capa01", RpcTarget.AllBuffered);
-                StartCoroutine(RecoverCapa01());
+                if (hasGizmos_Capa_01) {
+                    gizmos_Capa01.SetActive(true);
+                    LaunchGizmosCapa01();
+                }
             }
+            if (Input.GetButton("Capa01")) {
+                GetTargets(ref targets_Capa, targetNeeded_Capa01);
+            }
+            if (Input.GetButtonUp("Capa01") && capa_01_Ready) {
+                if(hasGizmos_Capa_01) gizmos_Capa01.SetActive(false);
+                capa_01_Ready = false;
+                view.RPC("RPC_Character_Capa01", RpcTarget.AllBuffered);
+            }
+            #endregion
+            #region Capa02
             if (Input.GetButtonDown("Capa02") && capa_02_Ready) {
+                if (hasGizmos_Capa_02) {
+                    gizmos_Capa02.SetActive(true);
+                    LaunchGizmosCapa02();
+                }
+            }
+            if (Input.GetButton("Capa02") && capa_02_Ready) {
+                GetTargets(ref targets_Capa, targetNeeded_Capa02);
+            }
+            if (Input.GetButtonUp("Capa02") && capa_02_Ready) {
+                if (hasGizmos_Capa_02) gizmos_Capa02.SetActive(false);
                 capa_02_Ready = false;
                 view.RPC("RPC_Character_Capa02", RpcTarget.AllBuffered);
-                StartCoroutine(RecoverCapa02());
             }
+            #endregion
             if (Input.GetButton("Fire")) {
                 Fire();
             }
@@ -163,6 +190,36 @@ namespace Vegaxys
             }
         }
 
+        public virtual void LaunchGizmosCapa01() {
+            print(PhotonNetwork.NickName + "has launch gizmos for capa 01");
+        }
+
+        public virtual void LaunchGizmosCapa02() {
+            print(PhotonNetwork.NickName + "has launch gizmos for capa 02");
+        }
+
+        public virtual void GetTargets(ref List<Transform> entities, int amountNeeded) {
+            print("getting targets...");
+            if (Input.GetButtonDown("Select")) {
+                IEntity entity = GameManager.instance.GetEntity(range_Capa02, transform.position);
+                if (entity != null) {
+                    targets_Capa.Add(entity.GetTransform());
+                    print("get target");
+                }
+            }
+            if(targets_Capa.Count == amountNeeded) {
+                print("get all targets");
+            }
+        }
+
+        public virtual void DeselectAllTargets() {
+            foreach (var item in targets_Capa) {
+                GameManager.instance.DeselectTarget(item);
+            }
+            targets_Capa.Clear();
+            print("all targets cleared");
+        }
+
         #endregion
 
 
@@ -180,13 +237,18 @@ namespace Vegaxys
             }
         }
 
-        private IEnumerator RecoverCapa01() {
-            yield return new WaitForSeconds(cooldown_capa01);
+        #endregion
+
+
+        #region Public Methods
+
+        public IEnumerator RecoverCapa01() {
+            yield return new WaitForSeconds(cooldown_Capa01);
             capa_01_Ready = true;
         }
 
-        private IEnumerator RecoverCapa02() {
-            yield return new WaitForSeconds(cooldown_capa02);
+        public IEnumerator RecoverCapa02() {
+            yield return new WaitForSeconds(cooldown_Capa02);
             capa_02_Ready = true;
         }
 
@@ -208,7 +270,7 @@ namespace Vegaxys
 
         [PunRPC]
         public virtual void RPC_Character_Capa02() {
-            print("capa02 Launched");
+            print("capa02 Launched from " + PhotonNetwork.NickName);
         }
 
         #endregion

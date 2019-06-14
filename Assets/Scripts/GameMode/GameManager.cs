@@ -3,16 +3,24 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
-using Photon.Realtime;
+using Knife.PostProcessing;
 
 namespace Vegaxys
 {
+    [System.Serializable]
+    public class OutlineSettings
+    {
+        public string type;
+        public Color color;
+    }
+
     public class GameManager :MonoBehaviourPunCallbacks
     {
         #region Public Fields
 
         public static GameManager instance;
         public Transform[] spawnPoints;
+        public OutlineSettings[] settings;
 
         #endregion
 
@@ -26,17 +34,8 @@ namespace Vegaxys
 
         #region MonoBehaviour Callbacks
 
-        public override void OnEnable() {
-            base.OnEnable();
-            if (instance == null) {
-                instance = this;
-            } else {
-                if (instance != null) {
-                    Destroy(instance.gameObject);
-                    instance = this;
-                }
-            }
-            DontDestroyOnLoad(this.gameObject);
+        public void Awake() {
+            instance = this;
             loobyCamera.SetActive(false);
         }
 
@@ -56,6 +55,39 @@ namespace Vegaxys
 
         public void LeaveRoom() {
             PhotonNetwork.LeaveRoom();
+        }
+
+        public IEntity GetEntity(float range, Vector3 origin) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit)) {
+                if (!hit.transform.CompareTag("Untagged") && hit.transform.GetComponent<OutlineRegister>() == null) {
+                    Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
+                    if (Vector3.Distance(hit.point, origin) < range) {
+                        IEntity entity = hit.transform.GetComponent<IEntity>();
+                        hit.transform.gameObject.AddComponent<OutlineRegister>();
+                        return entity;
+                    }
+                }
+            }
+            return null;
+        }
+        public void DeselectTarget(Transform entity) {
+            Destroy(entity.GetComponent<OutlineRegister>());
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        public OutlineSettings GetSettings(string type) {
+            for (int i = 0; i < settings.Length; i++) {
+                if (settings[i].type == type) {
+                    return settings[i];
+                }
+            }
+            return null;
         }
 
         #endregion

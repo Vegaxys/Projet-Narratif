@@ -193,7 +193,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1660571666878100382}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &1660571666878100382
 MonoBehaviour:
@@ -470,6 +470,7 @@ Transform:
   m_Children:
   - {fileID: 1660571666878099602}
   - {fileID: 1660571666878100316}
+  - {fileID: 5864871336542989517}
   m_Father: {fileID: 3919734864330214065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -606,7 +607,7 @@ MonoBehaviour:
   - {fileID: 1660571666878100373}
   - {fileID: 5166081139443251516}
   viewIdField: 0
-  InstantiationId: 5
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &5166081139443251516
 MonoBehaviour:
@@ -631,16 +632,27 @@ MonoBehaviour:
   _cam: {fileID: 0}
   camSpeed: 5
   aggroValue: 25
+  targets_Capa: []
   fireRate: 0
   AA_range: 11
   damageFire: 0
-  currentBulletInWeapon: 0
-  maxBulletInWeapon: 0
-  maxBulletInPlayer: 0
-  cooldown_capa01: 2
-  loadingcapa_01: 0.2
-  cooldown_capa02: 3
-  loadingcapa_02: 1
+  currentBulletInWeapon: 30
+  maxBulletInWeapon: 30
+  maxBulletInPlayer: 300
+  gizmos_Capa01: {fileID: 0}
+  cooldown_Capa01: 1
+  loading_Capa_01: 0
+  range_Capa01: 0
+  hasGizmos_Capa_01: 0
+  needTarget_Capa01: 0
+  targetNeeded_Capa01: 0
+  gizmos_Capa02: {fileID: 3628755958210774626}
+  cooldown_Capa02: 10
+  loading_Capa_02: 1
+  range_Capa02: 15
+  hasGizmos_Capa_02: 1
+  needTarget_Capa02: 1
+  targetNeeded_Capa02: 1
   currentLife: 700
   currentShield: 500
   maxLife: 700
@@ -660,6 +672,83 @@ MonoBehaviour:
   damageCapa02: 250
   capa02Activated: 0
   weaponType: 0
+--- !u!1 &3628755958210774626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5864871336542989517}
+  - component: {fileID: 5856830687973439334}
+  - component: {fileID: 3097586160566411813}
+  m_Layer: 0
+  m_Name: GizmosCapa02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5864871336542989517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5856830687973439334
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_Mesh: {fileID: -8333158159126431705, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
+--- !u!23 &3097586160566411813
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7f3df54352db7704391105115744ad44, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &8048153226771180063
 GameObject:
   m_ObjectHideFlags: 0

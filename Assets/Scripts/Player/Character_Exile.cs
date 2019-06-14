@@ -39,6 +39,16 @@ namespace Vegaxys
         public override void RPC_Character_Capa01() {
             base.RPC_Character_Capa01();
             Capa01_SwitchWeapon();
+            StartCoroutine(RecoverCapa01());
+        }
+
+        [PunRPC]
+        public override void RPC_Character_Capa02() {
+            base.RPC_Character_Capa02();
+            GameObject bullet = Instantiate(bulleCapa02, canon.position, canon.rotation);
+            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(targets_Capa[0], AA_range, damageCapa02);
+            base.DeselectAllTargets();
+            StartCoroutine(RecoverCapa02());
         }
 
         private void Capa01_SwitchWeapon() {
