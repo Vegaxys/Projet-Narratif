@@ -39,5 +39,11 @@ MonoBehaviour:
   - RPC_Character_Capa02
   - RPC_Character_Shoot
   - RPC_Ennemi_Shoot
+  - RPC_Capa01_SwitchWeapon
+  - RPC_Capa02_TirCaitlyn
+  - RPC_GetNewPos
+  - RPC_GoToTarget
+  - RPC_Reload
+  - RPC_Ennemi_Reload
   DisableAutoOpenWizard: 1
   ShowSettings: 1

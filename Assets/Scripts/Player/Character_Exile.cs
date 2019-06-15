@@ -5,18 +5,18 @@ using Photon.Pun;
 
 namespace Vegaxys
 {
-    public class Character_Exile :BaseCharacter
+    public class Character_Exile :BaseCharacter, IPunObservable
     {
         [Header("Sniper")]
         [SerializeField] private GameObject bulletSniper;
-        [SerializeField] private float rangeSniper;
         [SerializeField] private float fireRateSniper;
+        [SerializeField] private float precision_Sniper;
         [SerializeField] private int damageSniper;
 
         [Header("Arc")]
         [SerializeField] private GameObject bulletArc;
-        [SerializeField] private float rangeArc;
         [SerializeField] private float fireRateArc;
+        [SerializeField] private float precision_Arc;
         [SerializeField] private int damageArc;
 
         [Header("Tir (capa 02)")]
@@ -35,47 +35,55 @@ namespace Vegaxys
             base.Start();
             Capa01_SwitchValue();
         }
-        [PunRPC]
-        public override void RPC_Character_Capa01() {
-            base.RPC_Character_Capa01();
-            Capa01_SwitchWeapon();
+
+        public override void Character_Capa01() {
+            base.Character_Capa01();
+            view.RPC("RPC_Capa01_SwitchWeapon", RpcTarget.AllBuffered);
             StartCoroutine(RecoverCapa01());
         }
 
-        [PunRPC]
-        public override void RPC_Character_Capa02() {
-            base.RPC_Character_Capa02();
-            GameObject bullet = Instantiate(bulleCapa02, canon.position, canon.rotation);
-            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(targets_Capa[0], AA_range, damageCapa02);
-            base.DeselectAllTargets();
+        public override void Character_Capa02() {
+            base.Character_Capa02();
+            int targetID = targets_Capa[0].GetComponent<PhotonView>().ViewID;
+            view.RPC("RPC_Capa02_TirCaitlyn", RpcTarget.AllBuffered, targetID);
             StartCoroutine(RecoverCapa02());
         }
 
-        private void Capa01_SwitchWeapon() {
+        [PunRPC]
+        private void RPC_Capa01_SwitchWeapon() {
             if (weaponType == WeaponType.SNIPER) {
                 weaponType = WeaponType.ARC;
                 Capa01_SwitchValue();
                 return;
-            } else 
+            } else
             if (weaponType == WeaponType.ARC) {
                 weaponType = WeaponType.SNIPER;
                 Capa01_SwitchValue();
                 return;
             }
         }
+
+        [PunRPC]
+        private void RPC_Capa02_TirCaitlyn(int targetID) {
+            GameObject target = GameManager.instance.GetObjectByViewID(targetID);
+            GameObject bullet = Instantiate(bulleCapa02, canon.position, canon.rotation);
+            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.transform, damageCapa02);
+            base.DeselectAllTargets();
+        }
+
         private void Capa01_SwitchValue() {
             switch (weaponType) {
                 case WeaponType.ARC:
                     fireBullet = bulletArc;
-                    AA_range = rangeArc;
                     fireRate = fireRateArc;
                     damageFire = damageArc;
+                    precision = precision_Arc;
                     break;
                 case WeaponType.SNIPER:
                     fireBullet = bulletSniper;
-                    AA_range = rangeSniper;
                     fireRate = fireRateSniper;
                     damageFire = damageSniper;
+                    precision = precision_Sniper;
                     break;
             }
         }

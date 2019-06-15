@@ -43,6 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ec2c53f0b93df4ba9536eb789f2b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3649329390415274874, guid: 550e679e36da5b040bb5cf926f883dd1,
-    type: 3}
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  settings:
+  - type: Ennemi
+    color: {r: 1, g: 0.26714984, b: 0, a: 1}
+  - type: Player
+    color: {r: 0, g: 0.5594597, b: 1, a: 1}
+  tagList: []
   loobyCamera: {fileID: 0}

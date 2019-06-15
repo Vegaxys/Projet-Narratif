@@ -1,9 +1,9 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon;
 using Photon.Pun;
+
 namespace Vegaxys {
 
     public class Ennemi :MonoBehaviourPunCallbacks, IPunObservable, IEntity
@@ -12,7 +12,6 @@ namespace Vegaxys {
 
         public GameObject fireBullet;
         public GameObject lifeUI;
-        public Mesh ring_AA;
         public Mesh ring_Aggro;
         public Transform canon;         //Bullet spawn position
         public Transform model;         //Rotate towards player
@@ -24,10 +23,12 @@ namespace Vegaxys {
         public float maxSpeed;
         public float acceleration;
         [Range(0, 100)] public int aggro_Range;
-        [Range(0, 100)] public int AA_Range;
+        [Range(2, 15)] public float stoppingRange;
 
         [Header("Auto Attack")]
         public float fireRate;
+        public float precision;
+        public float reloadingSpeed;
         public int damageFire;
         public int currentBulletInWeapon;
         public int maxBulletInWeapon;
@@ -36,6 +37,9 @@ namespace Vegaxys {
         [Header("Health & Shield")]
         public int currentLife;
         public int maxLife;
+
+        [HideInInspector] public RoomManager room;
+        [HideInInspector] public PhotonView view;
 
         #endregion
 
@@ -51,11 +55,9 @@ namespace Vegaxys {
         #region Private Fields
 
         private NavMeshAgent navigation;
-        private PhotonView view;
+        private EntityBar bar;
         private float timmingFire;
-        private float timmingCapa01;
-        private float timmingCapa02;
-        private bool isShooting, fireReady = true;
+        private bool isInRoom = true;
 
         #endregion
 
@@ -63,10 +65,10 @@ namespace Vegaxys {
         #region Testing Methods
 
         private void OnDrawGizmos() {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawMesh(ring_AA, 0, transform.position, Quaternion.identity, Vector3.one * AA_Range);
             Gizmos.color = Color.red;
             Gizmos.DrawMesh(ring_Aggro, 0, transform.position, Quaternion.identity, Vector3.one * aggro_Range);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawMesh(ring_Aggro, 0, transform.position, Quaternion.identity, Vector3.one * stoppingRange);
             aggroCollider.radius = aggro_Range;
         }
 
@@ -81,7 +83,10 @@ namespace Vegaxys {
             aggroCollider = GetComponentInChildren<SphereCollider>();
 
             GameObject _ui = Instantiate(lifeUI, GameObject.Find("HUD").transform);
+            bar = _ui.GetComponent<EntityBar>();
             _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
+            navigation.stoppingDistance = stoppingRange;
 
         }
 
@@ -110,9 +115,14 @@ namespace Vegaxys {
 
         public virtual void Fire() {
             timmingFire -= Time.deltaTime;
-            if (timmingFire <= 0) {
+            if (timmingFire <= 0 && currentBulletInWeapon > 0) {
                 timmingFire = fireRate;
-                view.RPC("RPC_Ennemi_Shoot", RpcTarget.AllBuffered);
+                Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
+                view.RPC("RPC_Ennemi_Shoot", RpcTarget.AllBuffered, rot);
+                currentBulletInWeapon--;
+            }
+            if(currentBulletInWeapon == 0) {
+                view.RPC("RPC_Ennemi_Reload", RpcTarget.AllBuffered);
             }
         }
 
@@ -122,6 +132,15 @@ namespace Vegaxys {
             if (currentLife <= 0) {
                 PhotonNetwork.Destroy(gameObject);
             }
+        }
+
+        public virtual IEnumerator ReturnToRoom(Vector3 pos) {
+            isInRoom = false;
+            navigation.SetDestination(pos);
+            navigation.stoppingDistance = 1;
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, pos) < 1.5f);
+            navigation.stoppingDistance = stoppingRange;
+            isInRoom = true;
         }
 
         #endregion
@@ -153,6 +172,11 @@ namespace Vegaxys {
         private void RefreshAggro() {
             BaseCharacter _character = GetHighestAggroValue();
             target = _character != null ? _character.transform : null;
+            if (target != null) {
+                view.RPC("RPC_GoToTarget", RpcTarget.AllBuffered, target.position);
+            }
+
+            Invoke("RefreshAggro", 0.5f);
         }
 
         private BaseCharacter GetHighestAggroValue() {
@@ -172,15 +196,38 @@ namespace Vegaxys {
             model.rotation = Quaternion.Lerp(model.rotation, rotation, Time.deltaTime * 5);
         }
 
+        private IEnumerator Reload() {
+            yield return new WaitForSeconds(reloadingSpeed);
+            currentBulletInWeapon = maxBulletInWeapon;
+            maxBulletInEntity -= maxBulletInWeapon;
+        }
+
         #endregion
 
 
         #region RPCs Methods
 
         [PunRPC]
-        public virtual void RPC_Ennemi_Shoot() {
-            GameObject bullet = Instantiate(fireBullet, canon.position, canon.rotation);
-            bullet.GetComponent<Projectile>().Setup(transform, AA_Range, damageFire);
+        public virtual void RPC_Ennemi_Shoot(Quaternion rot) {
+            GameObject bullet = Instantiate(fireBullet, canon.position, rot);
+            bullet.GetComponent<Projectile>().Setup(transform, damageFire);
+        }
+
+        [PunRPC]
+        public virtual void RPC_Ennemi_Reload() {
+            StartCoroutine(bar.Reloading(reloadingSpeed));
+            StartCoroutine(Reload());
+        }
+
+        [PunRPC]
+        public void RPC_GetNewPos(Vector3 newPos) {
+            CancelInvoke();
+            StartCoroutine(ReturnToRoom(newPos));
+        }
+
+        [PunRPC]
+        public virtual void RPC_GoToTarget(Vector3 pos) {
+            navigation.SetDestination(pos);
         }
 
         #endregion

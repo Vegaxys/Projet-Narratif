@@ -17,6 +17,7 @@ namespace Vegaxys
         private TextMeshProUGUI pseudo;
         private Image lifeBar;
         private Image shield;
+        private Image reloadingImage;
 
         #endregion
 
@@ -28,6 +29,8 @@ namespace Vegaxys
             shield = transform.GetChild(2).GetComponent<Image>();
             pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
             pseudo.text = entity.GetDisplayedName();
+            reloadingImage = transform.GetChild(4).GetComponent<Image>();
+            if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
         }
 
         private void Update() {
@@ -47,6 +50,17 @@ namespace Vegaxys
             // Cache references for efficiency
             entity = _target;
             target = entity.GetAnchor();
+        }
+
+        public IEnumerator Reloading(float speed) {
+            reloadingImage.gameObject.SetActive(true);
+            float t = 0;
+            while (t < speed) {
+                t += Time.deltaTime;
+                reloadingImage.fillAmount = t / speed;
+                yield return null;
+            }
+            reloadingImage.gameObject.SetActive(false);
         }
 
         #endregion

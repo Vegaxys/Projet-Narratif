@@ -7,6 +7,8 @@ TagManager:
   - PlayerBullet
   - Ennemi
   - Projectile
+  - AggroZone
+  - Room
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - 
   - PostProcessing
   - Bullet
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
@@ -21,6 +21,7 @@ namespace Vegaxys
         public static GameManager instance;
         public Transform[] spawnPoints;
         public OutlineSettings[] settings;
+        public string[] tagList;
 
         #endregion
 
@@ -32,11 +33,19 @@ namespace Vegaxys
         #endregion
 
 
+        #region Private Fields
+
+        private PhotonView view;
+
+        #endregion
+
+
         #region MonoBehaviour Callbacks
 
         public void Awake() {
             instance = this;
             loobyCamera.SetActive(false);
+            view = GetComponent<PhotonView>();
         }
 
         #endregion
@@ -60,20 +69,58 @@ namespace Vegaxys
         public IEntity GetEntity(float range, Vector3 origin) {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) {
-                if (!hit.transform.CompareTag("Untagged") && hit.transform.GetComponent<OutlineRegister>() == null) {
-                    Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red);
-                    if (Vector3.Distance(hit.point, origin) < range) {
-                        IEntity entity = hit.transform.GetComponent<IEntity>();
-                        hit.transform.gameObject.AddComponent<OutlineRegister>();
-                        return entity;
+            if (Physics.Raycast(ray, out hit, 1000, 1 << 11)) {
+                print(range);
+                if (Vector3.Distance(hit.point, origin) < range) {
+                    print(hit.transform.tag);
+                    IEntity entity = null;
+                    switch (hit.transform.tag) {
+                        case "Player":
+                            hit.transform.gameObject.AddComponent<OutlineRegister>();
+                            entity = hit.transform.GetComponent<IEntity>();
+                            break;
+                        case "Ennemi":
+                            hit.transform.gameObject.AddComponent<OutlineRegister>();
+                            entity = hit.transform.GetComponent<IEntity>();
+                            break;
                     }
+                    return entity;
                 }
             }
             return null;
         }
+
+        public IEntity GetEntity(Vector3 pos) {
+            Collider[] colliders = Physics.OverlapSphere(pos, .2f);
+            foreach (var item in colliders) {
+                return  item.GetComponent<IEntity>() != null ? item.GetComponent<IEntity>() : null;
+            }
+            return null;
+        }
+
+        public GameObject GetObjectByViewID(int id) {
+            PhotonView obj = PhotonView.Find(id);
+            return obj != null ? obj.gameObject : null;
+        }
+
         public void DeselectTarget(Transform entity) {
             Destroy(entity.GetComponent<OutlineRegister>());
+        }
+
+        public string[] IncludeLayer(string[] layers) {
+            List<string> _layers = new List<string>(tagList);
+            foreach (var item in layers) {
+                _layers.Remove(item);
+            }
+            foreach (var item in _layers) {
+                print(item);
+            }
+            return _layers.ToArray();
+        }
+
+        public Quaternion GetRandomPrecision(Quaternion rot, float precision) {
+            float newY = Random.Range(-precision / 2, precision / 2);
+            return Quaternion.Euler(0, rot.eulerAngles.y + newY, 0);
         }
 
         #endregion
@@ -89,6 +136,7 @@ namespace Vegaxys
             }
             return null;
         }
+
 
         #endregion
 

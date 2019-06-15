@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Projectile_Capa02_Exile :Projectile{
 
-    private Transform target;
+    [SerializeField] private Transform target;
 
     public override void Update() {
         
     }
-    public override void Setup(Transform _target, float _range, int _damage) {
-        range = _range;
+    public override void Setup(Transform _target, int _damage) {
         damage = _damage;
         target = _target;
         StartCoroutine(GoToTarget());

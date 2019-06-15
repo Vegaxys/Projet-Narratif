@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6460730259210679862}
   - component: {fileID: 7383990881676090790}
   - component: {fileID: 7221922547433669865}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PhotonNetworkPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

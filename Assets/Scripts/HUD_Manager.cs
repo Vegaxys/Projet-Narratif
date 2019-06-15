@@ -3,18 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+namespace Vegaxys {
 
-public class HUD_Manager : MonoBehaviour{
+    public class HUD_Manager :MonoBehaviour {
 
-    public static HUD_Manager manager;
+        public static HUD_Manager manager;
 
-    public TextMeshProUGUI currentBullet;
+        public Image capa01_Cooldown;
+        public Image capa02_Cooldown;
+        public TextMeshProUGUI chargeur;
 
-    private void Awake() {
-        manager = this;
-    }
+        public BaseCharacter character;
 
-    public void RefreshMunitionDisplay(int current, int max) {
-        currentBullet.text = current + " / " + max;
+        public void Awake() {
+            manager = this;
+        }
+        private void Update() {
+            
+        }
+
+        #region Character HUD 
+
+        public void Update_Capa01_Cooldown(float amount) {
+            capa01_Cooldown.fillAmount = amount;
+        }
+
+        public void Update_Capa02_Cooldown(float amount) {
+            capa02_Cooldown.fillAmount = amount;
+        }
+
+        public void Update_Chargeur(int curr, int max) {
+            chargeur.text = "Ammo : " + curr + "/" + max;
+        }
+
+        #endregion
     }
 }

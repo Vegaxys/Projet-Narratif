@@ -3,7 +3,6 @@
 public class Projectile :MonoBehaviour{
 
     public float speed;
-    public float range;
     public int damage;
 
     [HideInInspector]
@@ -11,8 +10,7 @@ public class Projectile :MonoBehaviour{
     [HideInInspector]
     public Transform originalPlayer;
 
-    public virtual void Setup(Transform _transform, float _range, int _damage) {
-        range = _range;
+    public virtual void Setup(Transform _transform, int _damage) {
         damage = _damage;
         originalPlayer = _transform;
         origin = _transform.position;
@@ -20,8 +18,12 @@ public class Projectile :MonoBehaviour{
 
     public virtual void Update() {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        if (Vector3.Distance(origin, transform.position) > range) {
+    }
+    private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Untagged")) {
             Destroy(gameObject);
+            print("destroyed on Unttaged");
         }
+
     }
 }
