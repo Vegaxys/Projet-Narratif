@@ -228,8 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd7061a8c77581418028a7073a63f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  range: 0
+  speed: 50
   damage: 0
   origin: {x: 0, y: 0, z: 0}
   originalPlayer: {fileID: 0}

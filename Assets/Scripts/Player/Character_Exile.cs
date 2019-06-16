@@ -32,20 +32,21 @@ namespace Vegaxys
         public WeaponType weaponType;
 
         public override void Start() {
-            base.Start();
             Capa01_SwitchValue();
+            base.Start();
         }
 
-        public override void Character_Capa01() {
-            base.Character_Capa01();
+        public override void Virtual_Character_Capa01() {
+            base.Virtual_Character_Capa01();
             view.RPC("RPC_Capa01_SwitchWeapon", RpcTarget.AllBuffered);
             StartCoroutine(RecoverCapa01());
         }
 
-        public override void Character_Capa02() {
-            base.Character_Capa02();
+        public override void Virtual_Character_Capa02() {
+            base.Virtual_Character_Capa02();
             int targetID = targets_Capa[0].GetComponent<PhotonView>().ViewID;
-            view.RPC("RPC_Capa02_TirCaitlyn", RpcTarget.AllBuffered, targetID);
+            int _damage = GameManager.instance.GetRandomDamage(damageCapa02);
+            view.RPC("RPC_Capa02_TirCaitlyn", RpcTarget.AllBuffered, targetID, _damage);
             StartCoroutine(RecoverCapa02());
         }
 
@@ -64,11 +65,11 @@ namespace Vegaxys
         }
 
         [PunRPC]
-        private void RPC_Capa02_TirCaitlyn(int targetID) {
+        private void RPC_Capa02_TirCaitlyn(int targetID, int _damage) {
             GameObject target = GameManager.instance.GetObjectByViewID(targetID);
             GameObject bullet = Instantiate(bulleCapa02, canon.position, canon.rotation);
-            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.transform, damageCapa02);
-            base.DeselectAllTargets();
+            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.transform, _damage);
+            base.Virtual_DeselectAllTargets();
         }
 
         private void Capa01_SwitchValue() {
@@ -89,83 +90,3 @@ namespace Vegaxys
         }
     }
 }
-/*
-    [Header("Switch Arme (capa 01)")]
-    [SerializeField] private GameObject bulletArc;
-    [SerializeField] private GameObject bulletSniper;
-    [SerializeField] private float rangeArc, rangeSniper;
-    [SerializeField] private float fireRateArc, fireRateSniper;
-    [SerializeField] private int damageArc, damageSniper;
-
-    [Header("Tir (capa 02)")]
-    [SerializeField] private int damageCapa02;
-    [SerializeField] private bool capa02Activated;
-
-    public enum WeaponType
-    {
-        ARC,
-        SNIPER
-    }
-    public WeaponType weaponType;
-
-    private void Start() {
-        fireBullet = bulletSniper;
-        _char.AA_range = rangeSniper;
-        _char.fireRate = fireRateSniper;
-        _char.damageFire = damageSniper;
-    }
-    public override void Update() {
-        if (!capa02Activated) {
-            base.Update();
-        }
-    }
-    public override IEnumerator Capa_01() {
-        if(weaponType == WeaponType.ARC) {
-            weaponType = WeaponType.SNIPER;
-        } else {
-            weaponType = WeaponType.ARC;
-        }
-        SwitchWeapon();
-        yield return base.Capa_01();
-    }
-    public void SwitchWeapon() {
-        switch (weaponType) {
-            case WeaponType.ARC:
-                fireBullet = bulletArc;
-                _char.AA_range = rangeArc;
-                _char.fireRate = fireRateArc;
-                _char.damageFire = damageArc;
-                break;
-            case WeaponType.SNIPER:
-                fireBullet = bulletSniper;
-                _char.AA_range = rangeSniper;
-                _char.fireRate = fireRateSniper;
-                _char.damageFire = damageSniper;
-                break;
-        }
-    }
-
-    public override IEnumerator Capa_02() {
-        //loading capa
-        if (SelectionManager.selection.selectionTransform != null) {
-            capa02Activated = true;
-            yield return new WaitForSeconds(_char.capa_02_Loading);
-            Transform target = SelectionManager.selection.selectionTransform;
-            GameObject bullet = PhotonNetwork.Instantiate("Capa02_Exile", Vector3.zero, Quaternion.identity, 0);
-            bullet.transform.position = canon.position;
-            bullet.transform.rotation = canon.rotation;
-            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.position, 10000, damageCapa02);
-            capa02Activated = false;
-            yield return base.Capa_02();
-        }
-        yield return null;
-    }
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        base.OnPhotonSerializeView(stream, info);
-        if (stream.IsWriting) {
-            stream.SendNext(weaponType);
-        } else if (stream.IsReading) {
-            weaponType = (WeaponType)stream.ReceiveNext();
-        }
-    }
-}*/

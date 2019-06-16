@@ -45,5 +45,8 @@ MonoBehaviour:
   - RPC_GoToTarget
   - RPC_Reload
   - RPC_Ennemi_Reload
+  - RPC_GetHeal
+  - RPC_GetShield
+  - RPC_LaunchGrenade
   DisableAutoOpenWizard: 1
   ShowSettings: 1

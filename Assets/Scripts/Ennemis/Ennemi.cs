@@ -57,7 +57,6 @@ namespace Vegaxys {
         private NavMeshAgent navigation;
         private EntityBar bar;
         private float timmingFire;
-        private bool isInRoom = true;
 
         #endregion
 
@@ -105,6 +104,7 @@ namespace Vegaxys {
                 return;
             }
             TakeDamage(projectile.damage);
+            GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
             Destroy(projectile.gameObject);
         }
 
@@ -118,7 +118,8 @@ namespace Vegaxys {
             if (timmingFire <= 0 && currentBulletInWeapon > 0) {
                 timmingFire = fireRate;
                 Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
-                view.RPC("RPC_Ennemi_Shoot", RpcTarget.AllBuffered, rot);
+                int _damage = GameManager.instance.GetRandomDamage(damageFire);
+                view.RPC("RPC_Ennemi_Shoot", RpcTarget.AllBuffered, rot, _damage);
                 currentBulletInWeapon--;
             }
             if(currentBulletInWeapon == 0) {
@@ -135,12 +136,10 @@ namespace Vegaxys {
         }
 
         public virtual IEnumerator ReturnToRoom(Vector3 pos) {
-            isInRoom = false;
             navigation.SetDestination(pos);
             navigation.stoppingDistance = 1;
             yield return new WaitUntil(() => Vector3.Distance(transform.position, pos) < 1.5f);
             navigation.stoppingDistance = stoppingRange;
-            isInRoom = true;
         }
 
         #endregion
@@ -208,9 +207,9 @@ namespace Vegaxys {
         #region RPCs Methods
 
         [PunRPC]
-        public virtual void RPC_Ennemi_Shoot(Quaternion rot) {
+        public virtual void RPC_Ennemi_Shoot(Quaternion rot, int _damage) {
             GameObject bullet = Instantiate(fireBullet, canon.position, rot);
-            bullet.GetComponent<Projectile>().Setup(transform, damageFire);
+            bullet.GetComponent<Projectile>().Setup(transform, _damage);
         }
 
         [PunRPC]

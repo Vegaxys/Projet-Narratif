@@ -31,7 +31,6 @@ namespace Vegaxys
 
         #region Private Fields
 
-        private string gameVersion = "1";
         private bool isConnecting;
 
         #endregion
@@ -48,6 +47,9 @@ namespace Vegaxys
         }
 
         public void CreateRoom() {
+            if (!PhotonNetwork.IsConnectedAndReady) {
+                return;
+            }
             RoomOptions roomOpt = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = (byte)maxPlayers };
             if (PhotonNetwork.JoinOrCreateRoom(roomName, roomOpt, null)) {
                 print("Room '" + roomName + "' will be created");

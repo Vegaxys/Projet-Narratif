@@ -21,9 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Alerts.unity
     guid: edc57a1a777b2aa47a5cf8abcbacfc70
   - enabled: 1
-    path: Assets/Scenes/Games/GameScene.unity
+    path: Assets/Scenes/GameScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Games/TestScene.unity
     guid: 84ed8e033ba213341a08537c4f266a76
   m_configObjects: {}

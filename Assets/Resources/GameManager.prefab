@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8340370726043280758}
   - component: {fileID: 8340370726043280756}
+  - component: {fileID: 344284344}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,5 +54,32 @@ MonoBehaviour:
     color: {r: 1, g: 0.26714984, b: 0, a: 1}
   - type: Player
     color: {r: 0, g: 0.5594597, b: 1, a: 1}
-  tagList: []
+  damageParticle: {fileID: 1461757441125127860, guid: b3c624f99831716459d47bb78a84558b,
+    type: 3}
+  particleUIContainer: {fileID: 0}
+  healValue: 150
+  shieldValue: 150
+  ammoValue: 150
   loobyCamera: {fileID: 0}
+--- !u!114 &344284344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8340370726043280759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 8340370726043280756}
+  viewIdField: 0
+  InstantiationId: 7
+  isRuntimeInstantiated: 0

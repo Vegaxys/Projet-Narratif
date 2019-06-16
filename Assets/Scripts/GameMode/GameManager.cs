@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using TMPro;
 using Knife.PostProcessing;
 
 namespace Vegaxys
@@ -14,14 +13,18 @@ namespace Vegaxys
         public Color color;
     }
 
-    public class GameManager :MonoBehaviourPunCallbacks
+    public class GameManager :MonoBehaviourPunCallbacks, IPunObservable
     {
         #region Public Fields
 
         public static GameManager instance;
         public Transform[] spawnPoints;
         public OutlineSettings[] settings;
-        public string[] tagList;
+        public GameObject damageParticle;
+        public Transform particleUIContainer;
+        public int healValue;
+        public int shieldValue;
+        public int ammoValue;
 
         #endregion
 
@@ -107,20 +110,34 @@ namespace Vegaxys
             Destroy(entity.GetComponent<OutlineRegister>());
         }
 
-        public string[] IncludeLayer(string[] layers) {
-            List<string> _layers = new List<string>(tagList);
-            foreach (var item in layers) {
-                _layers.Remove(item);
-            }
-            foreach (var item in _layers) {
-                print(item);
-            }
-            return _layers.ToArray();
-        }
-
         public Quaternion GetRandomPrecision(Quaternion rot, float precision) {
             float newY = Random.Range(-precision / 2, precision / 2);
             return Quaternion.Euler(0, rot.eulerAngles.y + newY, 0);
+        }
+
+        public int GetRandomDamage(int damage) {
+            return Random.Range(damage - (damage / 10), damage + (damage / 10));
+        }
+
+        public void InstantiateDamageParticle(string tag, int amount, Vector3 pos) {
+            GameObject _particle = Instantiate(damageParticle, particleUIContainer);
+            _particle.transform.position = Camera.main.WorldToScreenPoint(pos);
+            TextMeshProUGUI text = _particle.GetComponentInChildren<TextMeshProUGUI>();
+            switch (tag) {
+                case"Damage":
+                    text.color = new Color(.7f, .1f, .1f, 1);
+                    break;
+                case "Health":
+                    text.color = Color.green;
+                    //text.color = new Color(.1f, .5f, .13f, 1);
+                    break;
+                case "Shield":
+                    text.color = Color.blue;
+                    //text.color = new Color(.1f, .5f, .1f, 1);
+                    break;
+            }
+            text.text = amount.ToString();
+            Destroy(_particle, 1);
         }
 
         #endregion
@@ -137,9 +154,21 @@ namespace Vegaxys
             return null;
         }
 
-
         #endregion
 
+
+        #region IPunObservable implementation
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (stream.IsWriting) {
+
+            } else
+            if (stream.IsReading) {
+
+            }
+        }
+
+        #endregion
     }
 }
 

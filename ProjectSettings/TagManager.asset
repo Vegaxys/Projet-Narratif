@@ -9,6 +9,8 @@ TagManager:
   - Projectile
   - AggroZone
   - Room
+  - PowerUp
+  - SpawnerPowerUp
   layers:
   - Default
   - TransparentFX

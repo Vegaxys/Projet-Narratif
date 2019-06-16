@@ -237,11 +237,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ce34d5221c83d4d974156b7c031771, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  range: 0
+  speed: 5
   damage: 300
   origin: {x: 0, y: 0, z: 0}
   originalPlayer: {fileID: 0}
+  target: {fileID: 0}
 --- !u!65 &4850410338063419631
 BoxCollider:
   m_ObjectHideFlags: 0
