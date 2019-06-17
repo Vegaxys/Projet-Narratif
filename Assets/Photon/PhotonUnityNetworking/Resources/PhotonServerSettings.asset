@@ -48,5 +48,6 @@ MonoBehaviour:
   - RPC_GetHeal
   - RPC_GetShield
   - RPC_LaunchGrenade
+  - RPC_Capa02_Drone
   DisableAutoOpenWizard: 1
   ShowSettings: 1

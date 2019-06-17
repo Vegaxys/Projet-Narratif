@@ -7,11 +7,12 @@ namespace Vegaxys {
     {
         private float xx, yy, zz;
         public Vector3 destination;
+        private bool amorced;
 
         private void Start() {
-            xx = Random.Range(-100, 100);
-            yy = Random.Range(-100, 100);
-            zz = Random.Range(-100, 100);
+            xx = Random.Range(-10, 10);
+            yy = Random.Range(-10, 10);
+            zz = Random.Range(-10, 10);
             StartCoroutine(GoToPosition());
         }
 
@@ -22,16 +23,20 @@ namespace Vegaxys {
             float t = 0;
             Vector3 oltPos = transform.parent.position;
             while (t < 1) {
+                t += Time.deltaTime;
                 transform.parent.position = Vector3.Lerp(oltPos, destination, t);
                 yield return null;
             }
         }
         public override void OnTriggerEnter(Collider other) {
-            switch (other.tag) {
-                case"Untagged":
+            if (other.CompareTag("Untagged")) {
                     GetComponent<SphereCollider>().radius = 2.4f;
                     Destroy(transform.parent.gameObject, .1f);
-                    break;
+            }
+        }
+        private void OnTriggerExit(Collider other) {
+            if (other.CompareTag("Player")) {
+                transform.tag = "Grenade";
             }
         }
     }

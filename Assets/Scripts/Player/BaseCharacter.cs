@@ -69,9 +69,9 @@ namespace Vegaxys
         private HUD_Manager hud;
         private EntityBar bar;
         private Transform model;
-        private float timmingFire;
         private float timmingCapa01;
         private float timmingCapa02;
+        private float timmingFire;
         private int shieldCount;
         private int healthCount;
         private int grenadeCount;
@@ -195,7 +195,8 @@ namespace Vegaxys
                 gizmos_Grenade.SetActive(false);
                 GameManager.instance.gizGrenade.SetActive(false);
                 int _damage = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
-                view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damage, GameManager.instance.MousePosition(grenade_Range, transform.position));
+                Vector3 destination = GameManager.instance.MousePosition(grenade_Range, transform.position);
+                view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damage, destination);
                 grenadeCount--;
                 HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
             }
@@ -211,6 +212,11 @@ namespace Vegaxys
                 Virtual_TakeDamage(projectile.damage);
                 GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
                 Destroy(other.gameObject);
+            }
+            if (other.CompareTag("Grenade")) {
+                Projectile projectile = other.GetComponent<Projectile>();
+                Virtual_TakeDamage(projectile.damage);
+                GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
             }
             if (other.CompareTag("PowerUp")) {
                 switch (other.GetComponent<PowerUp>().type) {
@@ -293,14 +299,21 @@ namespace Vegaxys
         }
 
         public virtual void Virtual_TakeDamage(int amount) {
-            currentShield -= amount;
-            if(currentShield < 0) {
-                currentLife += currentShield;
-                currentShield = 0;
-            }
-            print(PhotonNetwork.NickName + "'health is " + currentLife);
-            if (currentLife <= 0) {
-                GameManager.instance.LeaveRoom();
+            if (amount < 0 && currentLife < maxLife) {
+                AddHealth(amount *= -1);
+                GameManager.instance
+                    .InstantiateDamageParticle("Health", amount *= -1, transform.position);
+                return;
+            } else {
+                currentShield -= amount;
+                if (currentShield < 0) {
+                    currentLife += currentShield;
+                    currentShield = 0;
+                }
+                print(PhotonNetwork.NickName + "'health is " + currentLife);
+                if (currentLife <= 0) {
+                    GameManager.instance.LeaveRoom();
+                }
             }
         }
 
@@ -369,8 +382,18 @@ namespace Vegaxys
             if (currentLife > maxLife) currentLife = maxLife;
         }
 
+        private void AddHealth(int amount) {
+            currentLife += amount;
+            if (currentLife > maxLife) currentLife = maxLife;
+        }
+
         private void AddShield() {
             currentShield += GameManager.instance.shieldValue;
+            if (currentShield > maxShield) currentShield = maxShield;
+        }
+
+        private void AddShield(int amount) {
+            currentShield += amount;
             if (currentShield > maxShield) currentShield = maxShield;
         }
 
@@ -407,6 +430,7 @@ namespace Vegaxys
         [PunRPC]
         public virtual void RPC_Character_Shoot(Quaternion rot, int _damage) {
             GameObject bullet = Instantiate(fireBullet, canon.position, rot);
+            bullet.GetComponent<Projectile>().isHealing = _damage < 0;
             bullet.GetComponent<Projectile>().Setup(transform, _damage);
         }
 
@@ -434,7 +458,7 @@ namespace Vegaxys
             Grenade _grenade = grenade.GetComponentInChildren<Grenade>();
             _grenade.damage = _damage;
             _grenade.destination = pos;
-            _grenade.originalPlayer = transform;
+            _grenade.originalPlayer = GameManager.instance.transform;
         }
 
         #endregion

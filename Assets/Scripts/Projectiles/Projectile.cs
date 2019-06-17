@@ -5,10 +5,10 @@ public class Projectile :MonoBehaviour{
     public float speed;
     public int damage;
 
-    [HideInInspector]
-    public Vector3 origin;
-    [HideInInspector]
-    public Transform originalPlayer;
+    [HideInInspector] public Vector3 origin;
+    [HideInInspector] public Transform originalPlayer;
+    [HideInInspector] public bool isHealing;
+
 
     public virtual void Setup(Transform _transform, int _damage) {
         damage = _damage;

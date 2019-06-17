@@ -160,7 +160,9 @@ namespace Vegaxys
                 return pos;
             } else {
                 float distance = Vector3.Distance(origin, pos);
-                return Vector3.Lerp(origin, pos, 1 / (distance - radius));     //le multiplier par le radius
+                Vector3 result = Vector3.Lerp(origin, pos, (radius / distance));     //le multiplier par le radius
+                result.y = pos.y;
+                return result;
             }
         }
 

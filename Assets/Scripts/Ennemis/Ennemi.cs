@@ -99,13 +99,15 @@ namespace Vegaxys {
             }
         }
 
-        public void GetTriggered(Projectile projectile) {
+        public void GetTriggered(Projectile projectile, string tag) {
             if (projectile.originalPlayer == transform) {
                 return;
             }
             TakeDamage(projectile.damage);
             GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
-            Destroy(projectile.gameObject);
+            if (tag == "Projectile") {
+                Destroy(projectile.gameObject);
+            }
         }
 
         #endregion
@@ -128,6 +130,7 @@ namespace Vegaxys {
         }
 
         public virtual void TakeDamage(int amount) {
+            if (amount < 0) amount *= -1;
             currentLife -= amount;
             print(avatarName + "'health is " + currentLife);
             if (currentLife <= 0) {
