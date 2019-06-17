@@ -21,10 +21,12 @@ namespace Vegaxys
         public Transform[] spawnPoints;
         public OutlineSettings[] settings;
         public GameObject damageParticle;
+        public GameObject grenadePrefab;
         public Transform particleUIContainer;
         public int healValue;
         public int shieldValue;
         public int ammoValue;
+        public int granadeDamage;
 
         #endregion
 

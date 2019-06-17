@@ -132,7 +132,7 @@ MonoBehaviour:
   pivotPoint: {fileID: 1086574334306125686}
   rot: {x: 0, y: 0, z: 60}
   latence: 2
-  rangeAction: 5
+  rangeAction: 2
   spawnTimer: 5
   type: 3
   powerUpTransform: {fileID: 0}
@@ -147,7 +147,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &473555563276481597
 Rigidbody:
@@ -205,11 +205,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7501803338286321152}
     m_Modifications:
-    - target: {fileID: 3832369925103798449, guid: 98d70c53c74e9f944a8e98e2f491cac5,
-        type: 3}
-      propertyPath: m_Name
-      value: Munitions
-      objectReference: {fileID: 0}
     - target: {fileID: 7711090394238412039, guid: 98d70c53c74e9f944a8e98e2f491cac5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -265,8 +260,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1086574335502373287, guid: 98d70c53c74e9f944a8e98e2f491cac5, type: 3}
+    - target: {fileID: 3832369925103798449, guid: 98d70c53c74e9f944a8e98e2f491cac5,
+        type: 3}
+      propertyPath: m_Name
+      value: Munitions
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98d70c53c74e9f944a8e98e2f491cac5, type: 3}
 --- !u!4 &4063275381782283605 stripped
 Transform:

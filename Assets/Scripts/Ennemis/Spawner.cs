@@ -17,7 +17,6 @@ namespace Vegaxys {
             if (!PhotonNetwork.IsMasterClient) {
                 return;
             }
-            print("I am the masterClient");
             view.RPC("ChooseSpawnPosition", RpcTarget.All);
         }
 

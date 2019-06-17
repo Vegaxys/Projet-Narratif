@@ -102,7 +102,7 @@ MonoBehaviour:
   pivotPoint: {fileID: 7916385144408120837}
   rot: {x: 0, y: 60, z: 0}
   latence: 2
-  rangeAction: 5
+  rangeAction: 2
   spawnTimer: 5
   type: 2
   powerUpTransform: {fileID: 0}
@@ -133,7 +133,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7809291163836824976
 GameObject:
@@ -210,6 +210,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grenade
       objectReference: {fileID: 0}
+    - target: {fileID: 3585893199497044292, guid: 6aa99f50704c7714abe32b8b3907f39c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Projectile
+      objectReference: {fileID: 0}
     - target: {fileID: 4047387194252342088, guid: 6aa99f50704c7714abe32b8b3907f39c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -265,8 +270,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7916385144580479517, guid: 6aa99f50704c7714abe32b8b3907f39c, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aa99f50704c7714abe32b8b3907f39c, type: 3}
 --- !u!4 &8381825355676028732 stripped
 Transform:

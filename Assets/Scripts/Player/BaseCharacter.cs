@@ -180,7 +180,8 @@ namespace Vegaxys
             }
             if (Input.GetButtonDown("Conso_Grenade")) {
                 if (grenadeCount > 0) {
-                    view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered);
+                    int _damege = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
+                    view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damege, transform.position);
                     grenadeCount--;
                     HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
                 }
@@ -201,22 +202,32 @@ namespace Vegaxys
             if (other.CompareTag("PowerUp")) {
                 switch (other.GetComponent<PowerUp>().type) {
                     case PowerUpType.SHIELD:
-                        shieldCount++;
+                        if (shieldCount < maxConso) {
+                            shieldCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
                         break;
                     case PowerUpType.HEALTH:
-                        healthCount++;
+                        if (healthCount < maxConso) {
+                            healthCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
                         break;
                     case PowerUpType.GRENADE:
-                        grenadeCount++;
+                        if (grenadeCount < maxConso) {
+                            grenadeCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
                         break;
                     case PowerUpType.MUNITION:
                         maxBulletInPlayer += GameManager.instance.ammoValue;
                         HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+                        Destroy(other.gameObject);
                         break;
                 }
-                print("hi");
-                HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
-                Destroy(other.gameObject);
             }
             if (other.CompareTag("SpawnerPowerUp")) {
                 bool isOk = false;
@@ -417,8 +428,10 @@ namespace Vegaxys
         }
 
         [PunRPC]
-        public void RPC_LaunchGrenade() {
-
+        public void RPC_LaunchGrenade(int _damage, Vector3 pos) {
+            GameObject grenade = Instantiate(GameManager.instance.grenadePrefab, transform.position, Quaternion.identity);
+            grenade.GetComponent<Grenade>().damage = _damage;
+            grenade.GetComponent<Grenade>().destination = pos;
         }
 
         #endregion

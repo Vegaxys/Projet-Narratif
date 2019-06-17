@@ -102,7 +102,7 @@ MonoBehaviour:
   pivotPoint: {fileID: 3264560889431964278}
   rot: {x: 0, y: 0, z: 60}
   latence: 2
-  rangeAction: 5
+  rangeAction: 2
   spawnTimer: 5
   type: 1
   powerUpTransform: {fileID: 0}
@@ -133,7 +133,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3264560889431964279
 GameObject:
@@ -265,8 +265,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3264560890433133577, guid: 1d11d4e884fd6f144b35bd4b27b0144c, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d11d4e884fd6f144b35bd4b27b0144c, type: 3}
 --- !u!4 &7502236804094272912 stripped
 Transform:

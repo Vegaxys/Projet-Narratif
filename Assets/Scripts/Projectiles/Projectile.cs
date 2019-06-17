@@ -19,7 +19,7 @@ public class Projectile :MonoBehaviour{
     public virtual void Update() {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
-    private void OnTriggerEnter(Collider other) {
+    public virtual void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Untagged")) {
             Destroy(gameObject);
             print("destroyed on Unttaged");
