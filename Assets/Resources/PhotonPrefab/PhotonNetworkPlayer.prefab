@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6460730259210679862}
   - component: {fileID: 7383990881676090790}
   - component: {fileID: 7221922547433669865}
-  m_Layer: 0
+  - component: {fileID: 7114954424230724917}
+  m_Layer: 10
   m_Name: PhotonNetworkPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,10 +61,25 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 7114954424230724917}
   viewIdField: 0
   InstantiationId: 3
   isRuntimeInstantiated: 0
+--- !u!114 &7114954424230724917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6460730259210679863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0

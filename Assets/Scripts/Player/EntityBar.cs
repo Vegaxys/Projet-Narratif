@@ -11,12 +11,13 @@ namespace Vegaxys
     {
         #region Private Fields
 
-        private Transform target;
+        public Transform target;
         private IEntity entity;
         public Vector3 offset = new Vector3(0, 35, 0);
         private TextMeshProUGUI pseudo;
         private Image lifeBar;
         private Image shield;
+        private Image reloadingImage;
 
         #endregion
 
@@ -28,9 +29,14 @@ namespace Vegaxys
             shield = transform.GetChild(2).GetComponent<Image>();
             pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
             pseudo.text = entity.GetDisplayedName();
+            reloadingImage = transform.GetChild(4).GetComponent<Image>();
+            if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
         }
 
         private void Update() {
+            if (target == null) {
+                Destroy(gameObject);
+            }
             FollowTarget();
             UpdateInfo();
         }
@@ -46,6 +52,17 @@ namespace Vegaxys
             target = entity.GetAnchor();
         }
 
+        public IEnumerator Reloading(float speed) {
+            reloadingImage.gameObject.SetActive(true);
+            float t = 0;
+            while (t < speed) {
+                t += Time.deltaTime;
+                reloadingImage.fillAmount = t / speed;
+                yield return null;
+            }
+            reloadingImage.gameObject.SetActive(false);
+        }
+
         #endregion
 
 
@@ -59,9 +76,6 @@ namespace Vegaxys
         }
 
         private void FollowTarget() {
-            if(target == null) {
-                Destroy(gameObject);
-            }
             transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
         }
 

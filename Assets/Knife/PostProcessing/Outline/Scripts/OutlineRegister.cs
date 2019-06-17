@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Linq;
+using Vegaxys;
 using System.Collections.Generic;
 
 namespace Knife.PostProcessing
@@ -24,7 +24,7 @@ namespace Knife.PostProcessing
 
         void OnEnable()
         {
-            OutlineTint = SelectionManager.selection.GetSettings(gameObject.tag).color;
+            OutlineTint = GameObject.Find("GameManager").GetComponent<GameManager>().GetSettings(gameObject.tag).color;
             OutlineRenderer.AddRenderer(CachedRenderer);
             setupPropertyBlock();
         }

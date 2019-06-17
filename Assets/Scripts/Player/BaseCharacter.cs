@@ -3,40 +3,56 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.AI;
+using Knife.PostProcessing;
 
 namespace Vegaxys
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class BaseCharacter :MonoBehaviourPunCallbacks, IPunObservable, IEntity  
+    public class BaseCharacter :MonoBehaviourPunCallbacks, IEntity , IPunObservable
     {
         #region Public Fields
 
         public GameObject fireBullet;
         public GameObject playerUI;
-        public Mesh ring_AA;
-        public Mesh ring_Aggro;
         public Transform canon;
         public Transform anchor;
         [HideInInspector] public Camera _cam;
+        [HideInInspector] public PhotonView view;
         [Tooltip("General Values")]
         public float camSpeed = 5;
         [Range(0, 100)] public int aggroValue;
+        public List<Transform> targets_Capa = new List<Transform>();
 
         [Header("Auto Attack")]
         public float fireRate;
-        public float AA_range;
         public int damageFire;
+        public float precision;
+        public float reloadingSpeed;
         public int currentBulletInWeapon;
         public int maxBulletInWeapon;
         public int maxBulletInPlayer;
 
+        [Header("Grenade")]
+        public int grenade_Range;
+        public GameObject gizmos_Grenade;
+
         [Header("Capa 01")]
-        public float cooldown_capa01;
-        public float loadingcapa_01;
+        public GameObject gizmos_Capa01;
+        public float cooldown_Capa01;
+        public float loading_Capa_01;
+        public float range_Capa01;
+        public bool hasGizmos_Capa_01;
+        public bool needTarget_Capa01;
+        public int targetNeeded_Capa01;
 
         [Header("Capa 02")]
-        public float cooldown_capa02;
-        public float loadingcapa_02;
+        public GameObject gizmos_Capa02;
+        public float cooldown_Capa02;
+        public float loading_Capa_02;
+        public float range_Capa02;
+        public bool hasGizmos_Capa_02;
+        public bool needTarget_Capa02;
+        public int targetNeeded_Capa02;
 
         [Header("Health & Shield")]
         public int currentLife;
@@ -47,34 +63,21 @@ namespace Vegaxys
         #endregion
 
 
-        #region Private Serializable Fields
-
-
-
-        #endregion
-
-
         #region Private Fields
 
         private NavMeshAgent navigation;
+        private HUD_Manager hud;
+        private EntityBar bar;
         private Transform model;
-        private PhotonView view;
         private float timmingFire;
         private float timmingCapa01;
         private float timmingCapa02;
-        private bool fireReady = true;
+        private int shieldCount;
+        private int healthCount;
+        private int grenadeCount;
+        private int maxConso = 3;
         private bool capa_01_Ready = true;
         private bool capa_02_Ready = true;
-
-        #endregion
-
-
-        #region Testing Methods
-
-        void OnDrawGizmos() {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawMesh(ring_AA, 0, transform.position, Quaternion.identity, Vector3.one * AA_range);
-        }
 
         #endregion
 
@@ -86,11 +89,17 @@ namespace Vegaxys
             navigation = GetComponent<NavMeshAgent>();
             view = GetComponent<PhotonView>();
             _cam = transform.parent.GetComponentInChildren<Camera>();
+            hud = HUD_Manager.manager;
+            hud.character = this;
 
             transform.parent.GetComponentInChildren<Camera>().gameObject.SetActive(photonView.IsMine);
 
             GameObject _ui = Instantiate(playerUI, GameObject.Find("HUD").transform);
+            bar = _ui.GetComponent<EntityBar>();
             _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
+            HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
         }
 
         public virtual void Update() {
@@ -98,31 +107,158 @@ namespace Vegaxys
                 return;
             }
             _cam.transform.parent.position = Vector3.Lerp(_cam.transform.parent.position, transform.position, camSpeed * Time.deltaTime);
-            Movements();
-            PlayerRotation();
+            Virtual_Movements();
+            Virtual_PlayerRotation();
+            #region Capa01
             if (Input.GetButtonDown("Capa01") && capa_01_Ready) {
-                capa_02_Ready = false;
-                view.RPC("RPC_Capa01", RpcTarget.AllBuffered);
-                StartCoroutine(RecoverCapa01());
+                if (hasGizmos_Capa_01) {
+                    gizmos_Capa01.SetActive(true);
+                    Virtual_LaunchGizmosCapa01();
+                }
             }
+            if (Input.GetButton("Capa01")) {
+                Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa01);
+            }
+            if (Input.GetButtonUp("Capa01") && capa_01_Ready) {
+                if (hasGizmos_Capa_01) gizmos_Capa01.SetActive(false);
+                capa_01_Ready = false;
+                if (targetNeeded_Capa01 == targets_Capa.Count) {
+                    Virtual_Character_Capa01();
+                    capa_01_Ready = false;
+                } else if (needTarget_Capa01 == false) {
+                    Virtual_Character_Capa01();
+                    capa_01_Ready = false;
+                } else {
+                    print("Cancelled capa01");
+                }
+            }
+            #endregion
+            #region Capa02
             if (Input.GetButtonDown("Capa02") && capa_02_Ready) {
-                capa_02_Ready = false;
-                view.RPC("RPC_Capa02", RpcTarget.AllBuffered);
-                StartCoroutine(RecoverCapa02());
+                if (hasGizmos_Capa_02) {
+                    gizmos_Capa02.SetActive(true);
+                    Virtual_LaunchGizmosCapa02();
+                }
             }
+            if (Input.GetButton("Capa02") && capa_02_Ready) {
+                Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa02);
+            }
+            if (Input.GetButtonUp("Capa02") && capa_02_Ready) {
+                if (hasGizmos_Capa_02) gizmos_Capa02.SetActive(false);
+                if (targetNeeded_Capa02 == targets_Capa.Count) {
+                    Virtual_Character_Capa02();
+                    capa_02_Ready = false;
+                } else if (needTarget_Capa02 == false) {
+                    Virtual_Character_Capa02();
+                    capa_02_Ready = false;
+                } else {
+                    print("Cancelled capa02");
+                }
+            }
+            #endregion
+            #region Fire
             if (Input.GetButton("Fire")) {
-                Fire();
+                Virtual_Fire();
             }
+            if (Input.GetButtonUp("Reload")) {
+                if (maxBulletInPlayer >= maxBulletInWeapon) {
+                    StartCoroutine(RefreshHUD());
+                    view.RPC("RPC_Reload", RpcTarget.AllBuffered);
+                }
+            }
+            #endregion
+            #region Consommables 
+            if (Input.GetButtonDown("Conso_Shield")) {
+                if (currentShield < maxShield && shieldCount > 0) {
+                    view.RPC("RPC_GetShield", RpcTarget.AllBuffered);
+                    shieldCount--;
+                    HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                }
+            }
+            if (Input.GetButtonDown("Conso_Health")) {
+                if (currentLife < maxLife && healthCount > 0) {
+                    view.RPC("RPC_GetHeal", RpcTarget.AllBuffered);
+                    healthCount--;
+                    HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                }
+            }
+            #endregion
+            #region Grenade
+            if (Input.GetButtonDown("Conso_Grenade") && grenadeCount > 0) {
+                gizmos_Grenade.SetActive(true);
+                GameManager.instance.gizGrenade.SetActive(true);
+            }
+            if (Input.GetButton("Conso_Grenade") && grenadeCount > 0) {
+                GameManager.instance.gizGrenade.transform.position = GameManager.instance.MousePosition(grenade_Range, transform.position);
+            }
+            if (Input.GetButtonUp("Conso_Grenade") && grenadeCount > 0) {
+                gizmos_Grenade.SetActive(false);
+                GameManager.instance.gizGrenade.SetActive(false);
+                int _damage = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
+                view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damage, GameManager.instance.MousePosition(grenade_Range, transform.position));
+                grenadeCount--;
+                HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+            }
+            #endregion
         }
 
         void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Projectile")) {
                 Projectile projectile = other.GetComponent<Projectile>();
-                if(projectile.originalPlayer == transform) {
+                if (projectile.originalPlayer == transform) {
                     return;
                 }
-                TakeDamage(projectile.damage);
+                Virtual_TakeDamage(projectile.damage);
+                GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
                 Destroy(other.gameObject);
+            }
+            if (other.CompareTag("PowerUp")) {
+                switch (other.GetComponent<PowerUp>().type) {
+                    case PowerUpType.SHIELD:
+                        if (shieldCount < maxConso) {
+                            shieldCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
+                        break;
+                    case PowerUpType.HEALTH:
+                        if (healthCount < maxConso) {
+                            healthCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
+                        break;
+                    case PowerUpType.GRENADE:
+                        if (grenadeCount < maxConso) {
+                            grenadeCount++;
+                            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                            Destroy(other.gameObject);
+                        }
+                        break;
+                    case PowerUpType.MUNITION:
+                        maxBulletInPlayer += GameManager.instance.ammoValue;
+                        HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+                        Destroy(other.gameObject);
+                        break;
+                }
+            }
+            if (other.CompareTag("SpawnerPowerUp")) {
+                bool isOk = false;
+                switch (other.GetComponent<PowerUpHandler>().type) {
+                    case PowerUpType.SHIELD:
+                        if (shieldCount < maxConso) isOk = true;
+                        break;
+                    case PowerUpType.HEALTH:
+                        if (healthCount < maxConso) isOk = true;
+                        break;
+                    case PowerUpType.GRENADE:
+                        if (grenadeCount < maxConso) isOk = true;
+                        break;
+                    case PowerUpType.MUNITION:
+                        isOk = true;
+                        break;
+                }
+                if(isOk) StartCoroutine(other.GetComponent<PowerUpHandler>().PickPowerUp(transform));
             }
         }
 
@@ -131,36 +267,83 @@ namespace Vegaxys
 
         #region Virtuals Methods
 
-        public virtual void Movements() {
+        public virtual void Virtual_Movements() {
             Vector3 direction = Vector3.zero;
             direction += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             navigation.SetDestination(transform.position + direction);
         }
 
-        public virtual void PlayerRotation() {
-            Vector3 lookingAt = Vector3.zero;
-            MousePosition(out lookingAt);
-            model.LookAt(lookingAt);
+        public virtual void Virtual_PlayerRotation() {
+            model.LookAt(GameManager.instance.MousePosition());
             Quaternion rotation = model.rotation;
             rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
             model.rotation = rotation;
         }
 
-        public virtual void Fire() {
+        public virtual void Virtual_Fire() {
             timmingFire -= Time.deltaTime;
-            if(timmingFire <= 0) {
+            if(timmingFire <= 0 && currentBulletInWeapon > 0) {
                 timmingFire = fireRate;
-                view.RPC("RPC_Shoot", RpcTarget.AllBuffered);
-                
+                Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
+                HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+                int _damage = GameManager.instance.GetRandomDamage(damageFire);
+                view.RPC("RPC_Character_Shoot", RpcTarget.AllBuffered, rot, _damage);
+                currentBulletInWeapon--;
             }
         }
 
-        public virtual void TakeDamage(int amount) {
-            currentLife -= amount;
+        public virtual void Virtual_TakeDamage(int amount) {
+            currentShield -= amount;
+            if(currentShield < 0) {
+                currentLife += currentShield;
+                currentShield = 0;
+            }
             print(PhotonNetwork.NickName + "'health is " + currentLife);
             if (currentLife <= 0) {
                 GameManager.instance.LeaveRoom();
             }
+        }
+
+        public virtual void Virtual_LaunchGizmosCapa01() {
+            print(PhotonNetwork.NickName + "has launch gizmos for capa 01");
+        }
+
+        public virtual void Virtual_LaunchGizmosCapa02() {
+            print(PhotonNetwork.NickName + "has launch gizmos for capa 02");
+        }
+
+        public virtual void Virtual_GetTargets(ref List<Transform> entities, int amountNeeded) {
+            print("getting targets...");
+            if (Input.GetButtonDown("Select")) {
+                IEntity entity = GameManager.instance.GetEntity(range_Capa02, transform.position);
+                if (entity != null) {
+                    if(targets_Capa.Count == amountNeeded){
+                        GameManager.instance.DeselectTarget(targets_Capa[0]);
+                        targets_Capa.RemoveAt(0);
+                    }
+                    targets_Capa.Add(entity.GetTransform());
+                    print("get target");
+                }
+            }
+            if(targets_Capa.Count == amountNeeded) {
+                print("get all targets");
+            }
+        }
+
+        public virtual void Virtual_DeselectAllTargets() {
+            foreach (var item in targets_Capa) {
+                GameManager.instance.DeselectTarget(item);
+            }
+            targets_Capa.Clear();
+            print("all targets cleared");
+        }
+
+        public virtual void Virtual_Character_Capa01() {
+            print("capa01 Launched from " + view.ViewID);
+        }
+
+        public virtual void Virtual_Character_Capa02() {
+            print("capa02 Launched from " + view.ViewID);
         }
 
         #endregion
@@ -168,25 +351,51 @@ namespace Vegaxys
 
         #region Private Methods
 
-        private void MousePosition(out Vector3 result) {
-            Plane plane = new Plane(Vector3.up, transform.position);
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            float point = 0f;
 
-            if (plane.Raycast(ray, out point)) {
-                result = ray.GetPoint(point);
-            } else {
-                result = Vector3.zero;
-            }
+
+        private IEnumerator Reload() {
+            yield return new WaitForSeconds(reloadingSpeed);
+            currentBulletInWeapon = maxBulletInWeapon;
+            maxBulletInPlayer -= maxBulletInWeapon;
         }
 
-        private IEnumerator RecoverCapa01() {
-            yield return new WaitForSeconds(cooldown_capa01);
+        private IEnumerator RefreshHUD() {
+            yield return new WaitForSeconds(reloadingSpeed + .1f);
+            HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+        }
+
+        private void AddHealth() {
+            currentLife += GameManager.instance.healValue;
+            if (currentLife > maxLife) currentLife = maxLife;
+        }
+
+        private void AddShield() {
+            currentShield += GameManager.instance.shieldValue;
+            if (currentShield > maxShield) currentShield = maxShield;
+        }
+
+        #endregion
+
+
+        #region Public Methods
+
+        public IEnumerator RecoverCapa01() {
+            float t = 0;
+            while (t < cooldown_Capa01) {
+                t += Time.deltaTime;
+                hud.Update_Capa01_Cooldown(t / cooldown_Capa01);
+                yield return null;
+            }
             capa_01_Ready = true;
         }
 
-        private IEnumerator RecoverCapa02() {
-            yield return new WaitForSeconds(cooldown_capa02);
+        public IEnumerator RecoverCapa02() {
+            float t = 0;
+            while (t < cooldown_Capa02) {
+                t += Time.deltaTime;
+                hud.Update_Capa02_Cooldown(t / cooldown_Capa02);
+                yield return null;
+            }
             capa_02_Ready = true;
         }
 
@@ -196,34 +405,36 @@ namespace Vegaxys
         #region RPC Methods
 
         [PunRPC]
-        public virtual void RPC_Shoot() {
-            GameObject bullet = Instantiate(fireBullet, canon.position, canon.rotation);
-            bullet.GetComponent<Projectile>().Setup(transform, AA_range, damageFire);
+        public virtual void RPC_Character_Shoot(Quaternion rot, int _damage) {
+            GameObject bullet = Instantiate(fireBullet, canon.position, rot);
+            bullet.GetComponent<Projectile>().Setup(transform, _damage);
         }
 
         [PunRPC]
-        public virtual void RPC_Capa01() {
-            print("capa01 Launched from " + PhotonNetwork.NickName);
+        public virtual void RPC_Reload() {
+            StartCoroutine(bar.Reloading(reloadingSpeed));
+            StartCoroutine(Reload());
         }
 
         [PunRPC]
-        public virtual void RPC_Capa02() {
-            print("capa02 Launched");
+        public void RPC_GetShield() {
+            AddShield();
+            GameManager.instance.InstantiateDamageParticle("Shield", GameManager.instance.shieldValue, transform.position);
         }
 
-        #endregion
+        [PunRPC]
+        public void RPC_GetHeal() {
+            AddHealth();
+            GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
+        }
 
-
-        #region IPunObservable implementation
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-            if (stream.IsWriting) {
-                stream.SendNext(currentLife);
-                stream.SendNext(currentShield);
-            } else {
-                currentLife = (int)stream.ReceiveNext();
-                currentShield = (int)stream.ReceiveNext();
-            }
+        [PunRPC]
+        public void RPC_LaunchGrenade(int _damage, Vector3 pos) {
+            GameObject grenade = Instantiate(GameManager.instance.grenadePrefab, transform.position, Quaternion.identity);
+            Grenade _grenade = grenade.GetComponentInChildren<Grenade>();
+            _grenade.damage = _damage;
+            _grenade.destination = pos;
+            _grenade.originalPlayer = transform;
         }
 
         #endregion
@@ -260,251 +471,23 @@ namespace Vegaxys
         }
 
         #endregion
-    }
-}
-/*
-    #region Variables
-    public float camSpeed = 5;
-    public bool canShoot = true;
-    public bool isStun;
-
-    public GameObject entityBar;
-    public GameObject fireBullet;
-    public Transform cam;
-    public Transform model;
-    public Transform canon;
-
-    public Character _char;
-
-    [Header("Gizmos & Tests")]
-    public Mesh ring_AA;
-
-    private NavMeshAgent navigation;
-    private Camera _cam;
-    private Vector3 camOffset;
-
-    private int maxBullet, currentBullet, maxBulletInWeapon;
-    #endregion
-
-    #region Testing Methods
-    void OnDrawGizmos() {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawMesh(ring_AA, 0, transform.position, Quaternion.identity, Vector3.one * _char.AA_range);
-    }
-    #endregion
-
-    // unity internal methods
-    public virtual void Awake() {
-        navigation = GetComponent<NavMeshAgent>();
-        _cam = cam.GetComponent<Camera>();
-
-        navigation.speed = _char.maxSpeed;
-        navigation.acceleration = _char.acceleration;
-
-        maxBullet = _char.maxBullet;
-        currentBullet = _char.currentBullet;
-        maxBulletInWeapon = _char.maxBulletInWeapon;
-
-        camOffset = cam.position + transform.position;
-        GameObject bar = Instantiate(entityBar, GameObject.Find("HUD").transform);
-        bar.GetComponent<EntityBar>().target = this.transform;
-    }
-
-    public virtual void Update (){
-        cam.position = Vector3.Lerp(cam.position, transform.position + camOffset, camSpeed * Time.deltaTime);
-        Movements();
-        PlayerRotation();
-
-        if (Input.GetButtonDown("Capa01") && _char.capa_01_Loaded) {
-            _char.capa_01_Loaded = false;
-        }
-        if (Input.GetButtonDown("Capa02") && _char.capa_02_Loaded) {
-            _char.capa_02_Loaded = false;
-        }
-        if (Input.GetButtonDown("Fire") && canShoot) {
-            StartCoroutine(Fire());
-        }
-        if (Input.GetButtonUp("Fire") && currentBullet > 0) {
-            StopCoroutine(Fire());
-        }
-        if (Input.GetButtonUp("Reload")) {
-            Reload();
-        }
-    }
-
-    #region Entity Interface
-    //*********************
-    public virtual void RemoveLife (int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("TakeDamage", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void TakeDamage(int amount) {
-        _char.currentLife -= amount;
-        if (_char.currentLife <= 0) {
-            Death();
-        }
-    }
-    //*********************
-
-    //*********************
-    public virtual void AddLife (int amount){
-        if (photonView.IsMine) {
-            photonView.RPC("GetHeal", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void GetHeal(int amount) {
-        _char.currentLife += amount;
-        if (_char.currentLife > _char.maxLife) {
-            _char.currentLife = _char.maxLife;
-        }
-    }
-    //*********************
-
-    //*********************
-    public void RemoveShield(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("GetDamageOnShield", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void GetDamageOnShield(int amount) {
-        _char.currentShield -= amount;
-        if (_char.currentShield == 0) {
-            _char.currentShield = 0;
-        }
-    }
-    //*********************
-
-    //*********************
-    public void AddShield(int amount) {
-        if (photonView.IsMine) {
-            photonView.RPC("GetHealOnShield", RpcTarget.All, amount);
-        }
-    }
-    [PunRPC]
-    private void GetHealOnShield(int amount) {
-        _char.currentShield += amount;
-        if (_char.currentShield > _char.maxShield) {
-            _char.currentShield = _char.maxShield;
-        }
-    }
-    //*********************
-
-    public int GetShield() {
-        return _char.currentShield;
-    }
-
-    public int GetLife() {
-        return _char.currentLife;
-    }
-
-    public int GetMaxLife() {
-        return _char.maxLife;
-    }
-
-    public int GetMaxShield() {
-        return _char.maxShield;
-    }
-    public Transform GetTransform() {
-        return transform;
-    }
-    #endregion
 
 
-    public virtual void GetStun (float duration){
-        StartCoroutine(Stun(duration));
-    }
+        #region IPunObservable implementation
 
-    public virtual void Movements (){
-        Vector3 direction=Vector3.zero;
-        direction+= new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        navigation.SetDestination(transform.position + direction);
-    }
-
-    private void PlayerRotation() {
-        Vector3 lookingAt = Vector3.zero;
-       // GameManager.gm.MousePosition(out lookingAt);
-        model.LookAt(lookingAt);
-        Quaternion rotation = model.rotation;
-        rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-        model.rotation = rotation;
-    }
-
-    public virtual void Death() {
-
-    }
-    //****************************
-    public virtual IEnumerator Fire() {
-        if (photonView.IsMine) {
-            canShoot = false;
-            photonView.RPC("FireRPC", RpcTarget.All);
-            HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
-            yield return new WaitForSeconds(_char.fireRate);
-            if (currentBullet > 0) {
-                canShoot = true;
-                if (Input.GetButton("Fire")) {
-                    StartCoroutine(Fire());
-                }
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (stream.IsWriting) {
+                stream.SendNext(currentBulletInWeapon);
+                stream.SendNext(maxBulletInWeapon);
+                stream.SendNext(maxBulletInPlayer);
+            } else 
+            if (stream.IsReading) {
+                currentBulletInWeapon = (int)stream.ReceiveNext();
+                maxBulletInWeapon = (int)stream.ReceiveNext();
+                maxBulletInPlayer = (int)stream.ReceiveNext();
             }
         }
-    }
-    [PunRPC]
-    public void FireRPC() {
-        GameObject bullet = Instantiate(fireBullet, canon.position, canon.rotation);
-        bullet.GetComponent<Projectile>().Setup(transform.position, _char.AA_range, _char.damageFire);
-        currentBullet--;
-    }
-    //****************************
 
-    #region Capacités
-    [PunRPC]
-    public void LaunchCapa01() {
-        print("hi");
-        StartCoroutine(Capa_01());
+        #endregion
     }
-    public virtual IEnumerator Capa_01() {
-        print("capa01 launched !");
-        yield return new WaitForSeconds(_char.capa_01_Cooldown);
-        _char.capa_01_Loaded = true;
-        print("capa01 loaded !");
-    }
-    [PunRPC]
-    public void LaunchCapa02() {
-        StartCoroutine(Capa_02());
-    }
-    public virtual IEnumerator Capa_02() {
-        print("capa02 launched !");
-        yield return new WaitForSeconds(_char.capa_02_Cooldown);
-        _char.capa_02_Loaded = true;
-        print("capa02 loaded !");
-    }
-    #endregion
-
-    public void Reload() {
-        if (maxBullet - maxBulletInWeapon >= 0) {
-            currentBullet = maxBulletInWeapon;
-            maxBullet -= maxBulletInWeapon;
-            canShoot = true;
-            HUD_Manager.manager.RefreshMunitionDisplay(currentBullet, maxBullet);
-        }
-    }
-
-    private IEnumerator Stun (float duration){
-        isStun = true;
-        yield return new WaitForSeconds(duration);
-        isStun = false;
-    }
-
-    public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (stream.IsWriting) {
-            stream.SendNext(_char.currentLife);
-            stream.SendNext(_char.currentShield);
-        } else if (stream.IsReading) {
-            _char.currentLife = (int)stream.ReceiveNext();
-            _char.currentShield = (int)stream.ReceiveNext();
-        }
-    }
-}*/
+}

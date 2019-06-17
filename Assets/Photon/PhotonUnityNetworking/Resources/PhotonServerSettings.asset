@@ -29,23 +29,24 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
+  - ChooseSpawnPosition
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - GetDamageOnShield
   - GetHeal
-  - GetHealOnShield
-  - TakeDamage
-  - FireRPC
-  - Capa_01
-  - Capa_02
-  - LaunchCapa01
-  - LaunchCapa02
+  - RespawnSpaceship
   - RPC_AddCharacter
-  - RPC_Shoot
-  - OnTriggerEnter
-  - RPC_Capa01
-  - RPC_Capa02
-  - ChooseSpawnPosition
+  - RPC_Character_Capa01
+  - RPC_Character_Capa02
+  - RPC_Character_Shoot
+  - RPC_Ennemi_Shoot
+  - RPC_Capa01_SwitchWeapon
+  - RPC_Capa02_TirCaitlyn
+  - RPC_GetNewPos
+  - RPC_GoToTarget
+  - RPC_Reload
+  - RPC_Ennemi_Reload
+  - RPC_GetHeal
+  - RPC_GetShield
+  - RPC_LaunchGrenade
   DisableAutoOpenWizard: 1
   ShowSettings: 1
