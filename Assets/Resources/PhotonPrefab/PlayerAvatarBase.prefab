@@ -556,10 +556,12 @@ MonoBehaviour:
     type: 3}
   playerUI: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6, type: 3}
   ring_AA: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
+  ring_Aggro: {fileID: 0}
   canon: {fileID: 1660571666878099602}
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
   camSpeed: 5
+  aggroValue: 0
   fireRate: 0
   AA_range: 0
   damageFire: 0
