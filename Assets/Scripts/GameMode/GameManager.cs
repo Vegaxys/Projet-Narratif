@@ -22,6 +22,7 @@ namespace Vegaxys
         public OutlineSettings[] settings;
         public GameObject damageParticle;
         public GameObject grenadePrefab;
+        public GameObject gizGrenade;
         public Transform particleUIContainer;
         public int healValue;
         public int shieldValue;
@@ -140,6 +141,27 @@ namespace Vegaxys
             }
             text.text = amount.ToString();
             Destroy(_particle, 1);
+        }
+
+        public Vector3 MousePosition() {
+            Plane plane = new Plane(Vector3.up, transform.position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float point = 0f;
+
+            if (plane.Raycast(ray, out point)) {
+                return ray.GetPoint(point);
+            } else {
+                return Vector3.zero;
+            }
+        }
+        public Vector3 MousePosition(float radius, Vector3 origin) {
+            Vector3 pos = MousePosition();
+            if (Vector3.Distance(origin, pos) < radius) {
+                return pos;
+            } else {
+                float distance = Vector3.Distance(origin, pos);
+                return Vector3.Lerp(origin, pos, 1 / (distance - radius));     //le multiplier par le radius
+            }
         }
 
         #endregion

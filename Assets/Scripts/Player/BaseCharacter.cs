@@ -32,6 +32,10 @@ namespace Vegaxys
         public int maxBulletInWeapon;
         public int maxBulletInPlayer;
 
+        [Header("Grenade")]
+        public int grenade_Range;
+        public GameObject gizmos_Grenade;
+
         [Header("Capa 01")]
         public GameObject gizmos_Capa01;
         public float cooldown_Capa01;
@@ -178,13 +182,22 @@ namespace Vegaxys
                     HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
                 }
             }
-            if (Input.GetButtonDown("Conso_Grenade")) {
-                if (grenadeCount > 0) {
-                    int _damege = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
-                    view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damege, transform.position);
-                    grenadeCount--;
-                    HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
-                }
+            #endregion
+            #region Grenade
+            if (Input.GetButtonDown("Conso_Grenade") && grenadeCount > 0) {
+                gizmos_Grenade.SetActive(true);
+                GameManager.instance.gizGrenade.SetActive(true);
+            }
+            if (Input.GetButton("Conso_Grenade") && grenadeCount > 0) {
+                GameManager.instance.gizGrenade.transform.position = GameManager.instance.MousePosition(grenade_Range, transform.position);
+            }
+            if (Input.GetButtonUp("Conso_Grenade") && grenadeCount > 0) {
+                gizmos_Grenade.SetActive(false);
+                GameManager.instance.gizGrenade.SetActive(false);
+                int _damage = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
+                view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damage, GameManager.instance.MousePosition(grenade_Range, transform.position));
+                grenadeCount--;
+                HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
             }
             #endregion
         }
@@ -261,9 +274,7 @@ namespace Vegaxys
         }
 
         public virtual void Virtual_PlayerRotation() {
-            Vector3 lookingAt = Vector3.zero;
-            MousePosition(out lookingAt);
-            model.LookAt(lookingAt);
+            model.LookAt(GameManager.instance.MousePosition());
             Quaternion rotation = model.rotation;
             rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
             model.rotation = rotation;
@@ -340,17 +351,7 @@ namespace Vegaxys
 
         #region Private Methods
 
-        private void MousePosition(out Vector3 result) {
-            Plane plane = new Plane(Vector3.up, transform.position);
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            float point = 0f;
 
-            if (plane.Raycast(ray, out point)) {
-                result = ray.GetPoint(point);
-            } else {
-                result = Vector3.zero;
-            }
-        }
 
         private IEnumerator Reload() {
             yield return new WaitForSeconds(reloadingSpeed);
@@ -430,8 +431,10 @@ namespace Vegaxys
         [PunRPC]
         public void RPC_LaunchGrenade(int _damage, Vector3 pos) {
             GameObject grenade = Instantiate(GameManager.instance.grenadePrefab, transform.position, Quaternion.identity);
-            grenade.GetComponent<Grenade>().damage = _damage;
-            grenade.GetComponent<Grenade>().destination = pos;
+            Grenade _grenade = grenade.GetComponentInChildren<Grenade>();
+            _grenade.damage = _damage;
+            _grenade.destination = pos;
+            _grenade.originalPlayer = transform;
         }
 
         #endregion

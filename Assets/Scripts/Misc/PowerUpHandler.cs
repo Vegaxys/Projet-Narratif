@@ -28,7 +28,7 @@ namespace Vegaxys
         public Transform powerUpTransform;
        
         private void Start() {
-            powerUpTransform = transform.parent.GetChild(2);
+            powerUpTransform = Instantiate(powerUpPrefab, transform.parent).transform;
         }
 
         private void OnDrawGizmos() {

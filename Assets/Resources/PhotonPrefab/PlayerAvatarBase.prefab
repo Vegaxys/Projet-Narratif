@@ -558,13 +558,14 @@ MonoBehaviour:
   canon: {fileID: 1660571666878099602}
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
+  view: {fileID: 0}
   camSpeed: 5
   aggroValue: 0
   targets_Capa: []
-  pointCount: 0
   fireRate: 0
   damageFire: 0
   precision: 0
+  reloadingSpeed: 0
   currentBulletInWeapon: 0
   maxBulletInWeapon: 0
   maxBulletInPlayer: 0
