@@ -32,22 +32,19 @@ MonoBehaviour:
   - ChooseSpawnPosition
   - DestroySpaceship
   - Fire
-  - GetHeal
   - RespawnSpaceship
   - RPC_AddCharacter
-  - RPC_Character_Capa01
-  - RPC_Character_Capa02
-  - RPC_Character_Shoot
-  - RPC_Ennemi_Shoot
   - RPC_Capa01_SwitchWeapon
-  - RPC_Capa02_TirCaitlyn
-  - RPC_GetNewPos
-  - RPC_GoToTarget
-  - RPC_Reload
-  - RPC_Ennemi_Reload
-  - RPC_GetHeal
-  - RPC_GetShield
-  - RPC_LaunchGrenade
   - RPC_Capa02_Drone
+  - RPC_Capa02_TirCaitlyn
+  - RPC_Character_Shoot
+  - RPC_Ennemi_Reload
+  - RPC_Ennemi_Shoot
+  - RPC_GetHeal
+  - RPC_GetNewPos
+  - RPC_GetShield
+  - RPC_GoToTarget
+  - RPC_LaunchGrenade
+  - RPC_Reload
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0

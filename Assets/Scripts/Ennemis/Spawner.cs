@@ -1,8 +1,7 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+
 
 namespace Vegaxys {
     public class Spawner :MonoBehaviour
@@ -10,7 +9,6 @@ namespace Vegaxys {
         public GameObject prefab;
         public RoomManager roomManager;
         private PhotonView view;
-
 
         private void Awake() {
             view = GetComponent<PhotonView>();

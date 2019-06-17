@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5099350761610128975}
-  - component: {fileID: 3650911800590980110}
+  - component: {fileID: 9181038159367961686}
   m_Layer: 0
   m_Name: LobbyRoom
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3650911800590980110
+--- !u!114 &9181038159367961686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,12 +40,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3558180265210972960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eddf66b68bb315b4d95447f481934d0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 44e336d85c9ce17449f026de40bd4b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playersInRoom: 0
-  myIndexInRoom: 0
-  playersInGame: 0
-  gameSceneIndex: 0
-  currentScene: 0
-  isGameLoaded: 0
+  lobbyConnectedButton: {fileID: 0}
+  lobbyPanel: {fileID: 0}
+  mainPanel: {fileID: 0}
+  roomContainer: {fileID: 0}
+  roomListingPrefab: {fileID: 7075393190768696092, guid: ac219b6073b875240b93fd3345d5073c,
+    type: 3}
+  playerName: {fileID: 0}

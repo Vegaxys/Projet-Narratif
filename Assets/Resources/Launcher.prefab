@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5466426689401663982}
-  - component: {fileID: 8681588995603649143}
+  - component: {fileID: 4181654382736127732}
   m_Layer: 0
-  m_Name: MPManager
+  m_Name: Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8681588995603649143
+--- !u!114 &4181654382736127732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +40,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 445090315971201033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fffa65b2196259f4c8ef288c617c1fcb, type: 3}
+  m_Script: {fileID: 11500000, guid: b19249631113c9e4e893203e2b0714cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableObjectsOnConnect:
-  - {fileID: 0}
-  disableObjectsOnConnect:
-  - {fileID: 0}
+  multiplayerSceneIndex: 1
+  lobbyPanel: {fileID: 0}
+  roomPanel: {fileID: 0}
+  startButton: {fileID: 0}
+  playerContainer: {fileID: 0}
+  playerPrefab: {fileID: 8617847567666242322, guid: 8ff23361533e3984b9a8f0f67734ba40,
+    type: 3}
+  roomNameText: {fileID: 0}

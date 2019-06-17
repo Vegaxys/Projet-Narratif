@@ -1,11 +1,22 @@
-﻿using PlayFab;
-using UnityEngine.UI; 
+﻿using UnityEngine.UI; 
 using UnityEngine;
+using System.Collections;
+using Photon.Pun;
 
-public class Test : MonoBehaviour{
-    /*
-    public Character_Exile character;
-    public Text text;
-    */
+namespace Vegaxys
+{
+    public class Test :MonoBehaviour
+    {
+        public Toggle isConnectedToggle;
 
+        private void Start() {
+            StartCoroutine(IsConnected());
+        }
+        private IEnumerator IsConnected() {
+            print(PhotonNetwork.IsConnected);
+            isConnectedToggle.isOn = PhotonNetwork.IsConnected;
+            yield return new WaitForSeconds(.1f);
+            StartCoroutine(IsConnected());
+        }
+    }
 }

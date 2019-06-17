@@ -8,6 +8,18 @@ namespace Vegaxys
 {
     public class LobbyNetwork :MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
+        [SerializeField] private Button createRoomButton;
+        private int roomSize;
+
+        void Start() {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+
+        public override void OnConnectedToMaster() {
+            Debug.Log("Player is connected to " + PhotonNetwork.CloudRegion + " server !");
+        }
+
+        /*
         #region Public Fields
 
         public static LobbyNetwork instance;
@@ -68,6 +80,7 @@ namespace Vegaxys
             createRoomButton.interactable = true;
             PhotonNetwork.JoinLobby();
         }
+
         public override void OnJoinedLobby() {
             Debug.Log("Player has joined to the lobby");
         }
@@ -79,5 +92,6 @@ namespace Vegaxys
         public override void OnCreatedRoom() {
             Debug.Log("Room successfuly created");
         }
+        */
     }
 }
