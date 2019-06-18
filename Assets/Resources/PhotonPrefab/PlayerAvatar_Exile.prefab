@@ -195,7 +195,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1660571666878100382}
   viewIdField: 0
-  InstantiationId: 12
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &1660571666878100382
 MonoBehaviour:
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 1660571666878100427}
   - component: {fileID: 1660571666878100373}
   - component: {fileID: 1660571666878100370}
-  - component: {fileID: 5166081139443251516}
+  - component: {fileID: 4677281390864229717}
   m_Layer: 10
   m_Name: Model
   m_TagString: Player
@@ -517,6 +517,8 @@ Transform:
   - {fileID: 1660571666878100316}
   - {fileID: 5864871336542989517}
   - {fileID: 9137720549709050834}
+  - {fileID: 5863613210535194904}
+  - {fileID: 6570504925812816736}
   m_Father: {fileID: 3919734864330214065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -606,11 +608,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 1660571666878100373}
-  - {fileID: 5166081139443251516}
+  - {fileID: 4677281390864229717}
   viewIdField: 0
-  InstantiationId: 13
+  InstantiationId: 2
   isRuntimeInstantiated: 0
---- !u!114 &5166081139443251516
+--- !u!114 &4677281390864229717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -619,7 +621,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1660571666878099559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2c91131ee3fa184a93e6ca3565f63d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a923ab1eb3efa14785d64af3a095295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fireBullet: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
@@ -632,51 +634,113 @@ MonoBehaviour:
   navigation: {fileID: 0}
   camSpeed: 5
   aggroValue: 25
-  targets_Capa: []
-  fireRate: 0
-  damageFire: 0
-  precision: 0
-  reloadingSpeed: 1
-  currentBulletInWeapon: 30
-  maxBulletInWeapon: 30
-  maxBulletInPlayer: 300
+  fireRate: 1.8
+  damageFire: 50
+  precision: 10
+  reloadingSpeed: 2.5
+  currentBulletInWeapon: 8
+  maxBulletInWeapon: 8
+  maxBulletInPlayer: 64
   grenade_Range: 10
   gizmos_Grenade: {fileID: 4803714075319308576}
-  gizmos_Capa01: {fileID: 0}
-  cooldown_Capa01: 1
-  loading_Capa_01: 0
-  range_Capa01: 0
-  hasGizmos_Capa_01: 0
-  needTarget_Capa01: 0
-  needAOE_Capa01: 0
-  targetNeeded_Capa01: 0
-  gizmos_Capa02: {fileID: 3628755958210774626}
-  cooldown_Capa02: 10
-  loading_Capa_02: 1
-  range_Capa02: 15
-  hasGizmos_Capa_02: 1
-  needTarget_Capa02: 1
-  needAOE_Capa02: 0
-  targetNeeded_Capa02: 1
-  currentLife: 700
-  currentShield: 500
-  maxLife: 700
-  maxShield: 500
-  bulletSniper: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
+  currentLife: 175
+  currentShield: 75
+  maxLife: 175
+  maxShield: 75
+  capa:
+  - {fileID: 5384625718212595186}
+  - {fileID: 7335335960486655227}
+--- !u!1 &2760081121724329078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6570504925812816736}
+  - component: {fileID: 5384625718212595186}
+  - component: {fileID: 7892847595169594427}
+  m_Layer: 10
+  m_Name: Spell_SwitchArme
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6570504925812816736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760081121724329078}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5384625718212595186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760081121724329078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419d0e000f2204a49886eeb5a66ae4d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current_Spell:
+    title: Switch Weapon
+    description: switch entre arc et sniper
+    capaIndex: 1
+  capa_Gizmos: {fileID: 0}
+  capa_Cooldown: 1
+  capa_Loading: 0
+  capa_Range: 0
+  capa_NeedTarget: 0
+  capa_NeedAOE: 0
+  capa_Ready: 1
+  capa_Target: {fileID: 0}
+  character: {fileID: 0}
+  view: {fileID: 0}
+  bullet_WeaponOne: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
     type: 3}
-  fireRateSniper: 0.8
-  precision_Sniper: 5
-  damageSniper: 40
-  bulletArc: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
+  fireRate_WeaponOne: 1.8
+  precision_WeaponOne: 0
+  damage_WeaponOne: 35
+  bullet_WeaponTwo: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
     type: 3}
-  fireRateArc: 0.3
-  precision_Arc: 15
-  damageArc: 25
-  bulleCapa02: {fileID: 5743233148122693971, guid: 97f5fd8dfb3a9c2418a35b90fe8daac8,
-    type: 3}
-  damageCapa02: 250
-  capa02Activated: 0
+  fireRate_WeaponTwo: 1.8
+  precision_WeaponTwo: 0
+  damage_WeaponTwo: 50
   weaponType: 0
+--- !u!114 &7892847595169594427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760081121724329078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 9
+  isRuntimeInstantiated: 0
 --- !u!1 &3628755958210774626
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +753,7 @@ GameObject:
   - component: {fileID: 5856830687973439334}
   - component: {fileID: 3097586160566411813}
   m_Layer: 10
-  m_Name: GizmosCapa02
+  m_Name: GizmosCapa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,6 +895,89 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7110806953028684871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5863613210535194904}
+  - component: {fileID: 7335335960486655227}
+  - component: {fileID: 3778120230770776049}
+  m_Layer: 10
+  m_Name: Spell_TirChirurgical
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5863613210535194904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110806953028684871}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7335335960486655227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110806953028684871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fbce45823602a4438eef3e30d1ee24f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current_Spell:
+    title: TirChirurgical
+    description: "Un tir pr\xE9cis"
+    capaIndex: 2
+  capa_Gizmos: {fileID: 3628755958210774626}
+  capa_Cooldown: 10
+  capa_Loading: 1
+  capa_Range: 15
+  capa_NeedTarget: 1
+  capa_NeedAOE: 0
+  capa_Ready: 1
+  capa_Target: {fileID: 0}
+  character: {fileID: 0}
+  view: {fileID: 0}
+  bullet_TirChirurgical: {fileID: 5743233148122693971, guid: 97f5fd8dfb3a9c2418a35b90fe8daac8,
+    type: 3}
+  damageCapa: 150
+--- !u!114 &3778120230770776049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110806953028684871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 8
+  isRuntimeInstantiated: 0
 --- !u!1 &8048153226771180063
 GameObject:
   m_ObjectHideFlags: 0

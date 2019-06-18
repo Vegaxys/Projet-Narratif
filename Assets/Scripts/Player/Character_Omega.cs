@@ -32,18 +32,6 @@ namespace Vegaxys
             base.Start();
         }
 
-        public override void Virtual_Character_Capa01() {
-            base.Virtual_Character_Capa01();
-            view.RPC("RPC_Capa01_SwitchWeapon", RpcTarget.AllBuffered);
-            StartCoroutine(RecoverCapa01());
-        }
-
-        public override void Virtual_Character_Capa02() {
-            base.Virtual_Character_Capa02();
-            view.RPC("RPC_Capa02_Drone", RpcTarget.AllBuffered);
-            StartCoroutine(RecoverCapa02());
-        }
-
         [PunRPC]
         private void RPC_Capa01_SwitchWeapon() {
             if (weaponType == WeaponType.LETHAL) {

@@ -21,7 +21,6 @@ namespace Vegaxys
         [Tooltip("General Values")]
         public float camSpeed = 5;
         [Range(0, 100)] public int aggroValue;
-        public List<Transform> targets_Capa = new List<Transform>();
 
         [Header("Auto Attack")]
         public float fireRate;
@@ -36,31 +35,14 @@ namespace Vegaxys
         public int grenade_Range;
         public GameObject gizmos_Grenade;
 
-        [Header("Capa 01")]
-        public GameObject gizmos_Capa01;
-        public float cooldown_Capa01;
-        public float loading_Capa_01;
-        public float range_Capa01;
-        public bool hasGizmos_Capa_01;
-        public bool needTarget_Capa01;
-        public bool needAOE_Capa01;
-        public int targetNeeded_Capa01;
-
-        [Header("Capa 02")]
-        public GameObject gizmos_Capa02;
-        public float cooldown_Capa02;
-        public float loading_Capa_02;
-        public float range_Capa02;
-        public bool hasGizmos_Capa_02;
-        public bool needTarget_Capa02;
-        public bool needAOE_Capa02;
-        public int targetNeeded_Capa02;
-
         [Header("Health & Shield")]
         public int currentLife;
         public int currentShield;
         public int maxLife;
         public int maxShield;
+        
+        [Header("Capacités")]
+        public Capa[] capa;
 
         #endregion
 
@@ -70,15 +52,11 @@ namespace Vegaxys
         private HUD_Manager hud;
         private EntityBar bar;
         private Transform model;
-        private float timmingCapa01;
-        private float timmingCapa02;
         private float timmingFire;
         private int shieldCount;
         private int healthCount;
         private int grenadeCount;
         private int maxConso = 3;
-        private bool capa_01_Ready = true;
-        private bool capa_02_Ready = true;
 
         #endregion
 
@@ -110,55 +88,6 @@ namespace Vegaxys
             _cam.transform.parent.position = Vector3.Lerp(_cam.transform.parent.position, transform.position, camSpeed * Time.deltaTime);
             Virtual_Movements();
             Virtual_PlayerRotation();
-            #region Capa01
-            if (Input.GetButtonDown("Capa01") && capa_01_Ready) {
-                if (hasGizmos_Capa_01) {
-                    gizmos_Capa01.SetActive(true);
-                    Virtual_LaunchGizmosCapa01();
-                }
-            }
-            if (Input.GetButton("Capa01")) {
-                Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa01);
-                if (needAOE_Capa02) Virtual_GetAOE();
-            }
-            if (Input.GetButtonUp("Capa01") && capa_01_Ready) {
-                if (hasGizmos_Capa_01) gizmos_Capa01.SetActive(false);
-                capa_01_Ready = false;
-                if (targetNeeded_Capa01 == targets_Capa.Count) {
-                    Virtual_Character_Capa01();
-                    capa_01_Ready = false;
-                } else if (needTarget_Capa01 == false) {
-                    Virtual_Character_Capa01();
-                    capa_01_Ready = false;
-                } else {
-                    print("Cancelled capa01");
-                }
-            }
-            #endregion
-            #region Capa02
-            if (Input.GetButtonDown("Capa02") && capa_02_Ready) {
-                if (hasGizmos_Capa_02) {
-                    gizmos_Capa02.SetActive(true);
-                    Virtual_LaunchGizmosCapa02();
-                }
-            }
-            if (Input.GetButton("Capa02") && capa_02_Ready) {
-                Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa02);
-                if (needAOE_Capa02) Virtual_GetAOE();
-            }
-            if (Input.GetButtonUp("Capa02") && capa_02_Ready) {
-                if (hasGizmos_Capa_02) gizmos_Capa02.SetActive(false);
-                if (targetNeeded_Capa02 == targets_Capa.Count) {
-                    Virtual_Character_Capa02();
-                    capa_02_Ready = false;
-                } else if (needTarget_Capa02 == false) {
-                    Virtual_Character_Capa02();
-                    capa_02_Ready = false;
-                } else {
-                    print("Cancelled capa02");
-                }
-            }
-            #endregion
             #region Fire
             if (Input.GetButton("Fire")) {
                 Virtual_Fire();
@@ -294,10 +223,10 @@ namespace Vegaxys
             if(timmingFire <= 0 && currentBulletInWeapon > 0) {
                 timmingFire = fireRate;
                 Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
-                HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
                 int _damage = GameManager.instance.GetRandomDamage(damageFire);
                 view.RPC("RPC_Character_Shoot", RpcTarget.AllBuffered, rot, _damage);
                 currentBulletInWeapon--;
+                HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             }
         }
 
@@ -318,52 +247,6 @@ namespace Vegaxys
                     GameManager.instance.LeaveRoom();
                 }
             }
-        }
-
-        public virtual void Virtual_LaunchGizmosCapa01() {
-            print(PhotonNetwork.NickName + "has launch gizmos for capa 01");
-        }
-
-        public virtual void Virtual_LaunchGizmosCapa02() {
-            print(PhotonNetwork.NickName + "has launch gizmos for capa 02");
-        }
-
-        public virtual void Virtual_GetTargets(ref List<Transform> entities, int amountNeeded) {
-            print("getting targets...");
-            if (Input.GetButtonDown("Select")) {
-                IEntity entity = GameManager.instance.GetEntity(range_Capa02, transform.position);
-                if (entity != null) {
-                    if(targets_Capa.Count == amountNeeded){
-                        GameManager.instance.DeselectTarget(targets_Capa[0]);
-                        targets_Capa.RemoveAt(0);
-                    }
-                    targets_Capa.Add(entity.GetTransform());
-                    print("get target");
-                }
-            }
-            if(targets_Capa.Count == amountNeeded) {
-                print("get all targets");
-            }
-        }
-
-        public virtual void Virtual_GetAOE() {
-            
-        }
-
-        public virtual void Virtual_DeselectAllTargets() {
-            foreach (var item in targets_Capa) {
-                GameManager.instance.DeselectTarget(item);
-            }
-            targets_Capa.Clear();
-            print("all targets cleared");
-        }
-
-        public virtual void Virtual_Character_Capa01() {
-            print("capa01 Launched from " + view.ViewID);
-        }
-
-        public virtual void Virtual_Character_Capa02() {
-            print("capa02 Launched from " + view.ViewID);
         }
 
         public virtual IEnumerator Reload(float sec) {
@@ -400,31 +283,6 @@ namespace Vegaxys
         private void AddShield(int amount) {
             currentShield += amount;
             if (currentShield > maxShield) currentShield = maxShield;
-        }
-
-        #endregion
-
-
-        #region Public Methods
-
-        public IEnumerator RecoverCapa01() {
-            float t = 0;
-            while (t < cooldown_Capa01) {
-                t += Time.deltaTime;
-                hud.Update_Capa01_Cooldown(t / cooldown_Capa01);
-                yield return null;
-            }
-            capa_01_Ready = true;
-        }
-
-        public IEnumerator RecoverCapa02() {
-            float t = 0;
-            while (t < cooldown_Capa02) {
-                t += Time.deltaTime;
-                hud.Update_Capa02_Cooldown(t / cooldown_Capa02);
-                yield return null;
-            }
-            capa_02_Ready = true;
         }
 
         #endregion

@@ -24,17 +24,16 @@ namespace Knife.PostProcessing
 
         void OnEnable()
         {
-            OutlineTint = GameObject.Find("GameManager").GetComponent<GameManager>().GetSettings(gameObject.tag).color;
             OutlineRenderer.AddRenderer(CachedRenderer);
-            setupPropertyBlock();
+            //setupPropertyBlock();
         }
 
         private void OnValidate()
         {
-            setupPropertyBlock();
+            //setupPropertyBlock();
         }
 
-        void setupPropertyBlock()
+        public void setupPropertyBlock()
         {
             MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
             CachedRenderer.GetPropertyBlock(materialPropertyBlock);

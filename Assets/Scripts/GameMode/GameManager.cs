@@ -76,9 +76,7 @@ namespace Vegaxys
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 1000, 1 << 11)) {
-                print(range);
                 if (Vector3.Distance(hit.point, origin) < range) {
-                    print(hit.transform.tag);
                     IEntity entity = null;
                     switch (hit.transform.tag) {
                         case "Player":
@@ -86,8 +84,10 @@ namespace Vegaxys
                             entity = hit.transform.GetComponent<IEntity>();
                             break;
                         case "Ennemi":
-                            hit.transform.gameObject.AddComponent<OutlineRegister>();
-                            entity = hit.transform.GetComponent<IEntity>();
+                            OutlineRegister register = hit.transform.parent.GetChild(0).gameObject.AddComponent<OutlineRegister>();
+                            register.OutlineTint = GetSettings("Ennemi").color;
+                            register.setupPropertyBlock();
+                            entity = hit.transform.parent.GetComponent<IEntity>();
                             break;
                     }
                     return entity;
@@ -110,7 +110,7 @@ namespace Vegaxys
         }
 
         public void DeselectTarget(Transform entity) {
-            Destroy(entity.GetComponent<OutlineRegister>());
+            Destroy(entity.GetComponentInChildren<OutlineRegister>());
         }
 
         public Quaternion GetRandomPrecision(Quaternion rot, float precision) {

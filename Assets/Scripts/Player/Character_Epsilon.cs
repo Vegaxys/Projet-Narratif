@@ -15,33 +15,15 @@ namespace Vegaxys {
         public Material offFufu;
         public float duration;
 
-        public override void Virtual_Character_Capa02() {
-            base.Virtual_Character_Capa02();
-            StartCoroutine(TimingFuFu());
-        }
-
         IEnumerator TimingFuFu() {
             transform.GetChild(0).GetComponent<MeshRenderer>().material = onFufu;
             yield return new WaitForSeconds(duration);
             transform.GetChild(0).GetComponent<MeshRenderer>().material = offFufu;
-            StartCoroutine(RecoverCapa02());
         }
 
 
         // Capa 01
 
-
-        public override void Virtual_Character_Capa01() {
-            base.Virtual_Character_Capa01();
-            Reload(0);
-            view.RPC("RPC_Capa01_Dash", RpcTarget.AllBuffered);
-            StartCoroutine(RecoverCapa01());
-        }
-
-        public override void Virtual_GetAOE() {
-            base.Virtual_GetAOE();
-            gizmos_Capa02.transform.position = GameManager.instance.MousePosition(range_Capa01, transform.position);
-        }
 
         public override void Virtual_Movements() {
             if (!isDashing) {

@@ -5,7 +5,7 @@ namespace Vegaxys
 {
     public class Character_Exile :BaseCharacter, IPunObservable
     {
-        [Header("Sniper")]
+     /*   [Header("Sniper")]
         [SerializeField] private GameObject bulletSniper;
         [SerializeField] private float fireRateSniper;
         [SerializeField] private float precision_Sniper;
@@ -34,20 +34,6 @@ namespace Vegaxys
             base.Start();
         }
 
-        public override void Virtual_Character_Capa01() {
-            base.Virtual_Character_Capa01();
-            view.RPC("RPC_Capa01_SwitchWeapon", RpcTarget.AllBuffered);
-            StartCoroutine(RecoverCapa01());
-        }
-
-        public override void Virtual_Character_Capa02() {
-            base.Virtual_Character_Capa02();
-            int targetID = targets_Capa[0].GetComponent<PhotonView>().ViewID;
-            int _damage = GameManager.instance.GetRandomDamage(damageCapa02);
-            view.RPC("RPC_Capa02_TirCaitlyn", RpcTarget.AllBuffered, targetID, _damage);
-            StartCoroutine(RecoverCapa02());
-        }
-
         [PunRPC]
         private void RPC_Capa01_SwitchWeapon() {
             if (weaponType == WeaponType.SNIPER) {
@@ -67,7 +53,6 @@ namespace Vegaxys
             GameObject target = GameManager.instance.GetObjectByViewID(targetID);
             GameObject bullet = Instantiate(bulleCapa02, canon.position, canon.rotation);
             bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target.transform, _damage);
-            base.Virtual_DeselectAllTargets();
         }
 
         private void Capa01_SwitchValue() {
@@ -85,6 +70,6 @@ namespace Vegaxys
                     precision = precision_Sniper;
                     break;
             }
-        }
+        }*/
     }
 }

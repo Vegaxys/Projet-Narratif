@@ -262,7 +262,6 @@ MonoBehaviour:
   navigation: {fileID: 0}
   camSpeed: 5
   aggroValue: 20
-  targets_Capa: []
   fireRate: 0.2
   damageFire: 35
   precision: 5
@@ -272,22 +271,6 @@ MonoBehaviour:
   maxBulletInPlayer: 500
   grenade_Range: 10
   gizmos_Grenade: {fileID: 7700097929547273691}
-  gizmos_Capa01: {fileID: 6785864658044151119}
-  cooldown_Capa01: 5
-  loading_Capa_01: 0
-  range_Capa01: 7
-  hasGizmos_Capa_01: 1
-  needTarget_Capa01: 0
-  needAOE_Capa01: 1
-  targetNeeded_Capa01: 0
-  gizmos_Capa02: {fileID: 1886419542870917785}
-  cooldown_Capa02: 10
-  loading_Capa_02: 0
-  range_Capa02: 0
-  hasGizmos_Capa_02: 0
-  needTarget_Capa02: 0
-  needAOE_Capa02: 0
-  targetNeeded_Capa02: 0
   currentLife: 800
   currentShield: 400
   maxLife: 800
