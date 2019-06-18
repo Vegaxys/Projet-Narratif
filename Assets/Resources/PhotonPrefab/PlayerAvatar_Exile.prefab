@@ -629,6 +629,7 @@ MonoBehaviour:
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
   view: {fileID: 0}
+  navigation: {fileID: 0}
   camSpeed: 5
   aggroValue: 25
   targets_Capa: []
@@ -647,6 +648,7 @@ MonoBehaviour:
   range_Capa01: 0
   hasGizmos_Capa_01: 0
   needTarget_Capa01: 0
+  needAOE_Capa01: 0
   targetNeeded_Capa01: 0
   gizmos_Capa02: {fileID: 3628755958210774626}
   cooldown_Capa02: 10
@@ -654,6 +656,7 @@ MonoBehaviour:
   range_Capa02: 15
   hasGizmos_Capa_02: 1
   needTarget_Capa02: 1
+  needAOE_Capa02: 0
   targetNeeded_Capa02: 1
   currentLife: 700
   currentShield: 500

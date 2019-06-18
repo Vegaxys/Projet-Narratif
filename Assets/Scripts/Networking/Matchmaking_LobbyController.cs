@@ -10,7 +10,7 @@ namespace Vegaxys
 {
     public class Matchmaking_LobbyController :MonoBehaviourPunCallbacks
     {
-        [SerializeField] private Button lobbyConnectedButton;       //Join a lobby
+        [SerializeField] private Button matchmakingButton;       //Join a lobby
         [SerializeField] private GameObject lobbyPanel;             //Panel for lobby
         [SerializeField] private GameObject mainPanel;              //main panel
         [SerializeField] private Transform roomContainer;           //panel that contains rooms
@@ -23,12 +23,13 @@ namespace Vegaxys
 
         void Start() {
             PhotonNetwork.ConnectUsingSettings();
+            matchmakingButton.interactable = false;
         }
 
         public override void OnConnectedToMaster() {
             Debug.Log("Player is connected to " + PhotonNetwork.CloudRegion + " server !");
             PhotonNetwork.AutomaticallySyncScene = true;
-            lobbyConnectedButton.interactable = true;
+            matchmakingButton.interactable = true;
             roomListing = new List<RoomInfo>();
 
             if (PlayerPrefs.HasKey("Pseudo")) {
@@ -52,6 +53,9 @@ namespace Vegaxys
             lobbyPanel.SetActive(true);
             mainPanel.SetActive(false);
             PhotonNetwork.JoinLobby();
+        }
+        public override void OnJoinedLobby() {
+            print("Joined the lobby");
         }
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList) {

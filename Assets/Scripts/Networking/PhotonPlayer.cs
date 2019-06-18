@@ -9,9 +9,11 @@ namespace Vegaxys
     public class PhotonPlayer :MonoBehaviour
     {
         public GameObject playerAvatar;
+        public PlayerInfo player;
 
         private void Awake() {
             ChooseSpawnPosition();
+            ObjectifManager.instance.CreateRandomObjectifs();
         }
 
         private void ChooseSpawnPosition() {

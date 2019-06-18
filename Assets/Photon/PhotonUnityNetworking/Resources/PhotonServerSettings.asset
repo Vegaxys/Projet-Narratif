@@ -46,5 +46,6 @@ MonoBehaviour:
   - RPC_GoToTarget
   - RPC_LaunchGrenade
   - RPC_Reload
+  - RPC_Capa01_Dash
   DisableAutoOpenWizard: 1
   ShowSettings: 0

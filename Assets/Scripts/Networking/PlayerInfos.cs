@@ -27,7 +27,7 @@ namespace Vegaxys {
                     instance = this;
                 }
             }
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Awake() {

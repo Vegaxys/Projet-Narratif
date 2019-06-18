@@ -17,6 +17,7 @@ namespace Vegaxys
         public Transform anchor;
         [HideInInspector] public Camera _cam;
         [HideInInspector] public PhotonView view;
+        [HideInInspector] public NavMeshAgent navigation;
         [Tooltip("General Values")]
         public float camSpeed = 5;
         [Range(0, 100)] public int aggroValue;
@@ -42,6 +43,7 @@ namespace Vegaxys
         public float range_Capa01;
         public bool hasGizmos_Capa_01;
         public bool needTarget_Capa01;
+        public bool needAOE_Capa01;
         public int targetNeeded_Capa01;
 
         [Header("Capa 02")]
@@ -51,6 +53,7 @@ namespace Vegaxys
         public float range_Capa02;
         public bool hasGizmos_Capa_02;
         public bool needTarget_Capa02;
+        public bool needAOE_Capa02;
         public int targetNeeded_Capa02;
 
         [Header("Health & Shield")]
@@ -64,7 +67,6 @@ namespace Vegaxys
 
         #region Private Fields
 
-        private NavMeshAgent navigation;
         private HUD_Manager hud;
         private EntityBar bar;
         private Transform model;
@@ -117,6 +119,7 @@ namespace Vegaxys
             }
             if (Input.GetButton("Capa01")) {
                 Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa01);
+                if (needAOE_Capa02) Virtual_GetAOE();
             }
             if (Input.GetButtonUp("Capa01") && capa_01_Ready) {
                 if (hasGizmos_Capa_01) gizmos_Capa01.SetActive(false);
@@ -141,6 +144,7 @@ namespace Vegaxys
             }
             if (Input.GetButton("Capa02") && capa_02_Ready) {
                 Virtual_GetTargets(ref targets_Capa, targetNeeded_Capa02);
+                if (needAOE_Capa02) Virtual_GetAOE();
             }
             if (Input.GetButtonUp("Capa02") && capa_02_Ready) {
                 if (hasGizmos_Capa_02) gizmos_Capa02.SetActive(false);
@@ -342,6 +346,10 @@ namespace Vegaxys
             }
         }
 
+        public virtual void Virtual_GetAOE() {
+            
+        }
+
         public virtual void Virtual_DeselectAllTargets() {
             foreach (var item in targets_Capa) {
                 GameManager.instance.DeselectTarget(item);
@@ -358,18 +366,16 @@ namespace Vegaxys
             print("capa02 Launched from " + view.ViewID);
         }
 
+        public virtual IEnumerator Reload(float sec) {
+            yield return new WaitForSeconds(sec);
+            currentBulletInWeapon = maxBulletInWeapon;
+            maxBulletInPlayer -= maxBulletInWeapon;
+        }
+
         #endregion
 
 
         #region Private Methods
-
-
-
-        private IEnumerator Reload() {
-            yield return new WaitForSeconds(reloadingSpeed);
-            currentBulletInWeapon = maxBulletInWeapon;
-            maxBulletInPlayer -= maxBulletInWeapon;
-        }
 
         private IEnumerator RefreshHUD() {
             yield return new WaitForSeconds(reloadingSpeed + .1f);
@@ -436,7 +442,7 @@ namespace Vegaxys
         [PunRPC]
         public virtual void RPC_Reload() {
             StartCoroutine(bar.Reloading(reloadingSpeed));
-            StartCoroutine(Reload());
+            StartCoroutine(Reload(reloadingSpeed));
         }
 
         [PunRPC]

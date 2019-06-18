@@ -15,6 +15,7 @@ namespace Vegaxys
 
         [SerializeField] private GameObject lobbyPanel;             //Panel for lobby
         [SerializeField] private GameObject roomPanel;              //main panel
+        [SerializeField] private GameObject listplayerPanel;        //players panel
 
         [SerializeField] private Button startButton;      //Prefab of a room for the UI
 
@@ -40,6 +41,7 @@ namespace Vegaxys
 
         public override void OnJoinedRoom() {
             roomPanel.SetActive(true);
+            listplayerPanel.SetActive(true);
             lobbyPanel.SetActive(false);
 
             roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -87,11 +89,15 @@ namespace Vegaxys
 
         public void BackOnClick() {
             roomPanel.SetActive(false);
+            listplayerPanel.SetActive(false);
             lobbyPanel.SetActive(true);
 
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.LeaveLobby();
             StartCoroutine(RejoinLobby());
+        }
+        public void SetCharacterID(int ID) {
+            PlayerInfos.instance.characterID = ID;
         }
     }
 }
