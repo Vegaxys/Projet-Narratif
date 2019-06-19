@@ -48,5 +48,7 @@ MonoBehaviour:
   - RPC_Reload
   - RPC_Capa01_Dash
   - Virtual_Launch_Spell
+  - RPC_LaunchDrone
+  - RPC_Virtual_Launch_Spell
   DisableAutoOpenWizard: 1
   ShowSettings: 0

@@ -104,7 +104,6 @@ namespace Vegaxys {
                 return;
             }
             TakeDamage(projectile.damage);
-            GameManager.instance.InstantiateDamageParticle("Damage", projectile.damage, transform.position);
             if (tag == "Projectile") {
                 Destroy(projectile.gameObject);
             }
@@ -136,6 +135,7 @@ namespace Vegaxys {
             if (currentLife <= 0) {
                 PhotonNetwork.Destroy(gameObject);
             }
+            GameManager.instance.InstantiateDamageParticle("Damage", amount, transform.position);
         }
 
         public virtual IEnumerator ReturnToRoom(Vector3 pos) {

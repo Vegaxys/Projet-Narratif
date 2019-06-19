@@ -1,5 +1,87 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1678335632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1678335633}
+  - component: {fileID: 1678335635}
+  - component: {fileID: 1678335634}
+  m_Layer: 10
+  m_Name: Spell_Drone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1678335633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678335632}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1678335635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678335632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58daaf84a95da647bcb916a7253e5e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current_Spell:
+    title: Drone
+    description: un super mega drone
+    capaIndex: 1
+  capa_Gizmos: {fileID: 3628755958210774626}
+  capa_Cooldown: 15
+  capa_Loading: 0
+  capa_Range: 15
+  capa_GizAOE_Range: 0
+  capa_NeedTarget: 1
+  capa_NeedAOE: 0
+  capa_Ready: 1
+  capa_Target: {fileID: 0}
+  character: {fileID: 0}
+  view: {fileID: 0}
+  drone: {fileID: 2256917929950245336, guid: 0e33f498ab8db284bb1ca6f851e02811, type: 3}
+--- !u!114 &1678335634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678335632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 1
+  isRuntimeInstantiated: 0
 --- !u!1 &238294210143830669
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,6 +114,88 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1208596408917360178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2796313389118367088}
+  - component: {fileID: 4205176787167330844}
+  - component: {fileID: 2894595621210033511}
+  m_Layer: 10
+  m_Name: Spell_Dash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2796313389118367088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208596408917360178}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4205176787167330844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208596408917360178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 1
+  isRuntimeInstantiated: 0
+--- !u!114 &2894595621210033511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208596408917360178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a9435f0dddf1b4d9a0597a2e520f42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current_Spell:
+    title: Dash Explosif
+    description: un dash qui fait des degats
+    capaIndex: 2
+  capa_Gizmos: {fileID: 3628755958210774626}
+  capa_Cooldown: 5
+  capa_Loading: 0
+  capa_Range: 5
+  capa_GizAOE_Range: 0
+  capa_NeedTarget: 0
+  capa_NeedAOE: 1
+  capa_Ready: 1
+  capa_Target: {fileID: 0}
+  character: {fileID: 0}
+  view: {fileID: 0}
+  speedDash: 6
 --- !u!1 &1660571666878099548
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +359,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1660571666878100382}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 9
   isRuntimeInstantiated: 0
 --- !u!114 &1660571666878100382
 MonoBehaviour:
@@ -519,6 +683,8 @@ Transform:
   - {fileID: 9137720549709050834}
   - {fileID: 5863613210535194904}
   - {fileID: 6570504925812816736}
+  - {fileID: 1678335633}
+  - {fileID: 2796313389118367088}
   m_Father: {fileID: 3919734864330214065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -610,7 +776,7 @@ MonoBehaviour:
   - {fileID: 1660571666878100373}
   - {fileID: 4677281390864229717}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 10
   isRuntimeInstantiated: 0
 --- !u!114 &4677281390864229717
 MonoBehaviour:
@@ -631,10 +797,10 @@ MonoBehaviour:
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
   view: {fileID: 0}
-  navigation: {fileID: 0}
+  agent: {fileID: 0}
   camSpeed: 5
   aggroValue: 25
-  fireRate: 1.8
+  fireRate: 0.2
   damageFire: 50
   precision: 10
   reloadingSpeed: 2.5
@@ -647,9 +813,6 @@ MonoBehaviour:
   currentShield: 75
   maxLife: 175
   maxShield: 75
-  capa:
-  - {fileID: 5384625718212595186}
-  - {fileID: 7335335960486655227}
 --- !u!1 &2760081121724329078
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,7 +830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6570504925812816736
 Transform:
   m_ObjectHideFlags: 0
@@ -702,6 +865,7 @@ MonoBehaviour:
   capa_Cooldown: 1
   capa_Loading: 0
   capa_Range: 0
+  capa_GizAOE_Range: 0
   capa_NeedTarget: 0
   capa_NeedAOE: 0
   capa_Ready: 1
@@ -739,7 +903,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 9
+  InstantiationId: 8
   isRuntimeInstantiated: 0
 --- !u!1 &3628755958210774626
 GameObject:
@@ -912,7 +1076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5863613210535194904
 Transform:
   m_ObjectHideFlags: 0
@@ -947,6 +1111,7 @@ MonoBehaviour:
   capa_Cooldown: 10
   capa_Loading: 1
   capa_Range: 15
+  capa_GizAOE_Range: 0
   capa_NeedTarget: 1
   capa_NeedAOE: 0
   capa_Ready: 1
@@ -976,7 +1141,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 8
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!1 &8048153226771180063
 GameObject:

@@ -37,9 +37,9 @@ namespace Vegaxys {
         }
 
         private IEnumerator Capa01_Dash(Vector3 destination) {
-            navigation.SetDestination(destination);
+            agent.SetDestination(destination);
             isDashing = true;
-            while (!navigation.isStopped) {
+            while (!agent.isStopped) {
                 yield return null;
             }
             isDashing = false;

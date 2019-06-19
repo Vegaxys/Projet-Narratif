@@ -17,7 +17,7 @@ namespace Vegaxys
         public Transform anchor;
         [HideInInspector] public Camera _cam;
         [HideInInspector] public PhotonView view;
-        [HideInInspector] public NavMeshAgent navigation;
+        [HideInInspector] public NavMeshAgent agent;
         [Tooltip("General Values")]
         public float camSpeed = 5;
         [Range(0, 100)] public int aggroValue;
@@ -40,9 +40,6 @@ namespace Vegaxys
         public int currentShield;
         public int maxLife;
         public int maxShield;
-        
-        [Header("Capacités")]
-        public Capa[] capa;
 
         #endregion
 
@@ -65,7 +62,7 @@ namespace Vegaxys
 
         public virtual void Start() {
             model = transform.GetChild(0);
-            navigation = GetComponent<NavMeshAgent>();
+            agent = GetComponent<NavMeshAgent>();
             view = GetComponent<PhotonView>();
             _cam = transform.parent.GetComponentInChildren<Camera>();
             hud = HUD_Manager.manager;
@@ -86,8 +83,10 @@ namespace Vegaxys
                 return;
             }
             _cam.transform.parent.position = Vector3.Lerp(_cam.transform.parent.position, transform.position, camSpeed * Time.deltaTime);
-            Virtual_Movements();
-            Virtual_PlayerRotation();
+            if (agent.enabled) {
+                Virtual_Movements();
+                Virtual_PlayerRotation();
+            }
             #region Fire
             if (Input.GetButton("Fire")) {
                 Virtual_Fire();
@@ -118,14 +117,15 @@ namespace Vegaxys
             #region Grenade
             if (Input.GetButtonDown("Conso_Grenade") && grenadeCount > 0) {
                 gizmos_Grenade.SetActive(true);
-                GameManager.instance.gizGrenade.SetActive(true);
+                GameManager.instance.gizAOE.transform.localScale = Vector3.one * 2.4f;
+                GameManager.instance.gizAOE.SetActive(true);
             }
             if (Input.GetButton("Conso_Grenade") && grenadeCount > 0) {
-                GameManager.instance.gizGrenade.transform.position = GameManager.instance.MousePosition(grenade_Range, transform.position);
+                GameManager.instance.gizAOE.transform.position = GameManager.instance.MousePosition(grenade_Range, transform.position);
             }
             if (Input.GetButtonUp("Conso_Grenade") && grenadeCount > 0) {
                 gizmos_Grenade.SetActive(false);
-                GameManager.instance.gizGrenade.SetActive(false);
+                GameManager.instance.gizAOE.SetActive(false);
                 int _damage = GameManager.instance.GetRandomDamage(GameManager.instance.granadeDamage);
                 Vector3 destination = GameManager.instance.MousePosition(grenade_Range, transform.position);
                 view.RPC("RPC_LaunchGrenade", RpcTarget.AllBuffered, _damage, destination);
@@ -208,7 +208,7 @@ namespace Vegaxys
         public virtual void Virtual_Movements() {
             Vector3 direction = Vector3.zero;
             direction += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            navigation.SetDestination(transform.position + direction);
+            agent.SetDestination(transform.position + direction);
         }
 
         public virtual void Virtual_PlayerRotation() {
@@ -268,21 +268,29 @@ namespace Vegaxys
         private void AddHealth() {
             currentLife += GameManager.instance.healValue;
             if (currentLife > maxLife) currentLife = maxLife;
-        }
-
-        private void AddHealth(int amount) {
-            currentLife += amount;
-            if (currentLife > maxLife) currentLife = maxLife;
+            GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
         }
 
         private void AddShield() {
             currentShield += GameManager.instance.shieldValue;
             if (currentShield > maxShield) currentShield = maxShield;
+            GameManager.instance.InstantiateDamageParticle("Shield", GameManager.instance.shieldValue, transform.position);
         }
 
         private void AddShield(int amount) {
             currentShield += amount;
             if (currentShield > maxShield) currentShield = maxShield;
+        }
+
+        #endregion
+
+
+        #region Public Methods
+
+        public void AddHealth(int amount) {
+            currentLife += amount;
+            if (currentLife > maxLife) currentLife = maxLife;
+            GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
         }
 
         #endregion
@@ -306,13 +314,11 @@ namespace Vegaxys
         [PunRPC]
         public void RPC_GetShield() {
             AddShield();
-            GameManager.instance.InstantiateDamageParticle("Shield", GameManager.instance.shieldValue, transform.position);
         }
 
         [PunRPC]
         public void RPC_GetHeal() {
             AddHealth();
-            GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
         }
 
         [PunRPC]

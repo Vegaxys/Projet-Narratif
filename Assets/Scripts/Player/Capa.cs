@@ -19,6 +19,7 @@ namespace Vegaxys {
         public float capa_Cooldown;
         public float capa_Loading;
         public float capa_Range;
+        public float capa_GizAOE_Range;
         public bool capa_NeedTarget;
         public bool capa_NeedAOE;
         public bool capa_Ready = true;
@@ -55,6 +56,9 @@ namespace Vegaxys {
             if (Input.GetButtonDown("Capa0" + current_Spell.capaIndex) && capa_Ready) {
                 if(capa_Gizmos != null) {
                     capa_Gizmos.SetActive(true);
+                    capa_Gizmos.transform.localScale = Vector3.one * capa_Range;
+                    GameManager.instance.gizAOE.SetActive(capa_NeedAOE);
+                    GameManager.instance.gizAOE.transform.localScale = Vector3.one * capa_GizAOE_Range;
                 }
             }
             if (Input.GetButton("Capa0" + current_Spell.capaIndex)) {
@@ -67,14 +71,14 @@ namespace Vegaxys {
             }
             if (Input.GetButtonUp("Capa0" + current_Spell.capaIndex) && capa_Ready) {
                 print(current_Spell.capaIndex);
+                GameManager.instance.gizAOE.SetActive(false);
                 if (capa_Gizmos != null) {
                     capa_Gizmos.SetActive(false);
                     if (capa_NeedTarget && capa_Target == null) {
                         return;
                     }
-                    Virtual_DeselectAllTargets();
                 }
-                view.RPC("Virtual_Launch_Spell", RpcTarget.All);
+                view.RPC("RPC_Virtual_Launch_Spell", RpcTarget.All);
                 StartCoroutine(RecoverCapa());
             }
         }
@@ -85,12 +89,13 @@ namespace Vegaxys {
         #region Virtuals Methods 
 
         [PunRPC]
-        public virtual void Virtual_Launch_Spell() {
+        public virtual void RPC_Virtual_Launch_Spell() {
             print(current_Spell.title + " has been launched !! ");
+            Virtual_DeselectAllTargets();
         }
 
         public virtual void Virtual_Gizmos_AOE() {
-
+            GameManager.instance.gizAOE.transform.position = GameManager.instance.MousePosition(capa_Range, transform.position);
         }
 
         public virtual void Virtual_GetTarget() {

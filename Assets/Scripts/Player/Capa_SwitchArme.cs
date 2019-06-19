@@ -48,8 +48,8 @@ namespace Vegaxys
         }
 
         [PunRPC]
-        public override void Virtual_Launch_Spell() {
-            base.Virtual_Launch_Spell();
+        public override void RPC_Virtual_Launch_Spell() {
+            base.RPC_Virtual_Launch_Spell();
             if (weaponType == WeaponType.WEAPON_ONE) {
                 weaponType = WeaponType.WEAPON_TWO;
                 SwitchValue();

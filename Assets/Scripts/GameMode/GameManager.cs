@@ -22,7 +22,7 @@ namespace Vegaxys
         public OutlineSettings[] settings;
         public GameObject damageParticle;
         public GameObject grenadePrefab;
-        public GameObject gizGrenade;
+        public GameObject gizAOE;
         public Transform particleUIContainer;
         public int healValue;
         public int shieldValue;
@@ -132,11 +132,9 @@ namespace Vegaxys
                     break;
                 case "Health":
                     text.color = Color.green;
-                    //text.color = new Color(.1f, .5f, .13f, 1);
                     break;
                 case "Shield":
                     text.color = Color.blue;
-                    //text.color = new Color(.1f, .5f, .1f, 1);
                     break;
             }
             text.text = amount.ToString();
