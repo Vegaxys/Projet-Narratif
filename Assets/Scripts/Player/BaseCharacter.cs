@@ -20,7 +20,10 @@ namespace Vegaxys
         [HideInInspector] public NavMeshAgent agent;
         [Tooltip("General Values")]
         public float camSpeed = 5;
+        public string avatarName;
+        public string className;
         [Range(0, 100)] public int aggroValue;
+        [HideInInspector] public IEntity entities;
 
         [Header("Auto Attack")]
         public float fireRate;
@@ -138,6 +141,7 @@ namespace Vegaxys
         void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Projectile")) {
                 Projectile projectile = other.GetComponent<Projectile>();
+                entities = projectile.originalPlayer.GetComponent<IEntity>();
                 if (projectile.originalPlayer == transform) {
                     return;
                 }
@@ -155,6 +159,7 @@ namespace Vegaxys
                     case PowerUpType.SHIELD:
                         if (shieldCount < maxConso) {
                             shieldCount++;
+                            EventManager.instance.SetEvent(WinConditionEnum.RAMASSER_X_SHIELD);
                             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
                             Destroy(other.gameObject);
                         }
@@ -162,6 +167,7 @@ namespace Vegaxys
                     case PowerUpType.HEALTH:
                         if (healthCount < maxConso) {
                             healthCount++;
+                            EventManager.instance.SetEvent(WinConditionEnum.RAMASSER_X_HEAL);
                             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
                             Destroy(other.gameObject);
                         }
@@ -169,12 +175,14 @@ namespace Vegaxys
                     case PowerUpType.GRENADE:
                         if (grenadeCount < maxConso) {
                             grenadeCount++;
+                            EventManager.instance.SetEvent(WinConditionEnum.RAMASSER_X_GRENADE);
                             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
                             Destroy(other.gameObject);
                         }
                         break;
                     case PowerUpType.MUNITION:
                         maxBulletInPlayer += GameManager.instance.ammoValue;
+                        EventManager.instance.SetEvent(WinConditionEnum.RAMASSER_X_MUNITION);
                         HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
                         Destroy(other.gameObject);
                         break;
@@ -242,11 +250,26 @@ namespace Vegaxys
                     currentLife += currentShield;
                     currentShield = 0;
                 }
-                print(PhotonNetwork.NickName + "'health is " + currentLife);
                 if (currentLife <= 0) {
-                    GameManager.instance.LeaveRoom();
+                    Virtual_Death();
                 }
             }
+        }
+
+        public virtual void Virtual_Death() {
+            if (className == "Tank") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_TANK);
+            }
+            if (className == "Soutient") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_SOUTIENT);
+            }
+            if (className == "Tireur") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_TIREUR);
+            }
+            if (className == "Assassin") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_ASSASSIN);
+            }
+            //GameManager.instance.LeaveRoom();
         }
 
         public virtual IEnumerator Reload(float sec) {
@@ -266,15 +289,18 @@ namespace Vegaxys
         }
 
         private void AddHealth() {
+            int oldCurrentLife = currentLife;
             currentLife += GameManager.instance.healValue;
             if (currentLife > maxLife) currentLife = maxLife;
-            GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
+
+            GameManager.instance.InstantiateDamageParticle("Health", currentLife - oldCurrentLife, transform.position);
         }
 
         private void AddShield() {
+            int oldCurrentShield = currentShield;
             currentShield += GameManager.instance.shieldValue;
             if (currentShield > maxShield) currentShield = maxShield;
-            GameManager.instance.InstantiateDamageParticle("Shield", GameManager.instance.shieldValue, transform.position);
+            GameManager.instance.InstantiateDamageParticle("Shield", currentShield - oldCurrentShield, transform.position);
         }
 
         private void AddShield(int amount) {

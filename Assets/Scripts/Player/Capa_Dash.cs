@@ -26,7 +26,6 @@ namespace Vegaxys {
             float t = 0;
             while (t < 1) {
                 character.transform.position = Vector3.Lerp(oldPos, newPos, t);
-                print(transform.position);
                 t += Time.deltaTime * speedDash;
                 yield return null;
             }

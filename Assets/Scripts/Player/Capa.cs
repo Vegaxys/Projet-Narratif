@@ -106,15 +106,15 @@ namespace Vegaxys {
                         Virtual_DeselectAllTargets();
                     }
                     capa_Target = entity.GetTransform();
-                    print(entity.GetDisplayedName());
                 }
             }
         }
 
         public virtual void Virtual_DeselectAllTargets() {
+            if (!capa_Target)
+                return;
             GameManager.instance.DeselectTarget(capa_Target);
             capa_Target = null;
-            print("all targets cleared");
         }
 
         #endregion

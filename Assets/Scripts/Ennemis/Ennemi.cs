@@ -25,6 +25,7 @@ namespace Vegaxys {
         [Range(0, 100)] public int aggro_Range;
         [Range(2, 15)] public float stoppingRange;
 
+
         [Header("Auto Attack")]
         public float fireRate;
         public float precision;
@@ -99,16 +100,6 @@ namespace Vegaxys {
             }
         }
 
-        public void GetTriggered(Projectile projectile, string tag) {
-            if (projectile.originalPlayer == transform) {
-                return;
-            }
-            TakeDamage(projectile.damage);
-            if (tag == "Projectile") {
-                Destroy(projectile.gameObject);
-            }
-        }
-
         #endregion
 
 
@@ -131,8 +122,12 @@ namespace Vegaxys {
         public virtual void TakeDamage(int amount) {
             if (amount < 0) amount *= -1;
             currentLife -= amount;
-            print(avatarName + "'health is " + currentLife);
             if (currentLife <= 0) {
+                Companion_Drone drone = GetComponentInChildren<Companion_Drone>();
+                if (drone != null) {
+                    drone.transform.parent = GameObject.Find("Companions").transform;
+                    drone.LaunchDrone(Companion_Drone.CompanionState.IDLE, null);
+                }
                 PhotonNetwork.Destroy(gameObject);
             }
             GameManager.instance.InstantiateDamageParticle("Damage", amount, transform.position);
@@ -160,10 +155,21 @@ namespace Vegaxys {
             RefreshAggro();
             print(character.GetDisplayedName() + " Added to the list ");
         }
+
         public void RemoveCharacter(BaseCharacter character) {
             characters.Remove(character);
             RefreshAggro();
             print("Removed " + character.GetDisplayedName() + " from list ");
+        }
+
+        public void GetTriggered(Projectile projectile, string tag) {
+            if (projectile.originalPlayer == transform) {
+                return;
+            }
+            TakeDamage(projectile.damage);
+            if (tag == "Projectile") {
+                Destroy(projectile.gameObject);
+            }
         }
 
         #endregion

@@ -80,7 +80,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!1 &238294210143830669
 GameObject:
@@ -359,7 +359,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1660571666878100382}
   viewIdField: 0
-  InstantiationId: 9
+  InstantiationId: 10
   isRuntimeInstantiated: 0
 --- !u!114 &1660571666878100382
 MonoBehaviour:
@@ -776,7 +776,7 @@ MonoBehaviour:
   - {fileID: 1660571666878100373}
   - {fileID: 4677281390864229717}
   viewIdField: 0
-  InstantiationId: 10
+  InstantiationId: 11
   isRuntimeInstantiated: 0
 --- !u!114 &4677281390864229717
 MonoBehaviour:
@@ -799,9 +799,11 @@ MonoBehaviour:
   view: {fileID: 0}
   agent: {fileID: 0}
   camSpeed: 5
+  avatarName: 
+  className: 
   aggroValue: 25
-  fireRate: 0.2
-  damageFire: 50
+  fireRate: 0.4
+  damageFire: 30
   precision: 10
   reloadingSpeed: 2.5
   currentBulletInWeapon: 8
@@ -874,7 +876,7 @@ MonoBehaviour:
   view: {fileID: 0}
   bullet_WeaponOne: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
     type: 3}
-  fireRate_WeaponOne: 1.8
+  fireRate_WeaponOne: 1
   precision_WeaponOne: 0
   damage_WeaponOne: 35
   bullet_WeaponTwo: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
@@ -903,7 +905,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 8
+  InstantiationId: 9
   isRuntimeInstantiated: 0
 --- !u!1 &3628755958210774626
 GameObject:
@@ -1141,7 +1143,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 2
+  InstantiationId: 8
   isRuntimeInstantiated: 0
 --- !u!1 &8048153226771180063
 GameObject:

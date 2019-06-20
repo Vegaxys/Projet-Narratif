@@ -45,21 +45,23 @@ namespace Vegaxys
                 case CompanionState.DAMAGING:
                     for (int i = 0; i < tics; i++) {
                         print("damaging");
-                        transform.parent.GetComponent<Ennemi>().TakeDamage(GameManager.instance.GetRandomDamage(damageAmount));
+                        if(transform.parent.GetComponent<Ennemi>())
+                            transform.parent.GetComponent<Ennemi>().TakeDamage(GameManager.instance.GetRandomDamage(damageAmount));
                         yield return new WaitForSeconds(waiting);
                     }
                     break;
+                case CompanionState.IDLE:
+                    break;
             }
-            yield return new WaitForSeconds(1);
             yield return MoveTo(character.transform, 1);
         }
 
-        private IEnumerator MoveTo(Transform destination, float speed) {
+        public IEnumerator MoveTo(Transform destination, float speed) {
             transform.parent = companionContainer;
             float t = 0;
-            Vector3 oldPos2 = transform.position;
+            Vector3 oldPos2 = transform.position - Vector3.up;
             while (t < 1) {
-                transform.position = Vector3.Lerp(oldPos2, destination.position, t);
+                transform.position = Vector3.Lerp(oldPos2, destination.position - Vector3.up, t);
                 t += Time.deltaTime * speed;
                 yield return null;
             }
