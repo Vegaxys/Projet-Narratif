@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class Projectile_Capa02_Exile :Projectile{
 
-    private Transform target;
+    [SerializeField] private Transform target;
 
     public override void Update() {
         
     }
-    public override void Setup(Transform _origin, float _range, int _damage) {
-        target = SelectionManager.selection.selectionTransform;
-        base.Setup(_origin, _range, _damage);
+    public override void Setup(Transform _target, int _damage) {
+        damage = _damage;
+        target = _target;
         StartCoroutine(GoToTarget());
     }
     private IEnumerator GoToTarget() {
         Vector3 initPos = transform.position;
         float t = 0;
         while(Vector3.Distance(transform.position, target.position) > 0) {
-            print(t);
             transform.LookAt(target);
             transform.position = Vector3.Lerp(initPos, target.position, t);
-            t += Time.deltaTime;
+            t += Time.deltaTime * speed;
             yield return null;
         }
         Destroy(gameObject);

@@ -7,6 +7,10 @@ TagManager:
   - PlayerBullet
   - Ennemi
   - Projectile
+  - AggroZone
+  - Room
+  - PowerUp
+  - SpawnerPowerUp
   layers:
   - Default
   - TransparentFX
@@ -18,8 +22,8 @@ TagManager:
   - 
   - PostProcessing
   - Bullet
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

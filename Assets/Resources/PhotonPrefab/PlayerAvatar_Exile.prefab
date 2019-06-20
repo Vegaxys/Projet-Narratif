@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3919734864330214065}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerAvatar_Exile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660571666878100316}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnchorPlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 1660571666878099601}
   - component: {fileID: 1660571666878100260}
   - component: {fileID: 1660571666878100327}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,9 +150,11 @@ GameObject:
   - component: {fileID: 1660571666878099602}
   - component: {fileID: 1660571666878100372}
   - component: {fileID: 1660571666878100382}
-  m_Layer: 0
+  - component: {fileID: 4897969855864218486}
+  - component: {fileID: 1157250275672592154}
+  m_Layer: 10
   m_Name: Character
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,7 +195,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1660571666878100382}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &1660571666878100382
 MonoBehaviour:
@@ -210,6 +212,51 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!33 &4897969855864218486
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660571666878099550}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1157250275672592154
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660571666878099550}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 88149cf8fc7199f40989e739c5530daf, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1660571666878099556
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +269,7 @@ GameObject:
   - component: {fileID: 1660571666878100319}
   - component: {fileID: 1660571666878100435}
   - component: {fileID: 1660571666878100371}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -237,7 +284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660571666878099556}
   m_LocalRotation: {x: 0.49572244, y: 0.113038965, z: -0.06526308, w: 0.8586165}
-  m_LocalPosition: {x: -0.7, y: 7, z: -3.7}
+  m_LocalPosition: {x: -1.27, y: 10.78, z: -5.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2738724233375847071}
@@ -367,7 +414,7 @@ GameObject:
   - component: {fileID: 1660571666878099605}
   - component: {fileID: 1660571666878100261}
   - component: {fileID: 1660571666878100248}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,15 +489,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660571666878100317}
-  - component: {fileID: 1660571666878100263}
-  - component: {fileID: 1660571666878100249}
   - component: {fileID: 1660571666878100430}
   - component: {fileID: 1660571666878100447}
   - component: {fileID: 1660571666878100427}
   - component: {fileID: 1660571666878100373}
   - component: {fileID: 1660571666878100370}
   - component: {fileID: 5166081139443251516}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -470,54 +515,11 @@ Transform:
   m_Children:
   - {fileID: 1660571666878099602}
   - {fileID: 1660571666878100316}
+  - {fileID: 5864871336542989517}
+  - {fileID: 9137720549709050834}
   m_Father: {fileID: 3919734864330214065}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1660571666878100263
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660571666878099559}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1660571666878100249
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660571666878099559}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 88149cf8fc7199f40989e739c5530daf, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!195 &1660571666878100430
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -554,7 +556,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!136 &1660571666878100427
 CapsuleCollider:
@@ -606,7 +608,7 @@ MonoBehaviour:
   - {fileID: 1660571666878100373}
   - {fileID: 5166081139443251516}
   viewIdField: 0
-  InstantiationId: 5
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &5166081139443251516
 MonoBehaviour:
@@ -623,43 +625,210 @@ MonoBehaviour:
   fireBullet: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
     type: 3}
   playerUI: {fileID: 486215296805648725, guid: 455e53ef45d924c4aaf8b71ee9106bd6, type: 3}
-  ring_AA: {fileID: 8897574684642744123, guid: 863862b0f53357346a03bbb79635b5aa, type: 3}
-  ring_Aggro: {fileID: -4202162954333025288, guid: a9240cb30aef6b24881b80709ed2a33d,
-    type: 3}
   canon: {fileID: 1660571666878099602}
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
+  view: {fileID: 0}
   camSpeed: 5
   aggroValue: 25
+  targets_Capa: []
   fireRate: 0
-  AA_range: 11
   damageFire: 0
-  currentBulletInWeapon: 0
-  maxBulletInWeapon: 0
-  maxBulletInPlayer: 0
-  cooldown_capa01: 2
-  loadingcapa_01: 0.2
-  cooldown_capa02: 3
-  loadingcapa_02: 1
+  precision: 0
+  reloadingSpeed: 1
+  currentBulletInWeapon: 30
+  maxBulletInWeapon: 30
+  maxBulletInPlayer: 300
+  grenade_Damage: 300
+  grenade_Range: 10
+  gizmos_Grenade: {fileID: 4803714075319308576}
+  gizmos_Capa01: {fileID: 0}
+  cooldown_Capa01: 1
+  loading_Capa_01: 0
+  range_Capa01: 0
+  hasGizmos_Capa_01: 0
+  needTarget_Capa01: 0
+  targetNeeded_Capa01: 0
+  gizmos_Capa02: {fileID: 3628755958210774626}
+  cooldown_Capa02: 10
+  loading_Capa_02: 1
+  range_Capa02: 15
+  hasGizmos_Capa_02: 1
+  needTarget_Capa02: 1
+  targetNeeded_Capa02: 1
   currentLife: 700
   currentShield: 500
   maxLife: 700
   maxShield: 500
   bulletSniper: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
     type: 3}
-  rangeSniper: 11
   fireRateSniper: 0.8
+  precision_Sniper: 5
   damageSniper: 40
   bulletArc: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
     type: 3}
-  rangeArc: 7
   fireRateArc: 0.3
+  precision_Arc: 15
   damageArc: 25
   bulleCapa02: {fileID: 5743233148122693971, guid: 97f5fd8dfb3a9c2418a35b90fe8daac8,
     type: 3}
   damageCapa02: 250
   capa02Activated: 0
   weaponType: 0
+--- !u!1 &3628755958210774626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5864871336542989517}
+  - component: {fileID: 5856830687973439334}
+  - component: {fileID: 3097586160566411813}
+  m_Layer: 10
+  m_Name: GizmosCapa02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5864871336542989517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5856830687973439334
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_Mesh: {fileID: -8333158159126431705, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
+--- !u!23 &3097586160566411813
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3628755958210774626}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7f3df54352db7704391105115744ad44, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!1 &4803714075319308576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9137720549709050834}
+  - component: {fileID: 958324080614788276}
+  - component: {fileID: 563210065615401177}
+  m_Layer: 10
+  m_Name: GizmosGrenade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &9137720549709050834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803714075319308576}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_Children: []
+  m_Father: {fileID: 1660571666878100317}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &958324080614788276
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803714075319308576}
+  m_Mesh: {fileID: -8333158159126431705, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
+--- !u!23 &563210065615401177
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803714075319308576}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7f3df54352db7704391105115744ad44, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &8048153226771180063
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2738724233375847071}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HandleCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}

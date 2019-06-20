@@ -4793,6 +4793,7 @@ MonoBehaviour:
   - {fileID: 238294210143830669, guid: 23ad48857e056d24a97d30f2441afcd5, type: 3}
   - {fileID: 238294210143830669, guid: aecf04a585519d34e94519fd16454edb, type: 3}
   characterID: 0
+  playerName: 
 --- !u!4 &1674218112
 Transform:
   m_ObjectHideFlags: 0

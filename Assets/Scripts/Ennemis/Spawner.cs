@@ -8,19 +8,24 @@ namespace Vegaxys {
     public class Spawner :MonoBehaviour
     {
         public GameObject prefab;
+        public RoomManager roomManager;
         private PhotonView view;
+
 
         private void Awake() {
             view = GetComponent<PhotonView>();
-            if (!view.IsMine) {
+            if (!PhotonNetwork.IsMasterClient) {
                 return;
             }
-            view.RPC("ChooseSpawnPosition", RpcTarget.AllBuffered);
+            view.RPC("ChooseSpawnPosition", RpcTarget.All);
         }
 
         [PunRPC]
         private void ChooseSpawnPosition() {
-            Instantiate(prefab, transform.position, Quaternion.identity);
+            string prefabName = prefab.name;
+            GameObject npc = PhotonNetwork.Instantiate(Path.Combine("EnnemiPhotonPrefab", prefabName),
+                transform.position, Quaternion.identity, 0);
+            npc.GetComponentInChildren<Ennemi>().room = roomManager;
         }
     }
 }

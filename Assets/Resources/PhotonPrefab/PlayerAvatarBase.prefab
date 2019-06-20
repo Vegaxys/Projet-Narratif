@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3919734864330214065}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerAvatarBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660571666878100316}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnchorPlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 1660571666878099601}
   - component: {fileID: 1660571666878100260}
   - component: {fileID: 1660571666878100327}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1660571666878099602}
   - component: {fileID: 1660571666878100372}
   - component: {fileID: 1660571666878100382}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1660571666878100319}
   - component: {fileID: 1660571666878100435}
   - component: {fileID: 1660571666878100371}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 1660571666878099605}
   - component: {fileID: 1660571666878100261}
   - component: {fileID: 1660571666878100248}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 1660571666878100427}
   - component: {fileID: 1660571666878100373}
   - component: {fileID: 1660571666878100370}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -560,18 +560,30 @@ MonoBehaviour:
   canon: {fileID: 1660571666878099602}
   anchor: {fileID: 1660571666878100316}
   _cam: {fileID: 0}
+  view: {fileID: 0}
   camSpeed: 5
   aggroValue: 0
   fireRate: 0
-  AA_range: 0
   damageFire: 0
+  precision: 0
+  reloadingSpeed: 0
   currentBulletInWeapon: 0
   maxBulletInWeapon: 0
   maxBulletInPlayer: 0
-  cooldown_capa01: 0
-  loadingcapa_01: 0
-  cooldown_capa02: 0
-  loadingcapa_02: 0
+  gizmos_Capa01: {fileID: 0}
+  cooldown_Capa01: 0
+  loading_Capa_01: 0
+  range_Capa01: 0
+  hasGizmos_Capa_01: 0
+  needTarget_Capa01: 0
+  targetNeeded_Capa01: 0
+  gizmos_Capa02: {fileID: 0}
+  cooldown_Capa02: 0
+  loading_Capa_02: 0
+  range_Capa02: 0
+  hasGizmos_Capa_02: 0
+  needTarget_Capa02: 0
+  targetNeeded_Capa02: 0
   currentLife: 0
   currentShield: 0
   maxLife: 0
@@ -653,7 +665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2738724233375847071}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HandleCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
