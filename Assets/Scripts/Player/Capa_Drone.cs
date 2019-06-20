@@ -6,7 +6,6 @@ namespace Vegaxys
     public class Capa_Drone :Capa
     {
         public GameObject drone;
-        
         private Companion_Drone companion;
 
         public override void Start() {
@@ -27,7 +26,6 @@ namespace Vegaxys
 
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
-            Vector3 position = GameManager.instance.MousePosition(capa_Range, transform.position);
             if (capa_Target.GetComponent<Ennemi>() != null) {
                 companion.LaunchDrone(Companion_Drone.CompanionState.DAMAGING, capa_Target);
             } else {

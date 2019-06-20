@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using TMPro;
+using System.Linq;
+using System.Collections.Generic;
 using Knife.PostProcessing;
 
 namespace Vegaxys
@@ -161,6 +163,22 @@ namespace Vegaxys
                 float distance = Vector3.Distance(origin, pos);
                 Vector3 result = Vector3.Lerp(origin, pos, (radius / distance));     //le multiplier par le radius
                 result.y = pos.y;
+                return result;
+            }
+        }
+
+        public Vector3 GetRandomPositionInTorus(Vector3 origin, float diskRadius, float originRadius, bool collision) {
+            Vector3 result = origin;
+            Vector2 circle = Random.insideUnitCircle;
+            result += (new Vector3(circle.x, 0, circle.y) * diskRadius);
+            if (Vector3.Distance(result, transform.position) < originRadius) {
+                return GetRandomPositionInTorus(origin, diskRadius, originRadius, collision);
+            } else {
+                if (collision) {
+                    Collider[] colliders = Physics.OverlapSphere(result + Vector3.up, .9f);
+                    if(colliders.Length ==0) return result;
+                    return GetRandomPositionInTorus(origin, diskRadius, originRadius, collision);
+                }
                 return result;
             }
         }
