@@ -22,17 +22,9 @@ namespace Vegaxys
         public float camSpeed = 5;
         public string avatarName;
         public string className;
+        public AutoAttack currentAttack;
         [Range(0, 100)] public int aggroValue;
         [HideInInspector] public IEntity entities;
-
-        [Header("Auto Attack")]
-        public float fireRate;
-        public int damageFire;
-        public float precision;
-        public float reloadingSpeed;
-        public int currentBulletInWeapon;
-        public int maxBulletInWeapon;
-        public int maxBulletInPlayer;
 
         [Header("Grenade")]
         public int grenade_Range;
@@ -58,6 +50,15 @@ namespace Vegaxys
         private int grenadeCount;
         private int maxConso = 3;
 
+        [Header("Auto Attack")]
+        private float fireRate;
+        private int damageFire;
+        private float precision;
+        private float reloadingSpeed;
+        private int currentBulletInWeapon;
+        private int maxBulletInWeapon;
+        private int maxBulletInPlayer;
+
         #endregion
 
 
@@ -76,6 +77,8 @@ namespace Vegaxys
             GameObject _ui = Instantiate(playerUI, GameObject.Find("HUD").transform);
             bar = _ui.GetComponent<EntityBar>();
             _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+
+            UpdateAutoAttack();
 
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
@@ -233,7 +236,8 @@ namespace Vegaxys
                 Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
                 int _damage = GameManager.instance.GetRandomDamage(damageFire);
                 view.RPC("RPC_Character_Shoot", RpcTarget.AllBuffered, rot, _damage);
-                currentBulletInWeapon--;
+                if(maxBulletInPlayer != 1)
+                    currentBulletInWeapon--;
                 HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             }
         }
@@ -317,6 +321,20 @@ namespace Vegaxys
             currentLife += amount;
             if (currentLife > maxLife) currentLife = maxLife;
             GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
+        }
+
+        public void UpdateAutoAttack() {
+            fireRate = currentAttack.fireRate;
+            damageFire = currentAttack.damageFire;
+            precision = currentAttack.precision;
+            reloadingSpeed = currentAttack.reloadingSpeed;
+            currentBulletInWeapon = currentAttack.currentBulletInWeapon;
+            maxBulletInWeapon = currentAttack.maxBulletInWeapon;
+            maxBulletInPlayer = currentAttack.maxBulletInPlayer;
+            HUD_Manager.manager.Update_Chargeur(
+                currentAttack.currentBulletInWeapon,
+                currentAttack.maxBulletInPlayer,
+                currentAttack.maxBulletInWeapon);
         }
 
         #endregion

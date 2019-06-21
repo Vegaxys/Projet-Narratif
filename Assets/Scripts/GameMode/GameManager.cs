@@ -177,7 +177,12 @@ namespace Vegaxys
                 if (collision) {
                     Collider[] colliders = Physics.OverlapSphere(result + Vector3.up, .9f);
                     if(colliders.Length ==0) return result;
-                    return GetRandomPositionInTorus(origin, diskRadius, originRadius, collision);
+
+                    foreach (var item in colliders) {
+                        if(item.tag == "Untagged" || item.tag == "Ennemi" || item.tag == "Player") {
+                            return GetRandomPositionInTorus(origin, diskRadius, originRadius, collision);
+                        }
+                    }
                 }
                 return result;
             }

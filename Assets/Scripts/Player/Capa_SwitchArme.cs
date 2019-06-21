@@ -9,15 +9,12 @@ namespace Vegaxys
     {
         [Header("Weapon One")]
         [SerializeField] private GameObject bullet_WeaponOne;
-        [SerializeField] private float fireRate_WeaponOne;
-        [SerializeField] private float precision_WeaponOne;
-        [SerializeField] private int damage_WeaponOne;
+        [SerializeField] private AutoAttack weaponOne;
 
         [Header("Weapon Two")]
         [SerializeField] private GameObject bullet_WeaponTwo;
-        [SerializeField] private float fireRate_WeaponTwo;
-        [SerializeField] private float precision_WeaponTwo;
-        [SerializeField] private int damage_WeaponTwo;
+        [SerializeField] private AutoAttack weaponTwo;
+
         public enum WeaponType
         {
             WEAPON_ONE,
@@ -29,21 +26,18 @@ namespace Vegaxys
             switch (weaponType) {
                 case WeaponType.WEAPON_ONE:
                     character.fireBullet = bullet_WeaponOne;
-                    character.fireRate = fireRate_WeaponOne;
-                    character.precision = precision_WeaponOne;
-                    character.damageFire = damage_WeaponOne;
+                    character.currentAttack = weaponOne;
                     break;
                 case WeaponType.WEAPON_TWO:
                     character.fireBullet = bullet_WeaponTwo;
-                    character.fireRate = fireRate_WeaponTwo;
-                    character.precision = precision_WeaponTwo;
-                    character.damageFire = damage_WeaponTwo;
+                    character.currentAttack = weaponTwo;
                     break;
             }
         }
 
-        public override void Start() {
-            base.Start();
+        private void Awake() {
+            character = GetComponentInParent<BaseCharacter>();
+            weaponType = WeaponType.WEAPON_ONE;
             SwitchValue();
         }
 
@@ -53,13 +47,12 @@ namespace Vegaxys
             if (weaponType == WeaponType.WEAPON_ONE) {
                 weaponType = WeaponType.WEAPON_TWO;
                 SwitchValue();
-                return;
             } else
                 if (weaponType == WeaponType.WEAPON_TWO) {
                 weaponType = WeaponType.WEAPON_ONE;
                 SwitchValue();
-                return;
             }
+            character.UpdateAutoAttack();
         }
     }
 }

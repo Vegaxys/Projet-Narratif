@@ -8,9 +8,16 @@ namespace Vegaxys
         public GameObject dog;
         private Companion_Dog companion;
 
+
+        public override void Start() {
+            base.Start();
+            Invoke("InstantiateDog", 1);
+        }
+
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
             if (capa_Target.GetComponent<Ennemi>() != null) {
+                print("ennemi");
                 companion.LaunchDog(Companion_Dog.DogState.ATTACK, capa_Target);
             } else {
                 companion.LaunchDog(Companion_Dog.DogState.DEFENSE, capa_Target);
@@ -25,7 +32,9 @@ namespace Vegaxys
             Companion_Dog _dog = _companion.GetComponent<Companion_Dog>();
             dog = _companion;
             companion = _dog;
-            _dog.character = character;
+            companion.character = character;
+            companion.capa = this;
+            companion.LaunchDog(Companion_Dog.DogState.IDLE, character.transform);
         }
     }
 }

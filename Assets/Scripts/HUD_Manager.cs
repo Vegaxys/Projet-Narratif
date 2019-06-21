@@ -23,9 +23,6 @@ namespace Vegaxys {
         public void Awake() {
             manager = this;
         }
-        private void Update() {
-            
-        }
 
         #region Character HUD 
 

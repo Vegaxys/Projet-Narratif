@@ -16,9 +16,10 @@ namespace Vegaxys {
         #region Public Fields
         public Spell current_Spell;
         public GameObject capa_Gizmos;
+        public Mesh ring;
         public float capa_Cooldown;
         public float capa_Loading;
-        public float capa_Range;
+        [Range(0, 20)] public float capa_Range;
         public float capa_GizAOE_Range;
         public bool capa_NeedTarget;
         public bool capa_NeedAOE;
@@ -50,6 +51,10 @@ namespace Vegaxys {
             hud = HUD_Manager.manager;
             character = GetComponentInParent<BaseCharacter>();
             view = GetComponent<PhotonView>();
+        }
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.gray;
+            Gizmos.DrawMesh(ring, 0, transform.position, transform.rotation, Vector3.one * capa_Range);
         }
 
         private void Update() {
