@@ -28,7 +28,7 @@ namespace Vegaxys
             lifeBar = transform.GetChild(1).GetComponent<Image>();
             shield = transform.GetChild(2).GetComponent<Image>();
             pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
-            pseudo.text = entity.GetDisplayedName();
+            pseudo.text = PhotonNetwork.IsMasterClient ? "Master": "Client";
             reloadingImage = transform.GetChild(4).GetComponent<Image>();
             if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
         }
