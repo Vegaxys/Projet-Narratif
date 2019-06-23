@@ -23,9 +23,9 @@ MonoBehaviour:
     Port: 0
     Protocol: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 2
   StartInOfflineMode: 0
-  PunLogging: 0
+  PunLogging: 2
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
@@ -33,10 +33,7 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - RPC_AddCharacter
-  - RPC_Capa01_SwitchWeapon
-  - RPC_Capa02_Drone
-  - RPC_Capa02_TirCaitlyn
+  - RPC_Capa01_Dash
   - RPC_Character_Shoot
   - RPC_Ennemi_Reload
   - RPC_Ennemi_Shoot
@@ -46,9 +43,7 @@ MonoBehaviour:
   - RPC_GoToTarget
   - RPC_LaunchGrenade
   - RPC_Reload
-  - RPC_Capa01_Dash
-  - Virtual_Launch_Spell
-  - RPC_LaunchDrone
+  - RPC_SwitchValue
   - RPC_Virtual_Launch_Spell
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1

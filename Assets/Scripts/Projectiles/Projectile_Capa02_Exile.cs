@@ -9,9 +9,9 @@ public class Projectile_Capa02_Exile :Projectile{
     public override void Update() {
         
     }
-    public override void Setup(Transform _target, int _damage) {
+    public override void Setup(Transform _transform, int _damage, int dotDamage, int dotRow) {
         damage = _damage;
-        target = _target;
+        target = _transform;
         StartCoroutine(GoToTarget());
     }
     private IEnumerator GoToTarget() {

@@ -42,6 +42,7 @@ namespace Vegaxys
                 PhotonNetwork.NickName = "Player#" + Random.Range(0, 10000);
             }
             playerName.text = PhotonNetwork.NickName;
+            PlayerInfos.instance.player.playerName = PhotonNetwork.NickName;
         }
 
         public void PlayerNameUpdated(string result) {

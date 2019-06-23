@@ -22,6 +22,9 @@ namespace Vegaxys
         public static GameManager instance;
         public Transform[] spawnPoints;
         public OutlineSettings[] settings;
+        public GameObject []playerPrefab;
+        public List<PlayerProperties> players;
+        public GameObject localPlayerInstance;
         public GameObject damageParticle;
         public GameObject grenadePrefab;
         public GameObject gizAOE;
@@ -30,7 +33,6 @@ namespace Vegaxys
         public int shieldValue;
         public int ammoValue;
         public int granadeDamage;
-
         #endregion
 
 
@@ -54,6 +56,8 @@ namespace Vegaxys
             instance = this;
             loobyCamera.SetActive(false);
             view = GetComponent<PhotonView>();
+            PhotonNetwork.Instantiate(playerPrefab[PlayerInfos.instance.player.avatarID].name, spawnPoints[PlayerInfos.instance.player.playerID].position, Quaternion.identity, 0);
+            ObjectifManager.instance.CreateRandomObjectifs();
         }
 
         #endregion
@@ -71,6 +75,7 @@ namespace Vegaxys
         #region Public Methods
 
         public void LeaveRoom() {
+            print(PhotonNetwork.IsConnected);
             PhotonNetwork.LeaveRoom();
         }
 
@@ -82,13 +87,15 @@ namespace Vegaxys
                     IEntity entity = null;
                     switch (hit.transform.tag) {
                         case "Player":
-                            hit.transform.gameObject.AddComponent<OutlineRegister>();
+                            OutlineRegister register1 = hit.transform.GetChild(0).gameObject.AddComponent<OutlineRegister>();
+                            register1.OutlineTint = GetSettings("Player").color;
+                            register1.setupPropertyBlock();
                             entity = hit.transform.GetComponent<IEntity>();
                             break;
                         case "Ennemi":
-                            OutlineRegister register = hit.transform.parent.GetChild(0).gameObject.AddComponent<OutlineRegister>();
-                            register.OutlineTint = GetSettings("Ennemi").color;
-                            register.setupPropertyBlock();
+                            OutlineRegister register2 = hit.transform.parent.GetChild(0).gameObject.AddComponent<OutlineRegister>();
+                            register2.OutlineTint = GetSettings("Ennemi").color;
+                            register2.setupPropertyBlock();
                             entity = hit.transform.parent.GetComponent<IEntity>();
                             break;
                     }
@@ -164,6 +171,18 @@ namespace Vegaxys
                 Vector3 result = Vector3.Lerp(origin, pos, (radius / distance));     //le multiplier par le radius
                 result.y = pos.y;
                 return result;
+            }
+        }
+
+        public Vector3 MousePositionWithoutWall(Transform originTransform, float radius, Vector3 origin) {
+            Vector3 newPos = MousePosition();
+            RaycastHit hit;
+            if (Physics.Raycast(originTransform.position, originTransform.forward, out hit, radius, 1 << 12)) {
+                Debug.DrawLine(originTransform.position, hit.point, Color.yellow);
+                return hit.point;
+            } else {
+                Debug.DrawLine(originTransform.position, newPos, Color.blue);
+                return newPos;
             }
         }
 

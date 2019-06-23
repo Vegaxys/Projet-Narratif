@@ -17,7 +17,6 @@ namespace Vegaxys
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
             if (capa_Target.GetComponent<Ennemi>() != null) {
-                print("ennemi");
                 companion.LaunchDog(Companion_Dog.DogState.ATTACK, capa_Target);
             } else {
                 companion.LaunchDog(Companion_Dog.DogState.DEFENSE, capa_Target);

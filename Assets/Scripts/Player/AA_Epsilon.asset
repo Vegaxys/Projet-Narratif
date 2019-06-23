@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14665c878ff56044cb93175cef1ef517, type: 3}
-  m_Name: "AA_Exil\xE9_Sniper"
+  m_Name: AA_Epsilon
   m_EditorClassIdentifier: 
-  title: Sniper
-  description: "un sniper qui tire vraiment tr\xE8s loin"
-  fireRate: 1.5
-  damageFire: 50
+  title: 
+  description: 
+  fireRate: 0.4
+  damageFire: 30
   precision: 5
-  reloadingSpeed: 1
-  currentBulletInWeapon: 5
-  maxBulletInWeapon: 10
-  maxBulletInPlayer: 100
+  reloadingSpeed: 2
+  currentBulletInWeapon: 30
+  maxBulletInWeapon: 30
+  maxBulletInPlayer: 300
   cac: 0
   needReload: 1
-  automaticWeapon: 0
+  automaticWeapon: 1
   damageOverTime: 0
   healingBullet: 0
   damageDOT: 0
   row: 0
-  save_currentBulletInWeapon: 10
-  save_maxBulletInWeapon: 10
-  save_maxBulletInPlayer: 100
+  save_currentBulletInWeapon: 30
+  save_maxBulletInWeapon: 30
+  save_maxBulletInPlayer: 300

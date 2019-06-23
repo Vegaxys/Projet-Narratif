@@ -14,7 +14,7 @@ namespace Vegaxys
         [SerializeField] private int multiplayerSceneIndex;   //Join a lobby
 
         [SerializeField] private GameObject lobbyPanel;             //Panel for lobby
-        [SerializeField] private GameObject roomPanel;              //main panel
+        //[SerializeField] private GameObject roomPanel;              //main panel
         [SerializeField] private GameObject listplayerPanel;        //players panel
 
         [SerializeField] private Button startButton;      //Prefab of a room for the UI
@@ -35,12 +35,12 @@ namespace Vegaxys
             foreach (Player player in PhotonNetwork.PlayerList) {
                 GameObject playerInstance = Instantiate(playerPrefab, playerContainer);
                 TextMeshProUGUI _text = playerInstance.GetComponentInChildren<TextMeshProUGUI>();
-                _text.text = player.NickName;
+                _text.text = player.ActorNumber + "." +  player.NickName;
             }
         }
 
         public override void OnJoinedRoom() {
-            roomPanel.SetActive(true);
+            //roomPanel.SetActive(true);
             listplayerPanel.SetActive(true);
             lobbyPanel.SetActive(false);
 
@@ -49,11 +49,15 @@ namespace Vegaxys
 
             ClearPlayerListing();
             ListPlayer();
+            if (PhotonNetwork.IsMasterClient) {
+                PlayerInfos.instance.player.playerID = PhotonNetwork.MasterClient.ActorNumber;
+            }
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer) {
             ClearPlayerListing();
             ListPlayer();
+            PlayerInfos.instance.player.playerID = newPlayer.ActorNumber;
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer) {
@@ -65,22 +69,10 @@ namespace Vegaxys
         public void StartButton() {
             if (PhotonNetwork.IsMasterClient) {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
-                PhotonNetwork.LoadLevel(multiplayerSceneIndex);
+                PhotonNetwork.LoadLevel(multiplayerSceneIndex); 
             }
+            print("loading scene");
         }
-
-        private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
-            int currentScene = 0;
-            currentScene = scene.buildIndex;
-            if (currentScene == multiplayerSceneIndex) {
-                CreatePlayer();
-            }
-        }
-
-        private void CreatePlayer() {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefab", "PhotonNetworkPlayer"), transform.position, Quaternion.identity, 0);
-        }
-
 
         private IEnumerator RejoinLobby() {
             yield return new WaitForSeconds(1);
@@ -88,7 +80,6 @@ namespace Vegaxys
         }
 
         public void BackOnClick() {
-            roomPanel.SetActive(false);
             listplayerPanel.SetActive(false);
             lobbyPanel.SetActive(true);
 
@@ -97,7 +88,7 @@ namespace Vegaxys
             StartCoroutine(RejoinLobby());
         }
         public void SetCharacterID(int ID) {
-            PlayerInfos.instance.characterID = ID;
+            PlayerInfos.instance.player.avatarID = ID;
         }
     }
 }

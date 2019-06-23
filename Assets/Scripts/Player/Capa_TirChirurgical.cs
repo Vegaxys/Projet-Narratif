@@ -29,7 +29,7 @@ namespace Vegaxys {
             base.RPC_Virtual_Launch_Spell();
             Transform target = GameManager.instance.GetObjectByViewID(targetID).transform;
             GameObject bullet = Instantiate(bullet_TirChirurgical, character.canon.position, character.canon.rotation);
-            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target, damageCapa);
+            bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target, damageCapa, 0, 0);
         }
     }
 }

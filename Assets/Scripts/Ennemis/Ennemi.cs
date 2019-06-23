@@ -57,7 +57,10 @@ namespace Vegaxys {
 
         private NavMeshAgent navigation;
         private EntityBar bar;
+        private Coroutine takeTicCoroutine;
+
         private float timmingFire;
+        private bool takingTic;
 
         #endregion
 
@@ -166,6 +169,10 @@ namespace Vegaxys {
             if (projectile.originalPlayer == transform) {
                 return;
             }
+            if(takeTicCoroutine != null) {
+                StopCoroutine(takeTicCoroutine);
+            }
+            takeTicCoroutine = StartCoroutine(TakeTic(projectile.dot_Row, projectile.dot_Damage));
             TakeDamage(projectile.damage);
             if (tag == "Projectile") {
                 Destroy(projectile.gameObject);
@@ -210,6 +217,13 @@ namespace Vegaxys {
             maxBulletInEntity -= maxBulletInWeapon;
         }
 
+        public virtual IEnumerator TakeTic(int row, int damage) {
+            for (int i = 0; i < row; i++) {
+                TakeDamage(damage);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
         #endregion
 
 
@@ -218,7 +232,7 @@ namespace Vegaxys {
         [PunRPC]
         public virtual void RPC_Ennemi_Shoot(Quaternion rot, int _damage) {
             GameObject bullet = Instantiate(fireBullet, canon.position, rot);
-            bullet.GetComponent<Projectile>().Setup(transform, _damage);
+            bullet.GetComponent<Projectile>().Setup(transform, _damage, 0, 0);
         }
 
         [PunRPC]

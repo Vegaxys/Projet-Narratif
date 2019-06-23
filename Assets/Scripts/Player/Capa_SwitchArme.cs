@@ -22,7 +22,9 @@ namespace Vegaxys
         }
         public WeaponType weaponType;
 
-        private void SwitchValue() {
+        [PunRPC]
+        private void RPC_SwitchValue(WeaponType type) {
+            weaponType = type;
             switch (weaponType) {
                 case WeaponType.WEAPON_ONE:
                     character.fireBullet = bullet_WeaponOne;
@@ -38,21 +40,30 @@ namespace Vegaxys
         private void Awake() {
             character = GetComponentInParent<BaseCharacter>();
             weaponType = WeaponType.WEAPON_ONE;
-            SwitchValue();
+            //SwitchValue();
         }
 
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
             base.RPC_Virtual_Launch_Spell();
+            character.UploadAutoAttack();
             if (weaponType == WeaponType.WEAPON_ONE) {
                 weaponType = WeaponType.WEAPON_TWO;
-                SwitchValue();
+                view.RPC("RPC_SwitchValue", RpcTarget.AllBuffered, weaponType);
+                // SwitchValue();
             } else
                 if (weaponType == WeaponType.WEAPON_TWO) {
                 weaponType = WeaponType.WEAPON_ONE;
-                SwitchValue();
+                view.RPC("RPC_SwitchValue", RpcTarget.AllBuffered, weaponType);
+                // SwitchValue();
             }
             character.UpdateAutoAttack();
+            if (photonView.IsMine) {
+                HUD_Manager.manager.Update_Chargeur(
+                    character.currentBulletInWeapon,
+                    character.maxBulletInWeapon,
+                    character.maxBulletInPlayer);
+            }
         }
     }
 }

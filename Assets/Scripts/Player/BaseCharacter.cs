@@ -6,7 +6,17 @@ using UnityEngine.AI;
 
 namespace Vegaxys
 {
-    [RequireComponent(typeof(NavMeshAgent))]
+    [System.Serializable]
+    public class PlayerProperties
+    {
+        public string playerName;
+        public int playerID;
+        public string avatarName;
+        public string className;
+        public string playerXP;
+        public int avatarID;
+    }
+
     public class BaseCharacter :MonoBehaviourPunCallbacks, IEntity , IPunObservable
     {
         #region Public Fields
@@ -20,8 +30,7 @@ namespace Vegaxys
         [HideInInspector] public NavMeshAgent agent;
         [Tooltip("General Values")]
         public float camSpeed = 5;
-        public string avatarName;
-        public string className;
+        public PlayerProperties player;
         public AutoAttack currentAttack;
         [Range(0, 100)] public int aggroValue;
         [HideInInspector] public IEntity entities;
@@ -35,6 +44,10 @@ namespace Vegaxys
         public int currentShield;
         public int maxLife;
         public int maxShield;
+
+        [HideInInspector] public int currentBulletInWeapon;
+        [HideInInspector] public int maxBulletInWeapon;
+        [HideInInspector] public int maxBulletInPlayer;
 
         #endregion
 
@@ -55,9 +68,6 @@ namespace Vegaxys
         private int damageFire;
         private float precision;
         private float reloadingSpeed;
-        private int currentBulletInWeapon;
-        private int maxBulletInWeapon;
-        private int maxBulletInPlayer;
 
         #endregion
 
@@ -71,6 +81,8 @@ namespace Vegaxys
             _cam = transform.parent.GetComponentInChildren<Camera>();
             hud = HUD_Manager.manager;
             hud.character = this;
+            GameManager.instance.localPlayerInstance = gameObject;
+            player = PlayerInfos.instance.player;
 
             transform.parent.GetComponentInChildren<Camera>().gameObject.SetActive(photonView.IsMine);
 
@@ -78,6 +90,7 @@ namespace Vegaxys
             bar = _ui.GetComponent<EntityBar>();
             _ui.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
 
+            InitialyzeAutoAttack();
             UpdateAutoAttack();
 
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
@@ -184,8 +197,11 @@ namespace Vegaxys
                         }
                         break;
                     case PowerUpType.MUNITION:
-                        maxBulletInPlayer += GameManager.instance.ammoValue;
+                        maxBulletInPlayer += maxBulletInWeapon * 2;
                         EventManager.instance.SetEvent(WinConditionEnum.RAMASSER_X_MUNITION);
+                        if (!currentAttack.needReload) {
+                            currentBulletInWeapon = maxBulletInPlayer;
+                        }
                         HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
                         Destroy(other.gameObject);
                         break;
@@ -235,7 +251,7 @@ namespace Vegaxys
                 timmingFire = fireRate;
                 Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
                 int _damage = GameManager.instance.GetRandomDamage(damageFire);
-                view.RPC("RPC_Character_Shoot", RpcTarget.AllBuffered, rot, _damage);
+                view.RPC("RPC_Character_Shoot", RpcTarget.All, rot, _damage);
                 if(maxBulletInPlayer != 1)
                     currentBulletInWeapon--;
                 HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
@@ -261,16 +277,16 @@ namespace Vegaxys
         }
 
         public virtual void Virtual_Death() {
-            if (className == "Tank") {
+            if (player.className == "Tank") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_TANK);
             }
-            if (className == "Soutient") {
+            if (player.className == "Soutient") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_SOUTIENT);
             }
-            if (className == "Tireur") {
+            if (player.className == "Tireur") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_TIREUR);
             }
-            if (className == "Assassin") {
+            if (player.className == "Assassin") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_ASSASSIN);
             }
             //GameManager.instance.LeaveRoom();
@@ -312,6 +328,12 @@ namespace Vegaxys
             if (currentShield > maxShield) currentShield = maxShield;
         }
 
+        private void InitialyzeAutoAttack() {
+            currentAttack.currentBulletInWeapon = currentAttack.save_currentBulletInWeapon;
+            currentAttack.maxBulletInWeapon = currentAttack.save_maxBulletInWeapon;
+            currentAttack.maxBulletInPlayer = currentAttack.save_maxBulletInPlayer;
+        }
+
         #endregion
 
 
@@ -331,10 +353,16 @@ namespace Vegaxys
             currentBulletInWeapon = currentAttack.currentBulletInWeapon;
             maxBulletInWeapon = currentAttack.maxBulletInWeapon;
             maxBulletInPlayer = currentAttack.maxBulletInPlayer;
-            HUD_Manager.manager.Update_Chargeur(
-                currentAttack.currentBulletInWeapon,
-                currentAttack.maxBulletInPlayer,
-                currentAttack.maxBulletInWeapon);
+        }
+
+        public void UploadAutoAttack() {
+            currentAttack.fireRate = fireRate;
+            currentAttack.damageFire = damageFire;
+            currentAttack.precision = precision;
+            currentAttack.reloadingSpeed = reloadingSpeed;
+            currentAttack.currentBulletInWeapon = currentBulletInWeapon;
+            currentAttack.maxBulletInWeapon = maxBulletInWeapon;
+            currentAttack.maxBulletInPlayer = maxBulletInPlayer;
         }
 
         #endregion
@@ -345,8 +373,8 @@ namespace Vegaxys
         [PunRPC]
         public virtual void RPC_Character_Shoot(Quaternion rot, int _damage) {
             GameObject bullet = Instantiate(fireBullet, canon.position, rot);
-            bullet.GetComponent<Projectile>().isHealing = _damage < 0;
-            bullet.GetComponent<Projectile>().Setup(transform, _damage);
+            bullet.GetComponent<Projectile>().isHealing = currentAttack.healingBullet;
+            bullet.GetComponent<Projectile>().Setup(transform, _damage, currentAttack.damageDOT, currentAttack.row);
         }
 
         [PunRPC]
@@ -404,7 +432,7 @@ namespace Vegaxys
         }
 
         public string GetDisplayedName() {
-            return PhotonNetwork.NickName;
+            return player.playerID + "|" + player.avatarName + "|" + player.playerName;
         }
 
         #endregion
@@ -414,14 +442,10 @@ namespace Vegaxys
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
             if (stream.IsWriting) {
-                stream.SendNext(currentBulletInWeapon);
-                stream.SendNext(maxBulletInWeapon);
-                stream.SendNext(maxBulletInPlayer);
+
             } else 
             if (stream.IsReading) {
-                currentBulletInWeapon = (int)stream.ReceiveNext();
-                maxBulletInWeapon = (int)stream.ReceiveNext();
-                maxBulletInPlayer = (int)stream.ReceiveNext();
+
             }
         }
 

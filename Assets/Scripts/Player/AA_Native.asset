@@ -14,17 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: 
-  fireRate: 0
-  damageFire: 0
+  fireRate: 1.5
+  damageFire: 75
   precision: 0
   reloadingSpeed: 0
-  currentBulletInWeapon: 0
+  currentBulletInWeapon: 1
   maxBulletInWeapon: 0
-  maxBulletInPlayer: 0
-  cac: 0
+  maxBulletInPlayer: 1
+  cac: 1
   needReload: 0
   automaticWeapon: 0
   damageOverTime: 0
   healingBullet: 0
   damageDOT: 0
   row: 0
+  save_currentBulletInWeapon: 1
+  save_maxBulletInWeapon: 0
+  save_maxBulletInPlayer: 1

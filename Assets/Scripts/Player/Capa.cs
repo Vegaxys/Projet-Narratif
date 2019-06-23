@@ -57,7 +57,10 @@ namespace Vegaxys {
             Gizmos.DrawMesh(ring, 0, transform.position, transform.rotation, Vector3.one * capa_Range);
         }
 
-        private void Update() {
+        public virtual void Update() {
+            if (photonView.IsMine == false) {
+                return;
+            }
             if (Input.GetButtonDown("Capa0" + current_Spell.capaIndex) && capa_Ready) {
                 if(capa_Gizmos != null) {
                     capa_Gizmos.SetActive(true);
@@ -66,7 +69,7 @@ namespace Vegaxys {
                     GameManager.instance.gizAOE.transform.localScale = Vector3.one * capa_GizAOE_Range;
                 }
             }
-            if (Input.GetButton("Capa0" + current_Spell.capaIndex)) {
+            if (Input.GetButton("Capa0" + current_Spell.capaIndex) && capa_Ready) {
                 if (capa_NeedTarget) {
                     Virtual_GetTarget();
                 }
@@ -83,7 +86,8 @@ namespace Vegaxys {
                         return;
                     }
                 }
-                view.RPC("RPC_Virtual_Launch_Spell", RpcTarget.All);
+                //view.RPC("RPC_Virtual_Launch_Spell", RpcTarget.All);
+                RPC_Virtual_Launch_Spell();
                 StartCoroutine(RecoverCapa());
             }
         }
@@ -93,7 +97,7 @@ namespace Vegaxys {
 
         #region Virtuals Methods 
 
-        [PunRPC]
+        //[PunRPC]
         public virtual void RPC_Virtual_Launch_Spell() {
             print(current_Spell.title + " has been launched !! ");
             Virtual_DeselectAllTargets();

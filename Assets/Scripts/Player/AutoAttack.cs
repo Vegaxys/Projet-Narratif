@@ -31,5 +31,11 @@ public class AutoAttack : ScriptableObject
     public int damageDOT;
     public int row;
 
+    [Tooltip("Save currentBulletInWeapon")]
+    public int save_currentBulletInWeapon;
+    [Tooltip("Save maxBulletInWeapon")]
+    public int save_maxBulletInWeapon;
+    [Tooltip("Save maxBulletInPlayer")]
+    public int save_maxBulletInPlayer;
 
 }
