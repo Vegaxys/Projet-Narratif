@@ -10538,6 +10538,14 @@ PrefabInstance:
       propertyPath: loobyCamera
       value: 
       objectReference: {fileID: 1169927720}
+    - target: {fileID: 344284344, guid: f2f308b2667b0a141a203ce0714fb987, type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 344284344, guid: f2f308b2667b0a141a203ce0714fb987, type: 3}
+      propertyPath: InstantiationId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2f308b2667b0a141a203ce0714fb987, type: 3}
 --- !u!4 &8437834125297931686

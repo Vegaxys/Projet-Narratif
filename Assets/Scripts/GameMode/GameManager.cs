@@ -82,7 +82,8 @@ namespace Vegaxys
         public IEntity GetEntity(float range, Vector3 origin) {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000, 1 << 11)) {
+            LayerMask mask = LayerMask.GetMask("Player", "Enemy");
+            if (Physics.Raycast(ray, out hit, 1000, mask)) {
                 if (Vector3.Distance(hit.point, origin) < range) {
                     IEntity entity = null;
                     switch (hit.transform.tag) {
