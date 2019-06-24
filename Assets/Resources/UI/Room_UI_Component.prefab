@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5444199664888783555
 RectTransform:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 2090004229768098245}
   - component: {fileID: 9179708247294552728}
   - component: {fileID: 5862652037863942912}
-  - component: {fileID: 4508230932524024697}
+  - component: {fileID: 1899792594013425455}
   m_Layer: 5
   m_Name: Room_UI_Component
   m_TagString: Untagged
@@ -220,14 +220,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  m_Color: {r: 0.23553754, g: 0.745283, b: 0.70736796, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2f13631357c91e54e9ce44af3c99dbab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 00292e5d44a244c4180bdaecec8dc7e8, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -299,8 +299,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4508230932524024697}
-        m_MethodName: JoinRoomOnClick
+      - m_Target: {fileID: 1899792594013425455}
+        m_MethodName: OnClick_EnterRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -312,7 +312,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &4508230932524024697
+--- !u!114 &1899792594013425455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,11 +321,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7075393190768696092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a9b721a5e385f64a807bd34be218570, type: 3}
+  m_Script: {fileID: 11500000, guid: 8006c9c96c9e5d543a22520669a033c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 3065319090821006368}
-  sizeText: {fileID: 3488746950073602345}
+  roomName: {fileID: 3065319090821006368}
 --- !u!1 &7740923301421929544
 GameObject:
   m_ObjectHideFlags: 0
