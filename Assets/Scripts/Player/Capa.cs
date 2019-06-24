@@ -88,7 +88,6 @@ namespace Vegaxys {
                 }
                 //view.RPC("RPC_Virtual_Launch_Spell", RpcTarget.All);
                 RPC_Virtual_Launch_Spell();
-                StartCoroutine(RecoverCapa());
             }
         }
 
@@ -101,6 +100,7 @@ namespace Vegaxys {
         public virtual void RPC_Virtual_Launch_Spell() {
             print(current_Spell.title + " has been launched !! ");
             Virtual_DeselectAllTargets();
+            StartCoroutine(RecoverCapa());
         }
 
         public virtual void Virtual_Gizmos_AOE() {

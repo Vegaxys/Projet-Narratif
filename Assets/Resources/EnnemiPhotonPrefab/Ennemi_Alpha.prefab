@@ -288,6 +288,7 @@ MonoBehaviour:
   avatarName: Alpha
   maxSpeed: 20
   acceleration: 20
+  score: 500
   aggro_Range: 6
   stoppingRange: 3
   fireRate: 0.5

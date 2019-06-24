@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 namespace Vegaxys {
@@ -12,6 +10,7 @@ namespace Vegaxys {
         public Image capa01_Cooldown;
         public Image capa02_Cooldown;
         public TextMeshProUGUI chargeur;
+        public TextMeshProUGUI scoreText;
 
         [Header("Consos")]
         public TextMeshProUGUI consoShieldText;
@@ -37,10 +36,20 @@ namespace Vegaxys {
         public void Update_Chargeur(int curr, int max, int all) {
             chargeur.text = "Ammo : " + curr + "/" + max + " || " + all;
         }
+
         public void Update_Consos(int shield, int health, int grenade) {
             consoShieldText.text = "x " + shield;
             consoHealthText.text = "x " + health;
             consoGrenadeText.text = "x " + grenade;
+        }
+
+        public void Update_Capacites() {
+            capa01_Cooldown.GetComponentInChildren<TextMeshProUGUI>().text = character.capa01.current_Spell.title;
+            capa02_Cooldown.GetComponentInChildren<TextMeshProUGUI>().text = character.capa02.current_Spell.title;
+        }
+
+        public void Update_Score(int amount) {
+            scoreText.text = "Score : " + amount;
         }
 
         #endregion

@@ -28,11 +28,14 @@ namespace Vegaxys
         [HideInInspector] public Camera _cam;
         [HideInInspector] public PhotonView view;
         [HideInInspector] public NavMeshAgent agent;
+        [HideInInspector] public bool furtiv = false;
         [Tooltip("General Values")]
         public float camSpeed = 5;
         public PlayerProperties player;
         public AutoAttack currentAttack;
         [Range(0, 100)] public int aggroValue;
+        public Capa capa01;
+        public Capa capa02;
         [HideInInspector] public IEntity entities;
 
         [Header("Grenade")]
@@ -54,7 +57,6 @@ namespace Vegaxys
 
         #region Private Fields
 
-        private HUD_Manager hud;
         private EntityBar bar;
         private Transform model;
         private float timmingFire;
@@ -79,8 +81,7 @@ namespace Vegaxys
             agent = GetComponent<NavMeshAgent>();
             view = GetComponent<PhotonView>();
             _cam = transform.parent.GetComponentInChildren<Camera>();
-            hud = HUD_Manager.manager;
-            hud.character = this;
+            HUD_Manager.manager.character = this;
             GameManager.instance.localPlayerInstance = gameObject;
             player = PlayerInfos.instance.player;
 
@@ -93,6 +94,7 @@ namespace Vegaxys
             InitialyzeAutoAttack();
             UpdateAutoAttack();
 
+            HUD_Manager.manager.Update_Capacites();
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
         }
@@ -155,6 +157,9 @@ namespace Vegaxys
         }
 
         void OnTriggerEnter(Collider other) {
+            if (furtiv) {
+                return;
+            }
             if (other.CompareTag("Projectile")) {
                 Projectile projectile = other.GetComponent<Projectile>();
                 entities = projectile.originalPlayer.GetComponent<IEntity>();

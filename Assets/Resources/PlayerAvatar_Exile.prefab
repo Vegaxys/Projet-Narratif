@@ -707,8 +707,8 @@ Transform:
   - {fileID: 1660571666878100316}
   - {fileID: 5864871336542989517}
   - {fileID: 9137720549709050834}
-  - {fileID: 5863613210535194904}
   - {fileID: 6570504925812816736}
+  - {fileID: 5863613210535194904}
   - {fileID: 5638659063758670833}
   - {fileID: 2796313389118367088}
   - {fileID: 5094095914568322501}
@@ -838,6 +838,8 @@ MonoBehaviour:
     avatarID: 0
   currentAttack: {fileID: 11400000, guid: 117cea3f156be9748ba0681208544e22, type: 2}
   aggroValue: 25
+  capa01: {fileID: 5384625718212595186}
+  capa02: {fileID: 7335335960486655227}
   grenade_Range: 10
   gizmos_Grenade: {fileID: 4803714075319308576}
   currentLife: 175
@@ -960,7 +962,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1660571666878100317}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5384625718212595186
 MonoBehaviour:
@@ -1376,7 +1378,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1660571666878100317}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7335335960486655227
 MonoBehaviour:

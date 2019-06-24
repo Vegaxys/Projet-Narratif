@@ -405,6 +405,7 @@ MonoBehaviour:
   avatarName: Beta
   maxSpeed: 15
   acceleration: 15
+  score: 800
   aggro_Range: 8
   stoppingRange: 2
   fireRate: 1

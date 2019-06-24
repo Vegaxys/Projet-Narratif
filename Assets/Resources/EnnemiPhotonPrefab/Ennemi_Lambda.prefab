@@ -482,6 +482,7 @@ MonoBehaviour:
   avatarName: Lambda
   maxSpeed: 20
   acceleration: 20
+  score: 150
   aggro_Range: 6
   stoppingRange: 4
   fireRate: 0.9

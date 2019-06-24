@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &100983228540240678
 MonoBehaviour:
@@ -168,7 +168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4268578692490551208
 MonoBehaviour:
@@ -259,12 +259,12 @@ Transform:
   - {fileID: 1432573990771547491}
   - {fileID: 5765441907427864953}
   - {fileID: 8801646910119075309}
+  - {fileID: 5703326505891780165}
+  - {fileID: 100983228540240677}
   - {fileID: 5780790768937233580}
   - {fileID: 6505973980596692692}
-  - {fileID: 5703326505891780165}
   - {fileID: 2857608181716170948}
   - {fileID: 5176639869958328433}
-  - {fileID: 100983228540240677}
   - {fileID: 6102266319011653039}
   - {fileID: 8313127893343816449}
   m_Father: {fileID: 3643338711378420878}
@@ -380,6 +380,7 @@ MonoBehaviour:
   _cam: {fileID: 0}
   view: {fileID: 0}
   agent: {fileID: 0}
+  furtiv: 0
   camSpeed: 5
   player:
     playerName: 
@@ -390,6 +391,8 @@ MonoBehaviour:
     avatarID: 0
   currentAttack: {fileID: 11400000, guid: cab41aec7ab75f24dbc99aeb0d17ea33, type: 2}
   aggroValue: 25
+  capa01: {fileID: 7852497738632887847}
+  capa02: {fileID: 100983228540240679}
   grenade_Range: 10
   gizmos_Grenade: {fileID: 5062107374631632671}
   currentLife: 150
@@ -960,7 +963,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5466467496399605830
 MonoBehaviour:
@@ -1049,7 +1052,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1414292199131941754
 MonoBehaviour:
@@ -1210,7 +1213,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7852497738632887847
 MonoBehaviour:
@@ -1376,7 +1379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1432573990771547490}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7253780056149076303
 MonoBehaviour:

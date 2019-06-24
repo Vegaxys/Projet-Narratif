@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using System.Linq;
 
 namespace Vegaxys {
 
@@ -22,6 +23,7 @@ namespace Vegaxys {
         public string avatarName;
         public float maxSpeed;
         public float acceleration;
+        public int score;
         [Range(0, 100)] public int aggro_Range;
         [Range(2, 15)] public float stoppingRange;
 
@@ -91,6 +93,7 @@ namespace Vegaxys {
 
             navigation.stoppingDistance = stoppingRange;
 
+            StartCoroutine(RefreshAggro());
         }
 
         public virtual void Update() {
@@ -131,6 +134,7 @@ namespace Vegaxys {
                     drone.transform.parent = GameObject.Find("Companions").transform;
                     drone.LaunchDrone(Companion_Drone.CompanionState.IDLE, null);
                 }
+                GameManager.instance.AddScore(score);
                 PhotonNetwork.Destroy(gameObject);
             }
             GameManager.instance.InstantiateDamageParticle("Damage", amount, transform.position);
@@ -149,19 +153,17 @@ namespace Vegaxys {
         #region Publics Methods
 
         public void AddCharacter(BaseCharacter character) {
-            foreach(var item in characters) {
+          /*  foreach(var item in characters) {
                 if(character == item) {
                     return;
                 }
-            }
-            characters.Add(character);
-            RefreshAggro();
+            }*/
+            //characters.Add(character);
             print(character.GetDisplayedName() + " Added to the list ");
         }
 
         public void RemoveCharacter(BaseCharacter character) {
-            characters.Remove(character);
-            RefreshAggro();
+           // characters.Remove(character);
             print("Removed " + character.GetDisplayedName() + " from list ");
         }
 
@@ -184,17 +186,25 @@ namespace Vegaxys {
 
         #region Private Methods
 
-        private void RefreshAggro() {
+        private IEnumerator RefreshAggro() {
             BaseCharacter _character = GetHighestAggroValue();
             target = _character != null ? _character.transform : null;
             if (target != null) {
                 view.RPC("RPC_GoToTarget", RpcTarget.AllBuffered, target.position);
             }
-
-            Invoke("RefreshAggro", 0.5f);
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(RefreshAggro());
         }
 
         private BaseCharacter GetHighestAggroValue() {
+            characters.Clear();
+            Collider[] colliders = Physics.OverlapSphere(transform.position, aggro_Range);
+            foreach (var item in colliders) {
+                if(item.GetComponent<BaseCharacter>() != null) {
+                    if (!item.GetComponent<BaseCharacter>().furtiv)
+                        characters.Add(item.GetComponent<BaseCharacter>());
+                }
+            }
             BaseCharacter _character = new BaseCharacter();
             for (int i = 0; i < characters.Count; i++) {
                 if(characters[i].aggroValue >= _character.aggroValue) {

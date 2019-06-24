@@ -10,7 +10,8 @@ namespace Vegaxys
 
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Player")) {
-                entity.AddCharacter(other.GetComponent<BaseCharacter>());
+                if(!other.GetComponent<BaseCharacter>().furtiv)
+                    entity.AddCharacter(other.GetComponent<BaseCharacter>());
             }
         }
         private void OnTriggerExit(Collider other) {

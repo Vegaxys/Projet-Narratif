@@ -33,6 +33,8 @@ namespace Vegaxys
         public int shieldValue;
         public int ammoValue;
         public int granadeDamage;
+        public int score;
+
         #endregion
 
 
@@ -206,6 +208,11 @@ namespace Vegaxys
                 }
                 return result;
             }
+        }
+
+        public void AddScore(int amount) {
+            score += amount;
+            HUD_Manager.manager.Update_Score(score);
         }
 
         #endregion

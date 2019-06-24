@@ -37,8 +37,10 @@ namespace Vegaxys
             if (target == null) {
                 Destroy(gameObject);
             }
-            FollowTarget();
-            UpdateInfo();
+            if (Camera.main != null) {
+                FollowTarget();
+                UpdateInfo();
+            }
         }
 
         #endregion

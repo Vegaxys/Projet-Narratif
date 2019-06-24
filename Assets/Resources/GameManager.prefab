@@ -59,8 +59,9 @@ MonoBehaviour:
   playerPrefab:
   - {fileID: 3114399221734082166, guid: b8fd6478bf87eef43808aad90fe99a6e, type: 3}
   - {fileID: 238294210143830669, guid: aecf04a585519d34e94519fd16454edb, type: 3}
+  - {fileID: 1982504558165284184, guid: 641f4e6d3c12e9945b6111f9d01cfee5, type: 3}
   - {fileID: 550732197420199090, guid: 129ca5fec179c9e4898828477e3eb97f, type: 3}
-  - {fileID: 550732197420199090, guid: 129ca5fec179c9e4898828477e3eb97f, type: 3}
+  players: []
   localPlayerInstance: {fileID: 0}
   damageParticle: {fileID: 1461757441125127860, guid: b3c624f99831716459d47bb78a84558b,
     type: 3}
@@ -72,6 +73,7 @@ MonoBehaviour:
   shieldValue: 150
   ammoValue: 150
   granadeDamage: 300
+  score: 0
   loobyCamera: {fileID: 0}
 --- !u!114 &344284344
 MonoBehaviour:
@@ -93,7 +95,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 7
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!1001 &5043970035351981622
 PrefabInstance:
