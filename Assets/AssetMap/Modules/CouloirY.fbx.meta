@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 333e5e739b4346241886c559f7e9358f
+guid: 91e79e4a7ed511348b75271b4f0caf09
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -7,18 +7,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: BleuEmissive
+      name: Emissive
     second: {fileID: 2100000, guid: 1c17ac58b68f16b49ac6eebb6f845fb3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Fer
-    second: {fileID: 2100000, guid: f5356b3650901494db28bd75afd4fa60, type: 2}
+    second: {fileID: 2100000, guid: 271670a3d7638184384635cddeae6fe8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Fer Noir
-    second: {fileID: 2100000, guid: 8b317a1e0dc9e2b4793ef13c0ab9072a, type: 2}
+    second: {fileID: 2100000, guid: f10b1385aad593f4795802439b74b0d1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: a6ea07277ba94b7438df3ebe46880cab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Orange
+    second: {fileID: 2100000, guid: 4832b52beeaad4b409fcb537e05e2c7e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Verre
+    second: {fileID: 2100000, guid: 0b646ef32bafabb468f879365ce70693, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -49,7 +64,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 6
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -95,7 +110,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 6
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
