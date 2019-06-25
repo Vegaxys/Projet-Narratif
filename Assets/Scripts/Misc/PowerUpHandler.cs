@@ -44,7 +44,6 @@ namespace Vegaxys
         }
 
         public IEnumerator PickPowerUp(Transform goal) {
-            print(goal.name);
             float t = 0;
             while(t < 1) {
                 t += Time.deltaTime * latence;

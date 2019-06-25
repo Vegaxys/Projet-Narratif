@@ -36,8 +36,8 @@ namespace Vegaxys {
     public class WinCondition {
         public WinConditionEnum winCondition;
         [Tooltip("Combien de fois on doit répéter l'event avant de le réaliser")]
-        /*[HideInInspector]*/ public int repetition;
-        /*[HideInInspector]*/ public int currentrow;
+        [HideInInspector] public int repetition;
+        [HideInInspector] public int currentrow;
     }
 
     [System.Serializable]
@@ -47,7 +47,7 @@ namespace Vegaxys {
         public int scoreRecompense;
         public WinCondition winCondition;
         public bool isMainObjectif;
-       /* [HideInInspector]*/ public bool complete;
+        [HideInInspector] public bool complete;
     }
 
     public class ObjectifManager :MonoBehaviour {
@@ -70,6 +70,7 @@ namespace Vegaxys {
         }
 
         public void CreateRandomObjectifs() {
+            print("hi");
             List<Objectif> currentObjectif = new List<Objectif>();
             for (int i = 0; i < 4; i++) {
                 currentObjectif.Add(CreateAnObjectif(currentObjectif));
@@ -80,6 +81,10 @@ namespace Vegaxys {
             currentObjectif.RemoveAt(0);
 
             subObjectifs = currentObjectif.ToArray();
+
+            foreach (var item in container) {
+                item.SetTitle();
+            }
         }
 
         private Objectif CreateAnObjectif(List<Objectif> currentObjectif) {

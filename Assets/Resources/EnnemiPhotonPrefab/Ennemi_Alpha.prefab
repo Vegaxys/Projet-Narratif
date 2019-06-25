@@ -286,22 +286,17 @@ MonoBehaviour:
   anchor: {fileID: 5938072674132934114}
   characters: []
   avatarName: Alpha
-  maxSpeed: 20
-  acceleration: 20
   score: 500
   aggro_Range: 6
   stoppingRange: 3
-  fireRate: 0.5
-  precision: 5
-  reloadingSpeed: 0.5
-  damageFire: 20
+  currentAttack: {fileID: 11400000, guid: b4eb9ba7b1f325340acb6c19ac551179, type: 2}
+  currentLife: 170
+  maxLife: 170
+  room: {fileID: 0}
+  view: {fileID: 0}
   currentBulletInWeapon: 20
   maxBulletInWeapon: 20
   maxBulletInEntity: 300
-  currentLife: 700
-  maxLife: 700
-  room: {fileID: 0}
-  view: {fileID: 0}
   target: {fileID: 0}
   aggroCollider: {fileID: 6411590898337659257}
 --- !u!1 &5938072674132934368

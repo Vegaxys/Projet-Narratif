@@ -56,11 +56,14 @@ namespace Vegaxys
 
         public void Awake() {
             instance = this;
-            loobyCamera.SetActive(false);
-            view = GetComponent<PhotonView>();
-            PhotonNetwork.Instantiate(playerPrefab[PlayerInfos.instance.player.avatarID].name, spawnPoints[PlayerInfos.instance.player.playerID].position, Quaternion.identity, 0);
-            ObjectifManager.instance.CreateRandomObjectifs();
+            if (PhotonNetwork.IsConnected) {
+                loobyCamera.SetActive(false);
+                view = GetComponent<PhotonView>();
+                PhotonNetwork.Instantiate(playerPrefab[PlayerInfos.instance.player.avatarID].name, spawnPoints[PlayerInfos.instance.player.playerID].position, Quaternion.identity, 0);
+                Invoke("CallObjectifManager", 1);
+            }
         }
+
 
         #endregion
 
@@ -220,13 +223,20 @@ namespace Vegaxys
 
         #region Private Methods
 
-        public OutlineSettings GetSettings(string type) {
+        private OutlineSettings GetSettings(string type) {
             for (int i = 0; i < settings.Length; i++) {
                 if (settings[i].type == type) {
                     return settings[i];
                 }
             }
             return null;
+        }
+
+        private void CallObjectifManager() {
+            print(ObjectifManager.instance== null);
+            if (ObjectifManager.instance != null) {
+                ObjectifManager.instance.CreateRandomObjectifs();
+            }
         }
 
         #endregion

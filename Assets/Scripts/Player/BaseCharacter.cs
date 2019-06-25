@@ -36,7 +36,6 @@ namespace Vegaxys
         [Range(0, 100)] public int aggroValue;
         public Capa capa01;
         public Capa capa02;
-        [HideInInspector] public IEntity entities;
 
         [Header("Grenade")]
         public int grenade_Range;
@@ -59,11 +58,13 @@ namespace Vegaxys
 
         private EntityBar bar;
         private Transform model;
+        private Coroutine takeTicCoroutine;
         private float timmingFire;
         private int shieldCount;
         private int healthCount;
         private int grenadeCount;
         private int maxConso = 3;
+        private bool takingTic;
 
         [Header("Auto Attack")]
         private float fireRate;
@@ -157,12 +158,12 @@ namespace Vegaxys
         }
 
         void OnTriggerEnter(Collider other) {
-            if (furtiv) {
+            /*if (furtiv) {
                 return;
-            }
+            }*/
             if (other.CompareTag("Projectile")) {
                 Projectile projectile = other.GetComponent<Projectile>();
-                entities = projectile.originalPlayer.GetComponent<IEntity>();
+                //entities = projectile.originalPlayer.GetComponent<IEntity>();
                 if (projectile.originalPlayer == transform) {
                     return;
                 }
@@ -297,7 +298,7 @@ namespace Vegaxys
             //GameManager.instance.LeaveRoom();
         }
 
-        public virtual IEnumerator Reload(float sec) {
+        public virtual IEnumerator Virtual_Reload(float sec) {
             yield return new WaitForSeconds(sec);
             currentBulletInWeapon = maxBulletInWeapon;
             maxBulletInPlayer -= maxBulletInWeapon;
@@ -385,7 +386,7 @@ namespace Vegaxys
         [PunRPC]
         public virtual void RPC_Reload() {
             StartCoroutine(bar.Reloading(reloadingSpeed));
-            StartCoroutine(Reload(reloadingSpeed));
+            StartCoroutine(Virtual_Reload(reloadingSpeed));
         }
 
         [PunRPC]

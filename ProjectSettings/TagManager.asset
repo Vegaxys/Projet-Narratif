@@ -12,6 +12,7 @@ TagManager:
   - PowerUp
   - SpawnerPowerUp
   - Grenade
+  - Shield
   layers:
   - Default
   - TransparentFX

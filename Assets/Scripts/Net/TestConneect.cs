@@ -10,6 +10,7 @@ namespace Vegaxys {
         [SerializeField] private int gameVersion;
         void Start() {
             print("Connecting to sever...");
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.NickName = MasterManager.GameSettings.PlayerName;
             PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
             PhotonNetwork.ConnectUsingSettings();

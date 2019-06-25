@@ -6,6 +6,5 @@ namespace Vegaxys
 {
     public class Enemi_Lamba :Ennemi
     {
-
     }
 }

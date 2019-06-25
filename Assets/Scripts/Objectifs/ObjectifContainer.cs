@@ -13,9 +13,9 @@ namespace Vegaxys {
         public Color panelColorFailed;
 
 
-        public void Start() {
+       /* public void Start() {
             Invoke("SetTitle", .8f);
-        }
+        }*/
         public void SetTitle() {
             if (objectif == 0) {
                 transform.GetComponentInChildren<TextMeshProUGUI>().text = ObjectifManager.instance.mainObjectif.title;

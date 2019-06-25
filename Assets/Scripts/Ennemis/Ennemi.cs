@@ -21,21 +21,13 @@ namespace Vegaxys {
 
         [Tooltip("General Values")]
         public string avatarName;
-        public float maxSpeed;
-        public float acceleration;
         public int score;
         [Range(0, 100)] public int aggro_Range;
         [Range(2, 15)] public float stoppingRange;
 
 
         [Header("Auto Attack")]
-        public float fireRate;
-        public float precision;
-        public float reloadingSpeed;
-        public int damageFire;
-        public int currentBulletInWeapon;
-        public int maxBulletInWeapon;
-        public int maxBulletInEntity;
+        public AutoAttack currentAttack;
 
         [Header("Health & Shield")]
         public int currentLife;
@@ -43,6 +35,10 @@ namespace Vegaxys {
 
         [HideInInspector] public RoomManager room;
         [HideInInspector] public PhotonView view;
+
+        [HideInInspector] public int currentBulletInWeapon;
+        [HideInInspector] public int maxBulletInWeapon;
+        [HideInInspector] public int maxBulletInEntity;
 
         #endregion
 
@@ -63,6 +59,12 @@ namespace Vegaxys {
 
         private float timmingFire;
         private bool takingTic;
+
+        [Header("Auto Attack")]
+        private float fireRate;
+        private int damageFire;
+        private float precision;
+        private float reloadingSpeed;
 
         #endregion
 
@@ -93,13 +95,13 @@ namespace Vegaxys {
 
             navigation.stoppingDistance = stoppingRange;
 
+            InitialyzeAutoAttack();
+            UpdateAutoAttack();
+
             StartCoroutine(RefreshAggro());
         }
 
         public virtual void Update() {
-            if (!photonView.IsMine) {
-                return;
-            }
             if (target != null) {
                 LookAtTarget();
                 Fire();
@@ -181,6 +183,22 @@ namespace Vegaxys {
             }
         }
 
+        public void InitialyzeAutoAttack() {
+            currentAttack.currentBulletInWeapon = currentAttack.save_currentBulletInWeapon;
+            currentAttack.maxBulletInWeapon = currentAttack.save_maxBulletInWeapon;
+            currentAttack.maxBulletInPlayer = currentAttack.save_maxBulletInPlayer;
+        }
+
+        public void UpdateAutoAttack() {
+            fireRate = currentAttack.fireRate;
+            damageFire = currentAttack.damageFire;
+            precision = currentAttack.precision;
+            reloadingSpeed = currentAttack.reloadingSpeed;
+            currentBulletInWeapon = currentAttack.currentBulletInWeapon;
+            maxBulletInWeapon = currentAttack.maxBulletInWeapon;
+            maxBulletInEntity = currentAttack.maxBulletInPlayer;
+        }
+
         #endregion
 
 
@@ -205,9 +223,9 @@ namespace Vegaxys {
                         characters.Add(item.GetComponent<BaseCharacter>());
                 }
             }
-            BaseCharacter _character = new BaseCharacter();
+            BaseCharacter _character = null;
             for (int i = 0; i < characters.Count; i++) {
-                if(characters[i].aggroValue >= _character.aggroValue) {
+                if(_character == null || characters[i].aggroValue >= _character.aggroValue) {
                     _character = characters[i];
                 }
             }

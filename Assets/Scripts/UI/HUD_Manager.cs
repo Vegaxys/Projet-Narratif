@@ -9,7 +9,6 @@ namespace Vegaxys {
 
         public Image capa01_Cooldown;
         public Image capa02_Cooldown;
-        public TextMeshProUGUI chargeur;
         public TextMeshProUGUI scoreText;
 
         [Header("Consos")]
@@ -17,7 +16,11 @@ namespace Vegaxys {
         public TextMeshProUGUI consoHealthText;
         public TextMeshProUGUI consoGrenadeText;
 
-        public BaseCharacter character;
+        [Header("Arme principale")]
+        [SerializeField] private Image chargeurImage;
+        [SerializeField] private TextMeshProUGUI chargeurText;
+
+        [HideInInspector] public BaseCharacter character;
 
         public void Awake() {
             manager = this;
@@ -34,7 +37,8 @@ namespace Vegaxys {
         }
 
         public void Update_Chargeur(int curr, int max, int all) {
-            chargeur.text = "Ammo : " + curr + "/" + max + " || " + all;
+            chargeurText.text = curr + "/" + all;
+            chargeurImage.fillAmount = (2 / 3) / (curr / max);
         }
 
         public void Update_Consos(int shield, int health, int grenade) {

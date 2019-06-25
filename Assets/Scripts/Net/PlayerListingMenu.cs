@@ -30,6 +30,8 @@ namespace Vegaxys {
         }
 
         private void GetCurrentPlayerInRoom() {
+            if (!PhotonNetwork.IsConnected) return;
+            if (PhotonNetwork.CurrentRoom == null) return;
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players) {
                 AddPlayer(playerInfo.Value);
             }
@@ -61,6 +63,14 @@ namespace Vegaxys {
             if (index != -1) {
                 Destroy(playerUIs[index].gameObject);
                 playerUIs.RemoveAt(index);
+            }
+        }
+
+        public void OnClick_StartGame() {
+            if (PhotonNetwork.IsMasterClient) {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+                PhotonNetwork.LoadLevel(1);
             }
         }
     }

@@ -13,6 +13,11 @@ namespace Vegaxys {
         public override void Virtual_GetTarget() {
             if (Input.GetButtonDown("Select")) {
                 IEntity entity = GameManager.instance.GetEntity(capa_Range, transform.position);
+                if (entity.GetTransform() == character.transform) {
+                    GameManager.instance.DeselectTarget(character.transform);
+                    Virtual_DeselectAllTargets();
+                    return;
+                }
                 if(capa_Target != null) {
                     GameManager.instance.DeselectTarget(capa_Target);
                 }
@@ -26,10 +31,10 @@ namespace Vegaxys {
 
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
-            base.RPC_Virtual_Launch_Spell();
             Transform target = GameManager.instance.GetObjectByViewID(targetID).transform;
             GameObject bullet = Instantiate(bullet_TirChirurgical, character.canon.position, character.canon.rotation);
             bullet.GetComponent<Projectile_Capa02_Exile>().Setup(target, damageCapa, 0, 0);
+            base.RPC_Virtual_Launch_Spell();
         }
     }
 }

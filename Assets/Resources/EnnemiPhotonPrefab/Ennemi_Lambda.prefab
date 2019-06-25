@@ -480,22 +480,17 @@ MonoBehaviour:
   anchor: {fileID: 5362818919747119936}
   characters: []
   avatarName: Lambda
-  maxSpeed: 20
-  acceleration: 20
   score: 150
   aggro_Range: 6
   stoppingRange: 4
-  fireRate: 0.9
-  precision: 10
-  reloadingSpeed: 1
-  damageFire: 15
+  currentAttack: {fileID: 11400000, guid: 2006e186bc17295438fb7709fec26f5c, type: 2}
+  currentLife: 120
+  maxLife: 120
+  room: {fileID: 0}
+  view: {fileID: 0}
   currentBulletInWeapon: 10
   maxBulletInWeapon: 10
   maxBulletInEntity: 100
-  currentLife: 300
-  maxLife: 300
-  room: {fileID: 0}
-  view: {fileID: 0}
   target: {fileID: 0}
   aggroCollider: {fileID: 4683252361067229147}
 --- !u!1 &6785113831811734161

@@ -11,7 +11,11 @@ namespace Vegaxys {
 
         public void SetPlayerInfo(Player info) {
             player = info;
-            roomName.text = info.NickName;
+            string champname = "null";
+            if (info.CustomProperties.ContainsKey("ChampionName")) {
+                champname = info.CustomProperties["ChampionName"].ToString();
+            }
+            roomName.text = info.NickName + "\n" + champname;
         }
     }
 }
