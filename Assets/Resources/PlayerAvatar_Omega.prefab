@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 100983228540240677}
   - component: {fileID: 100983228540240678}
   - component: {fileID: 100983228540240679}
+  - component: {fileID: 4075817129393838935}
   m_Layer: 10
   m_Name: Spell_Drone
   m_TagString: Untagged
@@ -47,10 +48,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 4075817129393838935}
   viewIdField: 0
   InstantiationId: 15
   isRuntimeInstantiated: 0
@@ -83,6 +84,22 @@ MonoBehaviour:
   character: {fileID: 0}
   view: {fileID: 0}
   drone: {fileID: 2256917929950245336, guid: 0e33f498ab8db284bb1ca6f851e02811, type: 3}
+--- !u!114 &4075817129393838935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100983228540240676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a55f37b13f41da2478c64faecc43d92b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  v_position: 1
+  v_rotation: 1
+  v_scale: 0
+  lerpSpeed: 8
 --- !u!1 &550732197420199090
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +109,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3643338711378420878}
-  - component: {fileID: 1301356696860045664}
   m_Layer: 10
   m_Name: PlayerAvatar_Omega
   m_TagString: Untagged
@@ -116,28 +132,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1301356696860045664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 550732197420199090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 17
-  isRuntimeInstantiated: 0
 --- !u!1 &1270876775738794886
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,9 +228,9 @@ GameObject:
   - component: {fileID: 1432573990771547633}
   - component: {fileID: 1432573990771547616}
   - component: {fileID: 1432573990771547636}
-  - component: {fileID: 1432573990771547562}
   - component: {fileID: 1432573990771547565}
   - component: {fileID: 4724215616307820769}
+  - component: {fileID: 7485050341550254476}
   m_Layer: 10
   m_Name: Model
   m_TagString: Player
@@ -322,21 +316,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1432573990771547562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432573990771547736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!114 &1432573990771547565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,8 +334,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 1432573990771547562}
-  - {fileID: 4724215616307820769}
+  - {fileID: 7485050341550254476}
   viewIdField: 0
   InstantiationId: 16
   isRuntimeInstantiated: 0
@@ -402,6 +380,22 @@ MonoBehaviour:
   currentBulletInWeapon: 0
   maxBulletInWeapon: 0
   maxBulletInPlayer: 0
+--- !u!114 &7485050341550254476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432573990771547736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a55f37b13f41da2478c64faecc43d92b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  v_position: 1
+  v_rotation: 1
+  v_scale: 0
+  lerpSpeed: 8
 --- !u!1 &1432573990771547737
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,9 +629,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1432573990771547821}
   - component: {fileID: 1432573990771547563}
-  - component: {fileID: 1432573990771547553}
   - component: {fileID: 5121466838427209033}
   - component: {fileID: 1505732421521121573}
+  - component: {fileID: 4426190916443759715}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -679,25 +673,10 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 1432573990771547553}
+  - {fileID: 4426190916443759715}
   viewIdField: 0
   InstantiationId: 12
   isRuntimeInstantiated: 0
---- !u!114 &1432573990771547553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432573990771547745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!33 &5121466838427209033
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -743,6 +722,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4426190916443759715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432573990771547745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a55f37b13f41da2478c64faecc43d92b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  v_position: 1
+  v_rotation: 1
+  v_scale: 0
+  lerpSpeed: 8
 --- !u!1 &1432573990771547746
 GameObject:
   m_ObjectHideFlags: 0

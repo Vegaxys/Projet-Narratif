@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Vegaxys
 {
@@ -18,6 +19,7 @@ namespace Vegaxys
         private Image lifeBar;
         private Image shield;
         private Image reloadingImage;
+        private Player player;
 
         #endregion
 
@@ -28,7 +30,13 @@ namespace Vegaxys
             lifeBar = transform.GetChild(1).GetComponent<Image>();
             shield = transform.GetChild(2).GetComponent<Image>();
             pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
-            pseudo.text = PhotonNetwork.IsMasterClient ? "Master": "Client";
+            foreach (var item in PhotonNetwork.PlayerList) {
+                if (item.ActorNumber == entity.GetTransform().GetComponent<PhotonView>().Owner.ActorNumber) {
+                    player = item;
+                    break;
+                }
+            }
+            pseudo.text = /*player.CustomProperties["ChampionName"] + "|" + player.NickName*/ player.ActorNumber + "|" + PhotonNetwork.CurrentRoom.Name;
             reloadingImage = transform.GetChild(4).GetComponent<Image>();
             if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
         }

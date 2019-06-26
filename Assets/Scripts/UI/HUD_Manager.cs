@@ -38,7 +38,7 @@ namespace Vegaxys {
 
         public void Update_Chargeur(int curr, int max, int all) {
             chargeurText.text = curr + "/" + all;
-            chargeurImage.fillAmount = (2 / 3) / (curr / max);
+            chargeurImage.fillAmount = (2f / 3f) / ((float)max / (float)curr);
         }
 
         public void Update_Consos(int shield, int health, int grenade) {

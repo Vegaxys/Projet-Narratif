@@ -70,7 +70,6 @@ namespace Vegaxys {
         }
 
         public void CreateRandomObjectifs() {
-            print("hi");
             List<Objectif> currentObjectif = new List<Objectif>();
             for (int i = 0; i < 4; i++) {
                 currentObjectif.Add(CreateAnObjectif(currentObjectif));

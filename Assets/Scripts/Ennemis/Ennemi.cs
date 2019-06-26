@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Vegaxys {
 
-    public class Ennemi :MonoBehaviourPunCallbacks, IPunObservable, IEntity
+    public class Ennemi :MonoBehaviourPunCallbacks, IEntity
     {
         #region Public Fields
 
@@ -278,19 +278,6 @@ namespace Vegaxys {
         [PunRPC]
         public virtual void RPC_GoToTarget(Vector3 pos) {
             navigation.SetDestination(pos);
-        }
-
-        #endregion
-
-
-        #region IPunObservable implementation
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-           /* if (stream.IsWriting) {
-                stream.SendNext(currentLife);
-            } else {
-                currentLife = (int)stream.ReceiveNext();
-            }*/
         }
 
         #endregion

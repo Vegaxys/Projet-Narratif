@@ -15,7 +15,7 @@ namespace Vegaxys
         public Color color;
     }
 
-    public class GameManager :MonoBehaviourPunCallbacks
+    public class GameManager :MonoBehaviourPun
     {
         #region Public Fields
 
@@ -54,24 +54,19 @@ namespace Vegaxys
 
         #region MonoBehaviour Callbacks
 
-        public void Awake() {
+        public void Start() {
             instance = this;
-            if (PhotonNetwork.IsConnected) {
-                loobyCamera.SetActive(false);
-                view = GetComponent<PhotonView>();
-                PhotonNetwork.Instantiate(playerPrefab[PlayerInfos.instance.player.avatarID].name, spawnPoints[PlayerInfos.instance.player.playerID].position, Quaternion.identity, 0);
-                Invoke("CallObjectifManager", 1);
+            loobyCamera.SetActive(false);
+            Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
+            if(PhotonNetwork.LocalPlayer.ActorNumber == 0) {
+                Debug.LogError("Ca bug c'est grand morts");
+                return;
             }
-        }
-
-
-        #endregion
-
-
-        #region Photon Callbacks
-
-        public override void OnLeftRoom() {
-            SceneManager.LoadScene(0);
+            PhotonNetwork.Instantiate(
+                this.playerPrefab[PlayerInfos.instance.player.avatarID].name, 
+                spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, 
+                Quaternion.identity, 0);
+            Invoke("CallObjectifManager", 1);
         }
 
         #endregion
@@ -187,7 +182,7 @@ namespace Vegaxys
                 Debug.DrawLine(originTransform.position, hit.point, Color.yellow);
                 return hit.point;
             } else {
-                Debug.DrawLine(originTransform.position, newPos, Color.blue);
+                Debug.DrawLine(originTransform.position, newPos + Vector3.up, Color.blue);
                 return newPos;
             }
         }
@@ -233,7 +228,6 @@ namespace Vegaxys
         }
 
         private void CallObjectifManager() {
-            print(ObjectifManager.instance== null);
             if (ObjectifManager.instance != null) {
                 ObjectifManager.instance.CreateRandomObjectifs();
             }

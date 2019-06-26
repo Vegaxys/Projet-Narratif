@@ -6,18 +6,7 @@ using UnityEngine.AI;
 
 namespace Vegaxys
 {
-    [System.Serializable]
-    public class PlayerProperties
-    {
-        public string playerName;
-        public int playerID;
-        public string avatarName;
-        public string className;
-        public string playerXP;
-        public int avatarID;
-    }
-
-    public class BaseCharacter :MonoBehaviourPunCallbacks, IEntity , IPunObservable
+    public class BaseCharacter :MonoBehaviourPun, IEntity
     {
         #region Public Fields
 
@@ -84,7 +73,7 @@ namespace Vegaxys
             _cam = transform.parent.GetComponentInChildren<Camera>();
             HUD_Manager.manager.character = this;
             GameManager.instance.localPlayerInstance = gameObject;
-            player = PlayerInfos.instance.player;
+            player = PlayerInfos.instance.GetPlayer();
 
             transform.parent.GetComponentInChildren<Camera>().gameObject.SetActive(photonView.IsMine);
 
@@ -99,7 +88,7 @@ namespace Vegaxys
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
         }
-
+        
         public virtual void Update() {
             if (photonView.IsMine == false && PhotonNetwork.IsConnected == true) {
                 return;
@@ -110,8 +99,12 @@ namespace Vegaxys
                 Virtual_PlayerRotation();
             }
             #region Fire
-            if (Input.GetButton("Fire")) {
-                Virtual_Fire();
+            if (timmingFire > 0)
+                timmingFire -= Time.deltaTime;
+            if (timmingFire <= 0 && currentBulletInWeapon > 0) {
+                if (Input.GetButton("Fire")) {
+                    Virtual_Fire();
+                }
             }
             if (Input.GetButtonUp("Reload")) {
                 if (maxBulletInPlayer >= maxBulletInWeapon) {
@@ -158,9 +151,6 @@ namespace Vegaxys
         }
 
         void OnTriggerEnter(Collider other) {
-            /*if (furtiv) {
-                return;
-            }*/
             if (other.CompareTag("Projectile")) {
                 Projectile projectile = other.GetComponent<Projectile>();
                 //entities = projectile.originalPlayer.GetComponent<IEntity>();
@@ -252,18 +242,15 @@ namespace Vegaxys
         }
 
         public virtual void Virtual_Fire() {
-            timmingFire -= Time.deltaTime;
-            if(timmingFire <= 0 && currentBulletInWeapon > 0) {
-                timmingFire = fireRate;
-                Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
-                int _damage = GameManager.instance.GetRandomDamage(damageFire);
-                view.RPC("RPC_Character_Shoot", RpcTarget.All, rot, _damage);
-                if(maxBulletInPlayer != 1)
-                    currentBulletInWeapon--;
-                HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
-            }
+            timmingFire = fireRate;
+            Quaternion rot = GameManager.instance.GetRandomPrecision(canon.rotation, precision);
+            int _damage = GameManager.instance.GetRandomDamage(damageFire);
+            view.RPC("RPC_Character_Shoot", RpcTarget.All, rot, _damage);
+            if(maxBulletInPlayer != 1)
+                currentBulletInWeapon--;
+            HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
         }
-
+        
         public virtual void Virtual_TakeDamage(int amount) {
             if (amount < 0 && currentLife < maxLife) {
                 AddHealth(amount *= -1);
@@ -281,7 +268,7 @@ namespace Vegaxys
                 }
             }
         }
-
+        
         public virtual void Virtual_Death() {
             if (player.className == "Tank") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_TANK);
@@ -297,7 +284,7 @@ namespace Vegaxys
             }
             //GameManager.instance.LeaveRoom();
         }
-
+        
         public virtual IEnumerator Virtual_Reload(float sec) {
             yield return new WaitForSeconds(sec);
             currentBulletInWeapon = maxBulletInWeapon;
@@ -313,7 +300,7 @@ namespace Vegaxys
             yield return new WaitForSeconds(reloadingSpeed + .1f);
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
         }
-
+        
         private void AddHealth() {
             int oldCurrentLife = currentLife;
             currentLife += GameManager.instance.healValue;
@@ -339,7 +326,7 @@ namespace Vegaxys
             currentAttack.maxBulletInWeapon = currentAttack.save_maxBulletInWeapon;
             currentAttack.maxBulletInPlayer = currentAttack.save_maxBulletInPlayer;
         }
-
+        
         #endregion
 
 
@@ -350,7 +337,7 @@ namespace Vegaxys
             if (currentLife > maxLife) currentLife = maxLife;
             GameManager.instance.InstantiateDamageParticle("Health", GameManager.instance.healValue, transform.position);
         }
-
+        
         public void UpdateAutoAttack() {
             fireRate = currentAttack.fireRate;
             damageFire = currentAttack.damageFire;
@@ -370,7 +357,7 @@ namespace Vegaxys
             currentAttack.maxBulletInWeapon = maxBulletInWeapon;
             currentAttack.maxBulletInPlayer = maxBulletInPlayer;
         }
-
+        
         #endregion
 
 
@@ -382,13 +369,13 @@ namespace Vegaxys
             bullet.GetComponent<Projectile>().isHealing = currentAttack.healingBullet;
             bullet.GetComponent<Projectile>().Setup(transform, _damage, currentAttack.damageDOT, currentAttack.row);
         }
-
+        
         [PunRPC]
         public virtual void RPC_Reload() {
             StartCoroutine(bar.Reloading(reloadingSpeed));
             StartCoroutine(Virtual_Reload(reloadingSpeed));
         }
-
+        
         [PunRPC]
         public void RPC_GetShield() {
             AddShield();
@@ -409,7 +396,7 @@ namespace Vegaxys
         }
 
         #endregion
-
+        
 
         #region IEntity implementation
 
@@ -442,19 +429,6 @@ namespace Vegaxys
         }
 
         #endregion
-
-
-        #region IPunObservable implementation
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-            if (stream.IsWriting) {
-
-            } else 
-            if (stream.IsReading) {
-
-            }
-        }
-
-        #endregion
+        
     }
 }
