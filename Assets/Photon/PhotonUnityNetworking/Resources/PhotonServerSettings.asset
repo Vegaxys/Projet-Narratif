@@ -33,7 +33,6 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - RPC_Capa01_Dash
   - RPC_Character_Shoot
   - RPC_Ennemi_Reload
   - RPC_Ennemi_Shoot
@@ -45,6 +44,5 @@ MonoBehaviour:
   - RPC_Reload
   - RPC_SwitchValue
   - RPC_Virtual_Launch_Spell
-  - RPC_AddPlayerToGM
   DisableAutoOpenWizard: 1
   ShowSettings: 0

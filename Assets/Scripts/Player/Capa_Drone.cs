@@ -8,8 +8,7 @@ namespace Vegaxys
         public GameObject drone;
         private Companion_Drone companion;
 
-        public override void Start() {
-            base.Start();
+        private void Start() {
             Invoke("InstantiateDrone", 1);
         }
 

@@ -47,7 +47,7 @@ namespace Vegaxys {
 
         #region MonoBehaviour CallBacks
 
-        public virtual void Start() {
+        public virtual void Awake() {
             hud = HUD_Manager.manager;
             character = GetComponentInParent<BaseCharacter>();
             view = GetComponent<PhotonView>();
@@ -96,7 +96,6 @@ namespace Vegaxys {
 
         #region Virtuals Methods 
 
-        //[PunRPC]
         public virtual void RPC_Virtual_Launch_Spell() {
             print(current_Spell.title + " has been launched !! ");
             Virtual_DeselectAllTargets();

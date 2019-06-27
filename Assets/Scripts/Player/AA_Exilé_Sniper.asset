@@ -18,7 +18,7 @@ MonoBehaviour:
   damageFire: 50
   precision: 5
   reloadingSpeed: 1
-  currentBulletInWeapon: 5
+  currentBulletInWeapon: 10
   maxBulletInWeapon: 10
   maxBulletInPlayer: 100
   cac: 0
@@ -28,6 +28,7 @@ MonoBehaviour:
   healingBullet: 0
   damageDOT: 0
   row: 0
+  weaponIndex: 2
   save_currentBulletInWeapon: 10
   save_maxBulletInWeapon: 10
   save_maxBulletInPlayer: 100

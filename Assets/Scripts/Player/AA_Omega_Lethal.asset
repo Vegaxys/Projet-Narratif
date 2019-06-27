@@ -20,7 +20,7 @@ MonoBehaviour:
   reloadingSpeed: 1.3
   currentBulletInWeapon: 16
   maxBulletInWeapon: 16
-  maxBulletInPlayer: 144
+  maxBulletInPlayer: 155
   cac: 0
   needReload: 1
   automaticWeapon: 1
@@ -28,6 +28,7 @@ MonoBehaviour:
   healingBullet: 0
   damageDOT: 0
   row: 0
+  weaponIndex: 4
   save_currentBulletInWeapon: 16
   save_maxBulletInWeapon: 16
   save_maxBulletInPlayer: 155

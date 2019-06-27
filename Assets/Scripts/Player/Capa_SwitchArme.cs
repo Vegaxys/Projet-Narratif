@@ -37,25 +37,23 @@ namespace Vegaxys
             }
         }
 
-        private void Awake() {
+        public override void Awake() {
+            base.Awake();
             character = GetComponentInParent<BaseCharacter>();
             weaponType = WeaponType.WEAPON_ONE;
-            //SwitchValue();
+            RPC_SwitchValue(weaponType);
         }
 
-        [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
             base.RPC_Virtual_Launch_Spell();
             character.UploadAutoAttack();
             if (weaponType == WeaponType.WEAPON_ONE) {
                 weaponType = WeaponType.WEAPON_TWO;
                 view.RPC("RPC_SwitchValue", RpcTarget.AllBuffered, weaponType);
-                // SwitchValue();
             } else
                 if (weaponType == WeaponType.WEAPON_TWO) {
                 weaponType = WeaponType.WEAPON_ONE;
                 view.RPC("RPC_SwitchValue", RpcTarget.AllBuffered, weaponType);
-                // SwitchValue();
             }
             character.UpdateAutoAttack();
             if (photonView.IsMine) {
@@ -64,6 +62,7 @@ namespace Vegaxys
                     character.maxBulletInWeapon,
                     character.maxBulletInPlayer);
             }
+            HUD_Manager.manager.Update_WeaponImage(character.currentAttack.weaponIndex);
         }
     }
 }

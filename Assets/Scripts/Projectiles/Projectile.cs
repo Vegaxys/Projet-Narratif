@@ -11,7 +11,7 @@ namespace Vegaxys {
         public int dot_Row;
 
         [HideInInspector] public Vector3 origin;
-        /*[HideInInspector]*/ public Transform originalPlayer;
+        [HideInInspector] public Transform originalPlayer;
         [HideInInspector] public bool isHealing;
 
 

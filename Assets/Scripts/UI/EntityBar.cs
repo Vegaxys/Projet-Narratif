@@ -36,18 +36,18 @@ namespace Vegaxys
                     break;
                 }
             }
-            pseudo.text = /*player.CustomProperties["ChampionName"] + "|" + player.NickName*/ player.ActorNumber + "|" + PhotonNetwork.CurrentRoom.Name;
+            pseudo.text = entity.GetDisplayedName();
             reloadingImage = transform.GetChild(4).GetComponent<Image>();
             if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
         }
 
         private void Update() {
-            if (target == null) {
-                Destroy(gameObject);
-            }
             if (Camera.main != null) {
                 FollowTarget();
                 UpdateInfo();
+            }
+            if (target == null) {
+                Destroy(gameObject);
             }
         }
 
@@ -86,7 +86,8 @@ namespace Vegaxys
         }
 
         private void FollowTarget() {
-            transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
+            if(target != null)
+                transform.position = Camera.main.WorldToScreenPoint(target.position) + offset;
         }
 
         #endregion

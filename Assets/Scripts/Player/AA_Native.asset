@@ -28,6 +28,7 @@ MonoBehaviour:
   healingBullet: 0
   damageDOT: 0
   row: 0
+  weaponIndex: 3
   save_currentBulletInWeapon: 1
   save_maxBulletInWeapon: 0
   save_maxBulletInPlayer: 1

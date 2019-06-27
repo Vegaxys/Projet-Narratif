@@ -31,7 +31,11 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks{
     }
     public override void OnJoinedRoom() {
         PlayerInfos.instance.player.playerID = PhotonNetwork.LocalPlayer.ActorNumber;
-        champion.OnClick_SelectChampion(0 /*Random.Range(0, 4)*/);
         SceneManager.LoadScene("GameScene");
+    }
+
+    public void SetUsername(string input) {
+        PlayerInfos.instance.player.playerName = input;
+        PhotonNetwork.LocalPlayer.NickName = input;
     }
 }

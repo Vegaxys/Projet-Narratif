@@ -30,6 +30,7 @@ public class AutoAttack : ScriptableObject
 
     public int damageDOT;
     public int row;
+    public int weaponIndex;
 
     [Tooltip("Save currentBulletInWeapon")]
     public int save_currentBulletInWeapon;

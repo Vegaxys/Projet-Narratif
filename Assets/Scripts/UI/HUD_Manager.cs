@@ -11,6 +11,10 @@ namespace Vegaxys {
         public Image capa02_Cooldown;
         public TextMeshProUGUI scoreText;
 
+        [Header("Weapon")]
+        public Image[] weaponsSprite;
+        private Image previousImage;
+
         [Header("Consos")]
         public TextMeshProUGUI consoShieldText;
         public TextMeshProUGUI consoHealthText;
@@ -38,7 +42,11 @@ namespace Vegaxys {
 
         public void Update_Chargeur(int curr, int max, int all) {
             chargeurText.text = curr + "/" + all;
-            chargeurImage.fillAmount = (2f / 3f) / ((float)max / (float)curr);
+            if (character.currentAttack.weaponIndex == 1) {
+                chargeurImage.fillAmount = (2f / 3f) / ((float)all / (float)curr);
+            } else {
+                chargeurImage.fillAmount = (2f / 3f) / ((float)max / (float)curr);
+            }
         }
 
         public void Update_Consos(int shield, int health, int grenade) {
@@ -54,6 +62,13 @@ namespace Vegaxys {
 
         public void Update_Score(int amount) {
             scoreText.text = "Score : " + amount;
+        }
+
+        public void Update_WeaponImage(int index) {
+            weaponsSprite[index].enabled = true;
+            if(previousImage != null)
+                previousImage.enabled = false;
+            previousImage = weaponsSprite[index];
         }
 
         #endregion

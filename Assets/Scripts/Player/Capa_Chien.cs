@@ -9,8 +9,7 @@ namespace Vegaxys
         private Companion_Dog companion;
 
 
-        public override void Start() {
-            base.Start();
+        private void Start() {
             Invoke("InstantiateDog", 1);
         }
 

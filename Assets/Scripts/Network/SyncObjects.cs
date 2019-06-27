@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class SyncObjects : MonoBehaviourPun, IPunObservable{
-
-    public bool v_position;
-    public bool v_rotation;
-    public bool v_scale;
-
+public class SyncObjects :MonoBehaviourPun, IPunObservable
+{
     private Vector3 objPos;
     private Vector3 objScale;
     private Quaternion objRot;
 
-    [SerializeField]private float lerpSpeed = 8;
+    [SerializeField] private float lerpSpeed = 8;
     private void Update() {
         if (!photonView.IsMine) {
             UpdateTransform();
@@ -20,9 +16,9 @@ public class SyncObjects : MonoBehaviourPun, IPunObservable{
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if (stream.IsWriting) {
-            if (v_position) stream.SendNext(gameObject.transform.position);
-            if (v_rotation) stream.SendNext(gameObject.transform.rotation);
-            if (v_scale) stream.SendNext(gameObject.transform.localScale);
+            stream.SendNext(gameObject.transform.position);
+            stream.SendNext(gameObject.transform.rotation);
+            stream.SendNext(gameObject.transform.localScale);
 
         } else if (stream.IsReading) {
             objPos = (Vector3)stream.ReceiveNext();

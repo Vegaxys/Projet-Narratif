@@ -8,8 +8,7 @@ namespace Vegaxys
     {
         public float speedDash;
 
-        public override void Start() {
-            base.Start();
+        private void Start() {
             capa_GizAOE_Range = 1f;
         }
 

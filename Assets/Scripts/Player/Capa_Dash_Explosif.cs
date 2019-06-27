@@ -9,8 +9,7 @@ namespace Vegaxys {
 
         public int capa_Damage;
 
-        public override void Start() {
-            base.Start();
+        private void Start() {
             capa_GizAOE_Range = 3f;
         }
 
@@ -49,7 +48,7 @@ namespace Vegaxys {
                         break;
                     case "Player":
                         if (colliders[i].GetComponent<BaseCharacter>() != character)
-                            colliders[i].GetComponent<BaseCharacter>().Virtual_TakeDamage(damage);
+                            colliders[i].GetComponent<BaseCharacter>().TakeDamage(damage);
                         break;
                     default:
                         break;

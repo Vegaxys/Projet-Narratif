@@ -54,15 +54,14 @@ namespace Vegaxys
 
         #region MonoBehaviour Callbacks
 
-        public void Start() {
+        public void Awake() {
             instance = this;
             loobyCamera.SetActive(false);
-            Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber);
             if(PhotonNetwork.LocalPlayer.ActorNumber == 0) {
-                Debug.LogError("Ca bug c'est grand morts");
+                Debug.LogError("Ca bug ses grand morts");
                 return;
             }
-            PhotonNetwork.Instantiate(
+            localPlayerInstance = PhotonNetwork.Instantiate(
                 this.playerPrefab[PlayerInfos.instance.player.avatarID].name, 
                 spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, 
                 Quaternion.identity, 0);
