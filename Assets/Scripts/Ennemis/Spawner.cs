@@ -9,17 +9,41 @@ namespace Vegaxys {
         public GameObject prefab;
         public RoomManager roomManager;
         private PhotonView view;
+        private bool hasSpawn;
 
         private void Awake() {
             view = GetComponent<PhotonView>();
-            if (!PhotonNetwork.IsMasterClient) {
+         /*   if (!PhotonNetwork.IsMasterClient) {
                 return;
+            }*/
+        }
+        private void OnDrawGizmos() {
+            switch (prefab.name) {
+                case "Ennemi_Alpha":
+                    Gizmos.color = Color.cyan;
+                    break;
+                case "Ennemi_Beta":
+                    Gizmos.color = Color.green;
+                    break;
+                case "Ennemi_Lambda":
+                    Gizmos.color = Color.grey;
+
+                    break;
+                default:
+                    break;
             }
-            view.RPC("ChooseSpawnPosition", RpcTarget.All);
+            Gizmos.DrawCube(transform.position, new Vector3(2, 25, 2));
+        }
+
+        public void Spawn() {
+            if (!hasSpawn) {
+                view.RPC("RPC_SpawnEnemi", RpcTarget.All);
+                hasSpawn = true;
+            }
         }
 
         [PunRPC]
-        private void ChooseSpawnPosition() {
+        private void RPC_SpawnEnemi() {
             string prefabName = prefab.name;
             GameObject npc = PhotonNetwork.Instantiate(Path.Combine("EnnemiPhotonPrefab", prefabName),
                 transform.position, Quaternion.identity, 0);

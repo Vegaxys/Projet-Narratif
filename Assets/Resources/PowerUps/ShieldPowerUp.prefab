@@ -133,7 +133,7 @@ MonoBehaviour:
   rot: {x: 0, y: 0, z: 60}
   latence: 2
   rangeAction: 2
-  spawnTimer: 5
+  spawnTimer: 15
   type: 0
   powerUpTransform: {fileID: 0}
 --- !u!54 &8618268968139236034

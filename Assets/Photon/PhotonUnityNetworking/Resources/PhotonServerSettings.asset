@@ -44,5 +44,6 @@ MonoBehaviour:
   - RPC_Reload
   - RPC_SwitchValue
   - RPC_Virtual_Launch_Spell
+  - RPC_SpawnEnemi
   DisableAutoOpenWizard: 1
   ShowSettings: 0
