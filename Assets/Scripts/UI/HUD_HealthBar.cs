@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Vegaxys {
@@ -10,10 +9,10 @@ namespace Vegaxys {
         public Image healthImage;
         public Image shieldImage;
 
-        private void Start() {
-            playerID = PhotonNetwork.LocalPlayer.ActorNumber;
-            entity = GameManager.instance.localPlayerInstance.GetComponentInChildren<IEntity>();
-        }
+        private float currHealth;
+        private float currShield;
+        private bool setActive;
+
 
         private void Update() {
             if (entity != null) {
@@ -24,6 +23,10 @@ namespace Vegaxys {
         private void UpdateInfo() {
             healthImage.fillAmount = (float)entity.GetLife() / (float)entity.GetMaxLife();
             shieldImage.fillAmount = (float)entity.GetShield() / (float)entity.GetMaxShield();
+        }
+
+        public void Activate(IEntity _entity) {
+            entity = _entity;
         }
     }
 }

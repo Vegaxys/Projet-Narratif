@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 namespace Vegaxys {
-    public class Spawner :MonoBehaviour
+    public class Spawner :MonoBehaviour, IPunObservable
     {
         public GameObject prefab;
         public RoomManager roomManager;
@@ -25,5 +25,16 @@ namespace Vegaxys {
                 transform.position, Quaternion.identity, 0);
             npc.GetComponentInChildren<Ennemi>().room = roomManager;
         }
+
+        #region IPunObservable Implementation
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (stream.IsWriting && view.IsMine) {
+            } else
+            if (stream.IsReading) {
+            }
+        }
+
+        #endregion
     }
 }

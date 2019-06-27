@@ -12,6 +12,7 @@ public class MultiplayerManager : MonoBehaviourPunCallbacks{
 
     private void Start() {
         PhotonNetwork.ConnectUsingSettings();
+        print("Connecting to Photon...");
     }
     public override void OnConnectedToMaster() {
         print("Connected to Photon !");

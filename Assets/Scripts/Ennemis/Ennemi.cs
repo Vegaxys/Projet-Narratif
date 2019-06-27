@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Vegaxys {
 
-    public class Ennemi :MonoBehaviourPunCallbacks, IEntity
+    public class Ennemi :MonoBehaviourPun, IEntity, IPunObservable
     {
         #region Public Fields
 
@@ -136,6 +136,7 @@ namespace Vegaxys {
                     drone.transform.parent = GameObject.Find("Companions").transform;
                     drone.LaunchDrone(Companion_Drone.CompanionState.IDLE, null);
                 }
+                Death();
                 GameManager.instance.AddScore(score);
                 PhotonNetwork.Destroy(gameObject);
             }
@@ -154,18 +155,15 @@ namespace Vegaxys {
 
         #region Publics Methods
 
+        public  void GetNewPos(Vector3 newPos) {
+            view.RPC("RPC_GetNewPos", RpcTarget.AllBuffered, newPos);
+        }
+
         public void AddCharacter(BaseCharacter character) {
-          /*  foreach(var item in characters) {
-                if(character == item) {
-                    return;
-                }
-            }*/
-            //characters.Add(character);
             print(character.GetDisplayedName() + " Added to the list ");
         }
 
         public void RemoveCharacter(BaseCharacter character) {
-           // characters.Remove(character);
             print("Removed " + character.GetDisplayedName() + " from list ");
         }
 
@@ -180,6 +178,21 @@ namespace Vegaxys {
             TakeDamage(projectile.damage);
             if (tag == "Projectile") {
                 Destroy(projectile.gameObject);
+            }
+        }
+
+        public void Death() {
+            if (avatarName == "Alpha") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_X_ALPHA);
+            }
+            if (avatarName == "Beta") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_X_BETA);
+            }
+            if (avatarName == "Lambda") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_X_LAMBDA);
+            }
+            if (avatarName == "Myrmidon") {
+                EventManager.instance.SetEvent(WinConditionEnum.TUER_MYRMIDON);
             }
         }
 
@@ -205,13 +218,16 @@ namespace Vegaxys {
         #region Private Methods
 
         private IEnumerator RefreshAggro() {
-            BaseCharacter _character = GetHighestAggroValue();
-            target = _character != null ? _character.transform : null;
-            if (target != null) {
-                view.RPC("RPC_GoToTarget", RpcTarget.AllBuffered, target.position);
+            if (PhotonNetwork.IsMasterClient) {
+                BaseCharacter _character = GetHighestAggroValue();
+                target = _character != null ? _character.transform : null;
+                if (target != null) {
+                    view.RPC("RPC_GoToTarget", RpcTarget.AllBuffered, target.position);
+                }
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(RefreshAggro());
             }
-            yield return new WaitForSeconds(0.5f);
-            StartCoroutine(RefreshAggro());
+            yield return null;
         }
 
         private BaseCharacter GetHighestAggroValue() {
@@ -314,5 +330,18 @@ namespace Vegaxys {
 
         #endregion
 
+
+        #region IPunObservable Implementation
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (stream.IsWriting && view.IsMine) {
+
+            } else
+            if (stream.IsReading) {
+
+            }
+        }
+
+        #endregion
     }
 }

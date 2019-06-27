@@ -72,7 +72,8 @@ namespace Vegaxys
             view = GetComponent<PhotonView>();
             _cam = transform.parent.GetComponentInChildren<Camera>();
             HUD_Manager.manager.character = this;
-            player = PlayerInfos.instance.GetPlayer();
+
+            player = PlayerInfos.instance.GetPlayer(view.Owner.ActorNumber);
 
             transform.parent.GetComponentInChildren<Camera>().gameObject.SetActive(photonView.IsMine);
 
@@ -87,6 +88,7 @@ namespace Vegaxys
             HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
             HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
             HUD_Manager.manager.Update_WeaponImage(currentAttack.weaponIndex);
+            HUD_Manager.manager.Start_HUD_Health(view.Owner.ActorNumber );
         }
         
         public virtual void Update() {

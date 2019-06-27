@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Vegaxys {
     public class RoomManager :MonoBehaviour
     {
@@ -11,6 +10,7 @@ namespace Vegaxys {
             Gizmos.color = color;
             Gizmos.DrawWireCube(transform.position + center, size);
         }
+
 
         public Vector3 NewPosition() {
             Vector3 result = Vector3.zero;
@@ -24,7 +24,7 @@ namespace Vegaxys {
         private void OnTriggerExit(Collider other) {
             if (other.CompareTag("Ennemi")) {
                 Vector3 newPos = NewPosition();
-                other.GetComponentInParent<Ennemi>().view.RPC("RPC_GetNewPos", RpcTarget.AllBuffered, newPos);
+                other.GetComponentInParent<Ennemi>().GetNewPos(newPos);
             }
         }
     }

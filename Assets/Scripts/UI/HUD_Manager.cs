@@ -15,6 +15,9 @@ namespace Vegaxys {
         public Image[] weaponsSprite;
         private Image previousImage;
 
+        [Header("HealthBar")]
+        public HUD_HealthBar[] healthBars;
+
         [Header("Consos")]
         public TextMeshProUGUI consoShieldText;
         public TextMeshProUGUI consoHealthText;
@@ -69,6 +72,10 @@ namespace Vegaxys {
             if(previousImage != null)
                 previousImage.enabled = false;
             previousImage = weaponsSprite[index];
+        }
+
+        public void Start_HUD_Health(int playerIndex) {
+            healthBars[playerIndex].Activate(character.GetComponent<IEntity>());
         }
 
         #endregion

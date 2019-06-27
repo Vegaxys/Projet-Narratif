@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Vegaxys
@@ -61,8 +62,21 @@ namespace Vegaxys
             }
         }
 
-        public PlayerProperties GetPlayer() {
-            return player;
+        public PlayerProperties GetPlayer(int playerIndex) {
+            PlayerProperties newPlayer = new PlayerProperties();
+            Player _player = null;
+            foreach (var item in PhotonNetwork.PlayerList) {
+                if(playerIndex == item.ActorNumber) {
+                    _player = item;
+                    newPlayer.playerName = item.NickName;
+                    newPlayer.playerID = item.ActorNumber;
+                    newPlayer.avatarName = item.CustomProperties["ChampionName"].ToString();
+                    newPlayer.className = item.CustomProperties["ChampionClass"].ToString();
+                    newPlayer.avatarID = (int)item.CustomProperties["ChampionIndex"];
+                    return newPlayer;
+                }
+            }
+            return null;
         }
 
         #endregion

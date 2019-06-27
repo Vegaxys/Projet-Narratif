@@ -15,7 +15,7 @@ namespace Vegaxys
         public Color color;
     }
 
-    public class GameManager :MonoBehaviourPun
+    public class GameManager :MonoBehaviourPun,IPunObservable
     {
         #region Public Fields
 
@@ -229,6 +229,19 @@ namespace Vegaxys
         private void CallObjectifManager() {
             if (ObjectifManager.instance != null) {
                 ObjectifManager.instance.CreateRandomObjectifs();
+            }
+        }
+
+        #endregion
+
+
+        #region IPunObservable Implementation
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+            if (stream.IsWriting) {
+
+            } else if (stream.IsReading) {
+
             }
         }
 

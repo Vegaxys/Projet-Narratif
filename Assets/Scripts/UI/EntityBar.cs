@@ -19,7 +19,6 @@ namespace Vegaxys
         private Image lifeBar;
         private Image shield;
         private Image reloadingImage;
-        private Player player;
 
         #endregion
 
@@ -30,12 +29,6 @@ namespace Vegaxys
             lifeBar = transform.GetChild(1).GetComponent<Image>();
             shield = transform.GetChild(2).GetComponent<Image>();
             pseudo = transform.GetComponentInChildren<TextMeshProUGUI>();
-            foreach (var item in PhotonNetwork.PlayerList) {
-                if (item.ActorNumber == entity.GetTransform().GetComponent<PhotonView>().Owner.ActorNumber) {
-                    player = item;
-                    break;
-                }
-            }
             pseudo.text = entity.GetDisplayedName();
             reloadingImage = transform.GetChild(4).GetComponent<Image>();
             if (reloadingImage != null) reloadingImage.gameObject.SetActive(false);
