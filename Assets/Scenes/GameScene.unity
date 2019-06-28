@@ -24775,7 +24775,7 @@ PrefabInstance:
     - target: {fileID: 8691813498809651606, guid: f785292bd2545054f9b576bfab5d0fc0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.4946876
+      value: 2.69
       objectReference: {fileID: 0}
     - target: {fileID: 8691813498809651606, guid: f785292bd2545054f9b576bfab5d0fc0,
         type: 3}
@@ -78414,6 +78414,21 @@ PrefabInstance:
       propertyPath: loobyCamera
       value: 
       objectReference: {fileID: 1169927720}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: healValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: shieldValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340370726043280756, guid: f2f308b2667b0a141a203ce0714fb987,
+        type: 3}
+      propertyPath: granadeDamage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8081700571444727257, guid: f2f308b2667b0a141a203ce0714fb987,
         type: 3}
       propertyPath: m_IsActive

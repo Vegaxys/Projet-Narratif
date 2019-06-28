@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 
 namespace Vegaxys {
     public class RoomManager :MonoBehaviour
@@ -35,7 +36,9 @@ namespace Vegaxys {
         }
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Player")) {
-                spawners.ForEach(x => x.Spawn());
+                if (PhotonNetwork.IsMasterClient) {
+                    spawners.ForEach(x => x.Spawn());
+                }
             }
         }
 

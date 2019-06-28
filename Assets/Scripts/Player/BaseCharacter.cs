@@ -302,6 +302,7 @@ namespace Vegaxys
                     currentShield = 0;
                 }
                 if (currentLife <= 0) {
+                    currentLife = 0;
                     Death();
                 }
             }
@@ -320,7 +321,6 @@ namespace Vegaxys
             if (player.className == "Assassin") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_ASSASSIN);
             }
-            //GameManager.instance.LeaveRoom();
         }
 
         public IEnumerator Reload(float sec) {
