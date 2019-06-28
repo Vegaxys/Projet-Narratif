@@ -293,7 +293,7 @@ MonoBehaviour:
     className: 
     playerXP: 
     avatarID: 0
-  currentAttack: {fileID: 11400000, guid: cab41aec7ab75f24dbc99aeb0d17ea33, type: 2}
+  currentAttack: {fileID: 11400000, guid: a1656449d1a798a45a9a595bc47e26c6, type: 2}
   aggroValue: 25
   capa01: {fileID: 5800981007718903503}
   capa02: {fileID: 4873423495524577966}
@@ -778,7 +778,7 @@ MonoBehaviour:
     capaIndex: 2
   capa_Gizmos: {fileID: 7196304247010706498}
   ring: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
-  capa_Cooldown: 13
+  capa_Cooldown: 7
   capa_Loading: 0
   capa_Range: 8
   capa_GizAOE_Range: 0
