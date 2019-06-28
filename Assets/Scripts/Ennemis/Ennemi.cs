@@ -191,9 +191,9 @@ namespace Vegaxys {
             if (avatarName == "Lambda") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_X_LAMBDA);
             }
-            if (avatarName == "Myrmidon") {
+           /* if (avatarName == "Myrmidon") {
                 EventManager.instance.SetEvent(WinConditionEnum.TUER_MYRMIDON);
-            }
+            }*/
         }
 
         public void InitialyzeAutoAttack() {

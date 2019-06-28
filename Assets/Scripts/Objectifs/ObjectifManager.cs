@@ -17,8 +17,8 @@ namespace Vegaxys {
         TUER_X_LAMBDA,
         TUER_X_ALPHA,
         TUER_X_BETA,
-        TUER_MYRMIDON,
-        TUER_MINIBOSS,
+        //TUER_MYRMIDON,
+        //TUER_MINIBOSS,
 
         NE_TUER_PERSONNE,
         NE_PAS_MOURRIR,
@@ -108,7 +108,7 @@ namespace Vegaxys {
                 currObjectif.scoreRecompense = 1500 + currObjectif.winCondition.repetition * 10;
             }else
             if (currObjectif.title.Contains("RAMASSER_X_")) {
-                currObjectif.winCondition.repetition = UnityEngine.Random.Range(1, 3); // 5 10
+                currObjectif.winCondition.repetition = UnityEngine.Random.Range(5, 10); // 5 10
                 currObjectif.scoreRecompense = 700 + currObjectif.winCondition.repetition * 10;
                 return currObjectif;
             }else

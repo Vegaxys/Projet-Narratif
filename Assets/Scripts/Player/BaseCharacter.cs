@@ -268,7 +268,7 @@ namespace Vegaxys
 
         public void Movements() {
             Vector3 direction = Vector3.zero;
-            direction += new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            direction += new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal"));
             agent.SetDestination(transform.position + direction);
         }
 

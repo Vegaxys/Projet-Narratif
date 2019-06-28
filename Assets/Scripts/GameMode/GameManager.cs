@@ -64,7 +64,7 @@ namespace Vegaxys
             localPlayerInstance = PhotonNetwork.Instantiate(
                 this.playerPrefab[PlayerInfos.instance.player.avatarID].name, 
                 spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber].position, 
-                Quaternion.identity, 0);
+                Quaternion.Euler(0, 90, 0), 0);
             Invoke("CallObjectifManager", 1);
         }
 
