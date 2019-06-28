@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.AI;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Vegaxys
 {
@@ -24,11 +25,12 @@ namespace Vegaxys
 
         public void Start() {
             companionContainer = GameObject.Find("Companions").transform;
-            LaunchDrone(CompanionState.IDLE, character.transform);
+            int targetID = character.GetComponent<PhotonView>().ViewID;
+            LaunchDrone(CompanionState.IDLE, targetID);
         }
 
-        public void LaunchDrone(CompanionState state, Transform _target) {
-            target = _target;
+        public void LaunchDrone(CompanionState state, int targetID) {
+            target = GameManager.instance.GetObjectByViewID(targetID).transform;
             StartCoroutine(Travelling(state));
         }
 
@@ -37,14 +39,12 @@ namespace Vegaxys
             switch (state) {
                 case CompanionState.HEALING:
                     for (int i = 0; i < tics; i++) {
-                        print("healing");
                         transform.parent.GetComponent<BaseCharacter>().AddHealth(healAmount);
                         yield return new WaitForSeconds(waiting);
                     }
                     break;
                 case CompanionState.DAMAGING:
                     for (int i = 0; i < tics; i++) {
-                        print("damaging");
                         if(transform.parent.GetComponent<Ennemi>())
                             transform.parent.GetComponent<Ennemi>().TakeDamage(GameManager.instance.GetRandomDamage(damageAmount));
                         yield return new WaitForSeconds(waiting);

@@ -134,7 +134,7 @@ namespace Vegaxys {
                 Companion_Drone drone = GetComponentInChildren<Companion_Drone>();
                 if (drone != null) {
                     drone.transform.parent = GameObject.Find("Companions").transform;
-                    drone.LaunchDrone(Companion_Drone.CompanionState.IDLE, null);
+                    drone.LaunchDrone(Companion_Drone.CompanionState.IDLE, 1);
                 }
                 Death();
                 GameManager.instance.AddScore(score);

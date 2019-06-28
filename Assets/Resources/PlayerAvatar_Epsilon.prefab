@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2575334086458463381}
   - component: {fileID: 8645085319917974828}
   - component: {fileID: 5800981007718903503}
+  - component: {fileID: 8411413401181642729}
   m_Layer: 10
   m_Name: Spell_Fufu
   m_TagString: Untagged
@@ -47,10 +48,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 8411413401181642729}
   viewIdField: 0
   InstantiationId: 2
   isRuntimeInstantiated: 0
@@ -85,6 +86,21 @@ MonoBehaviour:
   duration: 5
   furtiv: {fileID: 2100000, guid: ddf288b14bf2caa45b4d65a537f5dbe8, type: 2}
   notFurtiv: {fileID: 2100000, guid: 863a981c52bdfc64d8a27efebd2014e0, type: 2}
+--- !u!114 &8411413401181642729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897003276475197951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1 &3114399221734082166
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,28 +155,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3009743095574132767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3376880771236620119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &4805109086522865346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,91 +170,6 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!1 &3687093476873080423
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 61427383973311288}
-  - component: {fileID: 3767788809651861211}
-  - component: {fileID: 7343984033665521105}
-  m_Layer: 10
-  m_Name: Spell_TirChirurgical
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &61427383973311288
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3687093476873080423}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3767788809651861211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3687093476873080423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fbce45823602a4438eef3e30d1ee24f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: TirChirurgical
-    description: "Un tir pr\xE9cis"
-    capaIndex: 2
-  capa_Gizmos: {fileID: 7196304247010706498}
-  ring: {fileID: 0}
-  capa_Cooldown: 10
-  capa_Loading: 1
-  capa_Range: 15
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 1
-  capa_NeedAOE: 0
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  bullet_TirChirurgical: {fileID: 5743233148122693971, guid: 97f5fd8dfb3a9c2418a35b90fe8daac8,
-    type: 3}
-  damageCapa: 150
---- !u!114 &7343984033665521105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3687093476873080423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 7
-  isRuntimeInstantiated: 0
 --- !u!1 &4574971019848692892
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,12 +209,6 @@ Transform:
   - {fileID: 6249222393275922217}
   - {fileID: 2575334086458463381}
   - {fileID: 1672062491843366885}
-  - {fileID: 2289249521241573841}
-  - {fileID: 5874249468819299505}
-  - {fileID: 61427383973311288}
-  - {fileID: 768595666154813760}
-  - {fileID: 8595971952703219536}
-  - {fileID: 309868284418505275}
   m_Father: {fileID: 2167274661300964938}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,6 +325,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 2927623911157671611}
+  - {fileID: 1255532741719025525}
   viewIdField: 0
   InstantiationId: 16
   isRuntimeInstantiated: 0
@@ -616,90 +520,6 @@ Transform:
   m_Father: {fileID: 4574971019848693670}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4701840214054534162
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8595971952703219536}
-  - component: {fileID: 7772734422924312636}
-  - component: {fileID: 8767995712062951239}
-  m_Layer: 10
-  m_Name: Spell_Dash_Explosif
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8595971952703219536
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4701840214054534162}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7772734422924312636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4701840214054534162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 13
-  isRuntimeInstantiated: 0
---- !u!114 &8767995712062951239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4701840214054534162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5a9435f0dddf1b4d9a0597a2e520f42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: Dash Explosif
-    description: un dash qui recharge
-    capaIndex: 2
-  capa_Gizmos: {fileID: 7196304247010706498}
-  ring: {fileID: 0}
-  capa_Cooldown: 5
-  capa_Loading: 0
-  capa_Range: 5
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 0
-  capa_NeedAOE: 1
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  speedDash: 6
-  capa_Damage: 180
 --- !u!1 &5172048259221122788
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,172 +551,6 @@ Transform:
   m_Father: {fileID: 2167274661300964938}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5578495990555927561
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 309868284418505275}
-  - component: {fileID: 557214358326186277}
-  - component: {fileID: 6221701398319541520}
-  m_Layer: 10
-  m_Name: Spell_Dog
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &309868284418505275
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5578495990555927561}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &557214358326186277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5578495990555927561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 11
-  isRuntimeInstantiated: 0
---- !u!114 &6221701398319541520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5578495990555927561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33d76f2a8020b543b55b67e3d68fe76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: Chien
-    description: un doggo
-    capaIndex: 2
-  capa_Gizmos: {fileID: 7196304247010706498}
-  ring: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
-  capa_Cooldown: 0
-  capa_Loading: 0
-  capa_Range: 10
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 1
-  capa_NeedAOE: 0
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  dog: {fileID: 939689533273846698, guid: 19502b033d309c546a50bb386d8b51a2, type: 3}
---- !u!1 &5874249468819299504
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5874249468819299505}
-  - component: {fileID: 5874249468819299506}
-  - component: {fileID: 5874249468819299507}
-  m_Layer: 10
-  m_Name: Spell_Drone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5874249468819299505
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874249468819299504}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5874249468819299506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874249468819299504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 15
-  isRuntimeInstantiated: 0
---- !u!114 &5874249468819299507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874249468819299504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58daaf84a95da647bcb916a7253e5e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: Drone
-    description: un super mega drone
-    capaIndex: 2
-  capa_Gizmos: {fileID: 7196304247010706498}
-  ring: {fileID: 8897574684642744123, guid: a9240cb30aef6b24881b80709ed2a33d, type: 3}
-  capa_Cooldown: 15
-  capa_Loading: 0
-  capa_Range: 15
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 1
-  capa_NeedAOE: 0
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  drone: {fileID: 2256917929950245336, guid: 0e33f498ab8db284bb1ca6f851e02811, type: 3}
 --- !u!1 &7196304247010706498
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,95 +628,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &7380233942491860684
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2289249521241573841}
-  - component: {fileID: 4331029508144292275}
-  - component: {fileID: 2377536089513557379}
-  m_Layer: 10
-  m_Name: Spell_SwitchArme_Lethal/Heal
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2289249521241573841
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7380233942491860684}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4331029508144292275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7380233942491860684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 419d0e000f2204a49886eeb5a66ae4d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: Switch Weapon
-    description: switch entre arme lethale et soin
-    capaIndex: 1
-  capa_Gizmos: {fileID: 0}
-  ring: {fileID: 0}
-  capa_Cooldown: 1
-  capa_Loading: 0
-  capa_Range: 0
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 0
-  capa_NeedAOE: 0
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  bullet_WeaponOne: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
-    type: 3}
-  weaponOne: {fileID: 11400000, guid: cab41aec7ab75f24dbc99aeb0d17ea33, type: 2}
-  bullet_WeaponTwo: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
-    type: 3}
-  weaponTwo: {fileID: 11400000, guid: 82229117be8d38644997943e39d55402, type: 2}
-  weaponType: 0
---- !u!114 &2377536089513557379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7380233942491860684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 8
-  isRuntimeInstantiated: 0
 --- !u!1 &7700097929547273691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,95 +705,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &8631221170687635030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 768595666154813760}
-  - component: {fileID: 1963444417032851410}
-  - component: {fileID: 4326976095760432667}
-  m_Layer: 10
-  m_Name: Spell_SwitchArme_Sniper/Arc
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &768595666154813760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8631221170687635030}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4574971019848693670}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1963444417032851410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8631221170687635030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 419d0e000f2204a49886eeb5a66ae4d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_Spell:
-    title: Switch Weapon
-    description: switch entre arc et sniper
-    capaIndex: 1
-  capa_Gizmos: {fileID: 0}
-  ring: {fileID: 0}
-  capa_Cooldown: 1
-  capa_Loading: 0
-  capa_Range: 0
-  capa_GizAOE_Range: 0
-  capa_NeedTarget: 0
-  capa_NeedAOE: 0
-  capa_Ready: 1
-  capa_Target: {fileID: 0}
-  character: {fileID: 0}
-  view: {fileID: 0}
-  bullet_WeaponOne: {fileID: 4664316712475589758, guid: 378a568b14463c44d974533040e102c9,
-    type: 3}
-  weaponOne: {fileID: 11400000, guid: 37d92245b9c51d942b0a2f9a1e41474a, type: 2}
-  bullet_WeaponTwo: {fileID: 8428326661912989352, guid: fc366c9d27dbf14418cb15d8666e3d9e,
-    type: 3}
-  weaponTwo: {fileID: 11400000, guid: 117cea3f156be9748ba0681208544e22, type: 2}
-  weaponType: 0
---- !u!114 &4326976095760432667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8631221170687635030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 0}
-  viewIdField: 0
-  InstantiationId: 10
-  isRuntimeInstantiated: 0
 --- !u!1 &9102274709862320922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +716,7 @@ GameObject:
   - component: {fileID: 1672062491843366885}
   - component: {fileID: 4846953133675648238}
   - component: {fileID: 4873423495524577966}
+  - component: {fileID: 8257126969026043471}
   m_Layer: 10
   m_Name: Spell_Dash_Rechargement
   m_TagString: Untagged
@@ -1276,10 +753,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 8257126969026043471}
   viewIdField: 0
   InstantiationId: 9
   isRuntimeInstantiated: 0
@@ -1312,6 +789,21 @@ MonoBehaviour:
   character: {fileID: 0}
   view: {fileID: 0}
   speedDash: 6
+--- !u!114 &8257126969026043471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9102274709862320922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1001 &6772563083524619870
 PrefabInstance:
   m_ObjectHideFlags: 0

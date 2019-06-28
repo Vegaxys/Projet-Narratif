@@ -25,10 +25,11 @@ namespace Vegaxys
 
         [PunRPC]
         public override void RPC_Virtual_Launch_Spell() {
+            int targetID = capa_Target.GetComponent<PhotonView>().ViewID;
             if (capa_Target.GetComponent<Ennemi>() != null) {
-                companion.LaunchDrone(Companion_Drone.CompanionState.DAMAGING, capa_Target);
+                companion.LaunchDrone(Companion_Drone.CompanionState.DAMAGING, targetID);
             } else {
-                companion.LaunchDrone(Companion_Drone.CompanionState.HEALING, capa_Target);
+                companion.LaunchDrone(Companion_Drone.CompanionState.HEALING, targetID);
             }
             base.RPC_Virtual_Launch_Spell();
         }
