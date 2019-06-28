@@ -37,12 +37,11 @@ namespace Vegaxys {
 
         public void Spawn() {
             if (!hasSpawn) {
-                view.RPC("RPC_SpawnEnemi", RpcTarget.All);
+                RPC_SpawnEnemi();
                 hasSpawn = true;
             }
         }
 
-        [PunRPC]
         private void RPC_SpawnEnemi() {
             string prefabName = prefab.name;
             GameObject npc = PhotonNetwork.Instantiate(Path.Combine("EnnemiPhotonPrefab", prefabName),
