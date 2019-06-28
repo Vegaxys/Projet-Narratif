@@ -84,11 +84,13 @@ namespace Vegaxys
             InitialyzeAutoAttack();
             UpdateAutoAttack();
 
-            HUD_Manager.manager.Update_Capacites();
-            HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
-            HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
-            HUD_Manager.manager.Update_WeaponImage(currentAttack.weaponIndex);
-            HUD_Manager.manager.Start_HUD_Health(view.Owner.ActorNumber );
+            if (view.IsMine) {
+                HUD_Manager.manager.Update_Capacites();
+                HUD_Manager.manager.Update_Chargeur(currentBulletInWeapon, maxBulletInWeapon, maxBulletInPlayer);
+                HUD_Manager.manager.Update_Consos(shieldCount, healthCount, grenadeCount);
+                HUD_Manager.manager.Update_WeaponImage(currentAttack.weaponIndex);
+                HUD_Manager.manager.Start_HUD_Health(view.Owner.ActorNumber);
+            }
         }
         
         public virtual void Update() {
